@@ -97,7 +97,7 @@ export async function POST(request: Request) {
 
   // Primary delivery: Resend notification (mirrors /api/contact).
   const resendApiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL || 'support@tentmakers.ph';
+  const toEmail = process.env.CONTACT_TO_EMAIL || 'primadigitalsolutions.ph@gmail.com';
   const fromEmail = process.env.CONTACT_FROM_EMAIL;
   if (resendApiKey && fromEmail) {
     try {

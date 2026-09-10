@@ -166,10 +166,10 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:support@tentmakers.ph"
+                  href="mailto:primadigitalsolutions.ph@gmail.com"
                   className="text-sm text-white/60 transition-colors hover:text-amber"
                 >
-                  support@tentmakers.ph
+                  primadigitalsolutions.ph@gmail.com
                 </a>
               </li>
               <li>

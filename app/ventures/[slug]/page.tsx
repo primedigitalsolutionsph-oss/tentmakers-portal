@@ -36,7 +36,6 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
 
   if (!venture) {
     notFound();
-    throw new Error(`Unknown venture: ${slug}`);
   }
 
   const currentIndex = ventures.findIndex((v) => v.slug === slug);
@@ -157,14 +156,14 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
                   Interested in {venture.name}?
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Join the network to access this venture and more.
+                  Request access to this venture and more.
                 </p>
                 <a
-                  href="/register"
+                  href="/contact"
                   className="mt-4 inline-flex items-center gap-2 rounded-xl bg-amber px-5 py-2.5 text-sm font-bold text-navy transition-colors hover:bg-amber-soft"
                 >
                   <Mail className="h-4 w-4" />
-                  Join Now
+                  Request Access
                 </a>
               </div>
             </div>
