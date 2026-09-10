@@ -1,5 +1,6 @@
 -- Tentmakers Network: newsletter subscriptions
--- Run in Supabase Dashboard → SQL Editor, after 0001_profiles.sql.
+-- Backup storage for POST /api/newsletter (primary delivery is Resend,
+-- mirroring /api/contact). Run in Supabase Dashboard → SQL Editor.
 
 create extension if not exists citext;
 

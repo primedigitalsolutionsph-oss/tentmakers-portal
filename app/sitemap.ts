@@ -13,7 +13,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
     })),
     { url: `${base}/contact`, lastModified: now },
-    { url: `${base}/login`, lastModified: now },
-    { url: `${base}/register`, lastModified: now },
   ];
 }

@@ -23,12 +23,14 @@ const contactSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   inquiryType: z.string().min(1, 'Please select an inquiry type'),
   message: z.string().min(10, 'Message must be at least 10 characters'),
+  company: z.string().max(100).optional().default(''),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const {
     register,
@@ -44,48 +46,43 @@ export default function ContactForm() {
       email: '',
       inquiryType: '',
       message: '',
+      company: '',
     },
   });
 
   const inquiryType = watch('inquiryType');
 
   const onSubmit = async (data: ContactFormData) => {
+    setApiError(null);
+
+    let response: Response;
     try {
-      const res = await fetch('/api/contact', {
+      response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (res.ok) {
-        toast.success('Message sent! We will reply within 24 hours.');
-        setSubmitted(true);
-        reset();
-        return;
-      }
-      // Backend unavailable or validation failed server-side: fall back to mailto.
-      if (res.status === 503) {
-        openMailto(data);
-        return;
-      }
-      const payload = await res.json().catch(() => null);
-      toast.error(payload?.error || 'Could not send message. Try email instead.');
     } catch {
-      openMailto(data);
+      setApiError('Could not send your message. Please email us directly at support@tentmakers.ph.');
+      return;
     }
-  };
 
-  const openMailto = (data: ContactFormData) => {
-    const subject = encodeURIComponent(
-      `[${data.inquiryType}] Inquiry from ${data.name}`
-    );
-    const body = encodeURIComponent(
-      `Name: ${data.name}\nEmail: ${data.email}\nInquiry Type: ${data.inquiryType}\n\nMessage:\n${data.message}`
-    );
-    window.open(
-      `mailto:support@tentmakers.ph?subject=${subject}&body=${body}`,
-      '_blank'
-    );
-    toast.success('Opening your email client...');
+    if (!response.ok) {
+      const result = (await response.json().catch(() => null)) as {
+        error?: string;
+        contactEmail?: string;
+      } | null;
+      if (response.status === 503 && result?.contactEmail) {
+        setApiError(
+          `Online inquiries are temporarily unavailable. Please email us directly at ${result.contactEmail}.`
+        );
+      } else {
+        setApiError(result?.error || 'Could not send your message. Please try again.');
+      }
+      return;
+    }
+
+    toast.success('Message sent. We will get back to you within 24 hours.');
     setSubmitted(true);
     reset();
   };
@@ -199,6 +196,22 @@ export default function ContactForm() {
           <p className="text-xs text-destructive">{errors.message.message}</p>
         )}
       </div>
+
+      <div className="hidden" aria-hidden="true">
+        <Label htmlFor="company">Company</Label>
+        <Input
+          id="company"
+          autoComplete="off"
+          tabIndex={-1}
+          {...register('company')}
+        />
+      </div>
+
+      {apiError ? (
+        <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-sm text-foreground">
+          {apiError}
+        </p>
+      ) : null}
 
       <Button
         type="submit"

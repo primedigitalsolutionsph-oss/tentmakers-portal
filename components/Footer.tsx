@@ -32,7 +32,7 @@ export default function Footer() {
       await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, company: '' }),
       });
     } catch {
       /* offline: still confirm locally */
