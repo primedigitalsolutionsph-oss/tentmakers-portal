@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useRegisterModal } from '@/hooks/use-register-modal';
 
@@ -141,7 +143,48 @@ function StepOptions() {
 }
 
 function StepDetails() {
-  const { goToStep } = useRegisterModal();
+  const { data, goToStep } = useRegisterModal();
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [referral, setReferral] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    if (submitting) return;
+    const displayName = name.trim() || data.email.split('@')[0] || 'New member';
+    const message = [
+      `Access request from the website join flow.`,
+      `Role: ${data.role ?? 'unspecified'}.`,
+      `Phone: ${phone.trim() || 'not provided'}.`,
+      `Referral: ${referral || 'not provided'}.`,
+    ].join(' ');
+    setSubmitting(true);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: displayName,
+          email: data.email,
+          inquiryType: 'member',
+          message,
+          company: '',
+        }),
+      });
+      if (!response.ok) {
+        const result = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        toast.error(result?.error || 'Could not send your request. Please try again.');
+        setSubmitting(false);
+        return;
+      }
+      goToStep('success');
+    } catch {
+      toast.error('Could not send your request. Please try again.');
+      setSubmitting(false);
+    }
+  };
 
   return (
     <motion.div
@@ -170,6 +213,8 @@ function StepDetails() {
             id="register-name"
             type="text"
             placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="mt-2 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 transition-colors focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
             autoComplete="name"
           />
@@ -183,6 +228,8 @@ function StepDetails() {
             id="register-phone"
             type="tel"
             placeholder="+63 XXX XXX XXXX"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             className="mt-2 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 transition-colors focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
             autoComplete="tel"
           />
@@ -194,6 +241,8 @@ function StepDetails() {
           </label>
           <select
             id="register-referral"
+            value={referral}
+            onChange={(e) => setReferral(e.target.value)}
             className="mt-2 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground transition-colors focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
           >
             <option value="">Select an option</option>
@@ -206,10 +255,11 @@ function StepDetails() {
         </div>
 
         <button
-          onClick={() => goToStep('success')}
-          className="mt-2 w-full rounded-xl bg-amber px-6 py-3 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20"
+          onClick={handleSubmit}
+          disabled={submitting}
+          className="mt-2 w-full rounded-xl bg-amber px-6 py-3 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20 disabled:opacity-60"
         >
-          Complete Registration
+          {submitting ? 'Sending…' : 'Complete Registration'}
         </button>
       </div>
 
@@ -254,8 +304,8 @@ function StepSuccess() {
         Welcome to the Tentmakers Network!
       </h2>
       <p className="text-sm text-muted-foreground">
-        Your registration has been received. Check your email for a verification link
-        and next steps to access training and ventures.
+        Your request has been received. We&apos;ll reach out within 24 hours
+        with next steps to access training and ventures.
       </p>
 
       <button
