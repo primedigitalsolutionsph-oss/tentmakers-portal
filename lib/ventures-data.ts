@@ -136,3 +136,44 @@ export const ventures: Venture[] = [
 export function getVentureBySlug(slug: string): Venture | undefined {
   return ventures.find((v) => v.slug === slug);
 }
+
+export type NetworkNode = {
+  slug: string;
+  name: string;
+  x: number;
+  y: number;
+  gap: string;
+  metric: string;
+};
+
+export const networkLayout: {
+  width: number;
+  height: number;
+  center: NetworkNode;
+  satellites: NetworkNode[];
+  colors: Record<string, string>;
+} = {
+  width: 240,
+  height: 240,
+  center: {
+    slug: 'tentmakers-network',
+    name: 'Tentmakers Network',
+    x: 120,
+    y: 120,
+    gap: 'The Trust Gap',
+    metric: '300',
+  },
+  satellites: [
+    { slug: 'prime-digital-solutions', name: 'Prime Digital Solutions', x: 60, y: 60, gap: 'The Storefront Gap', metric: '57,469' },
+    { slug: 'thrifty-tribe', name: 'Thrifty Tribe', x: 180, y: 60, gap: 'The Discount Gap', metric: 'Members-only' },
+    { slug: 'icky', name: 'ICKY', x: 60, y: 180, gap: 'The Protection Gap', metric: '~1.79%' },
+    { slug: 'prime-axis', name: 'Prime Axis', x: 180, y: 180, gap: 'The Staffing Gap', metric: '41%' },
+  ],
+  colors: {
+    'prime-digital-solutions': '#0e1120',
+    'thrifty-tribe': '#ea8b1d',
+    'icky': '#22875c',
+    'prime-axis': '#ea8b1d',
+    'tentmakers-network': '#ea8b1d',
+  },
+};

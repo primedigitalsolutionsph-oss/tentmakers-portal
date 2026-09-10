@@ -43,8 +43,9 @@ gracefully instead of failing silently.
 | `npm run start` | Serve a production build |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint (flat config; see note below) |
+| `npm test` | Vitest unit tests (`lib/__tests__/`) |
 
-CI (`.github/workflows/ci.yml`) runs install → typecheck → lint → build on
+CI (`.github/workflows/ci.yml`) runs install → typecheck → lint → test → build on
 push to `main` and on PRs.
 
 ## Supabase setup (run once, in this order)

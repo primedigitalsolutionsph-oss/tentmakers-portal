@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { useCountUp } from '@/hooks/use-count-up';
-import SplineHero from '@/components/SplineHero';
+import VentureNetworkDiagram from '@/components/VentureNetworkDiagram';
 import { useRegisterModal } from '@/hooks/use-register-modal';
 
 const ventures = [
@@ -169,7 +169,7 @@ export default function EcosystemHero() {
           transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto w-full max-w-[440px] lg:mx-0 lg:justify-self-end"
         >
-          <SplineHero />
+          <VentureNetworkDiagram />
         </motion.div>
 
         {/* Proof stats */}
