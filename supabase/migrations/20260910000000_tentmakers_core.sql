@@ -164,69 +164,69 @@ values
     'Prime Digital Solutions',
     'Active',
     'The Storefront Gap',
-    'Digital storefronts for MSMEs — affordable, branded online presence that turns foot traffic into digital traffic.',
-    'Most MSMEs on Panay Island still rely on word-of-mouth and physical foot traffic. Prime Digital Solutions gives them a professional digital storefront — affordably.',
+    'Website and app development plus business automation — affordable, branded online presence that turns foot traffic into digital traffic.',
+    'An established web and app development business — the technology backbone of the ecosystem, building and hosting the Tentmakers platform with discounted dev services for member founders.',
     array[
-      '57.4% of retail transactions are digital',
-      '57,469 MSME establishments on Panay Island',
-      'Under 15% of MSMEs have a meaningful online presence'
+      '99.5% of Philippine businesses are MSMEs; they generate 63% of employment',
+      '90.8% own computers and 81% have internet, yet real digital-tool adoption lags far behind',
+      'National e-commerce market of roughly $20–24 billion and growing fast'
     ],
     array[
-      'Panay Island has over 57,000 MSMEs, yet fewer than 15% have a meaningful online presence. Prime Digital Solutions provides affordable, mobile-first storefronts integrated with the channels MSMEs already use.'
+      'MSMEs make up 99.5% of all Philippine businesses. With basic connectivity widespread but real digital-tool adoption lagging, Prime Digital Solutions sells the websites, apps, and automation that close the gap.'
     ],
     '57,469',
-    'MSME establishments'
+    'MSMEs in Western Visayas (DTI)'
   ),
   (
     'thrifty-tribe',
     'Thrifty Tribe',
-    'Scaling',
+    'Early',
     'The Discount Gap',
-    'A member subscription that unlocks everyday discounts at partner merchants across Panay Island.',
-    'Thrifty Tribe members pay one subscription and save every day — exclusive member-only discounts at partner stores, services, and eateries across Panay Island.',
+    'A smart savings membership — QR-code deals and cashback at partner merchants, and a day-one perk of Tentmakers membership.',
+    'Thrifty Tribe is a smart savings membership built on QR-code deals and cashback: members save on everyday spending while member businesses become partner-merchants.',
     array[
-      'Rising everyday prices squeeze household budgets',
-      'MSMEs want loyal, repeat customers',
-      'Members save from day one'
+      'Digital payments reached 57.4% of retail volume in 2024 — QR spending is the norm',
+      '43% of adults hold e-money accounts; 58% have a formal financial account',
+      'Member businesses become partner-merchants, compounding the network'
     ],
     array[
-      'Thrifty Tribe is a discount subscription platform: one membership unlocks exclusive prices at partner merchants, saving members money on everyday purchases while driving loyal customers to local businesses.'
+      'Thrifty Tribe rides the QR-payments wave with member deals and cashback, turning member businesses into partner-merchants.'
     ],
     'Members-only',
-    'discounts at partner merchants'
+    'QR deals & cashback at partner merchants'
   ),
   (
     'icky',
     'ICKY',
-    'Scaling',
+    'Early',
     'The Protection Gap',
-    'Driver protection and micro-insurance designed for the people who keep Panay Island moving.',
-    'With under 2% insurance penetration and over 31,000 road accidents in 2024, Panay Island''s drivers are dangerously unprotected. ICKY changes that.',
+    'Driver protection and road-safety education — insurance literacy, 3D driving simulation, and 24/7 SOS for the people who keep Panay Island moving.',
+    'ICKY combines insurance literacy, road-safety education, 3D driving simulation, and 24/7 SOS — with discounted plans for members and their riders.',
     array[
-      'Under 2% insurance penetration',
-      '31,000+ road accidents in 2024',
-      'Growing ride-hailing and delivery sector'
+      'Insurance penetration only ~1.79% in 2025, below the 2% national target',
+      '31,000+ road accidents in 2024, 2,747 deaths — 87% from reckless driving',
+      'Masa and Iskolar plans plus discounted cover for members and their riders'
     ],
     array[
-      'ICKY provides affordable, micro-insurance products for gig workers, tricycle drivers, and delivery riders, distributed through trusted Tentmakers network relationships.'
+      'ICKY targets the exact risk behind 31,000+ annual accidents with literacy, simulation training, SOS response, and the Masa and Iskolar plans.'
     ],
-    '<2%',
-    'insurance penetration'
+    '~1.79%',
+    'insurance penetration (2025)'
   ),
   (
     'prime-axis',
     'Prime Axis',
-    'Active',
+    'Early',
     'The Staffing Gap',
-    'A staffing pipeline that connects growing SMEs with vetted, trained talent — fast.',
-    'Growing SMEs need talent but lack the hiring infrastructure of large corporations. Prime Axis provides a vetted, trained staffing pipeline built for speed.',
+    'A general and specialized labor marketplace — staffing for Tentmakers events today, and a hiring resource for members’ growing businesses.',
+    'Prime Axis is a labor marketplace for skilled and general talent — staffing network events now, and growing into the hiring resource for members’ businesses.',
     array[
-      '41% of SMEs increased headcount in 2024',
-      'High youth unemployment in Western Visayas',
-      'Limited structured hiring platforms for SMEs'
+      '41% of SMEs increased headcount in 2024; 57% planned further hiring in 2025',
+      'MSMEs generate ~63% of national employment and keep formalizing',
+      'No Panay-specific labor-market sizing exists — demand is validated via SME hiring data'
     ],
     array[
-      'Prime Axis maintains a pipeline of vetted, trained candidates matched to SME needs, reducing time-to-hire from weeks to days while creating employment pathways for trained members.'
+      'Prime Axis supplies flexible skilled and general labor against proven SME hiring demand, earning placement margin including network event staffing.'
     ],
     '41%',
     'of SMEs increased headcount in 2024'
@@ -234,19 +234,19 @@ values
   (
     'tentmakers-network',
     'Tentmakers Network',
-    'Active',
+    'Early',
     'The Trust Gap',
-    'The connective tissue — a training hub that turns members into operators and ventures into an ecosystem.',
-    'Tentmakers Network is the operating system — the training hub that turns individual members into operators and individual ventures into a connected ecosystem.',
+    'A founder community launching across Panay Island — Founder Circles, a 12-week accelerator, and Demo Day, targeting 300 members by Q4 2026.',
+    'Tentmakers Network is a pre-launch founder community — the front door to four working ventures, starting with Founder Circles and a 12-week accelerator ending in Demo Day.',
     array[
-      '3-tier training progression',
-      'Members get value from day one',
-      'Franchise pipeline for top performers'
+      '300-member target: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40',
+      'Two tiers: open Network Membership + selective 15–25 founder accelerator cohorts',
+      'Franchise operator pathway as long-term vision, not a Batch 1 promise'
     ],
     array[
-      'The Basic, Intermediate, and Advanced progression gives members increasing access to tools, training, and opportunities across all five ventures.'
+      'A two-tier model: open Network Membership plus capacity-capped 12-week accelerator cohorts ending in a founder-to-investor Demo Day.'
     ],
-    '3',
-    'tier training progression'
+    '300',
+    'member target by Q4 2026'
   )
 on conflict (slug) do nothing;

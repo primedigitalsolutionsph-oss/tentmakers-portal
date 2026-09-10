@@ -1,47 +1,48 @@
 -- Align seeded venture long-form content with lib/ventures-data.ts.
 -- Safe to re-run: keyed on slug, update only.
+-- Content grounded in Tentmakers_Ecosystem_Business_Plan.docx (Sept 2026).
 
 update public.ventures set
   full_description = array[
-    'Panay Island has over 57,000 MSMEs, yet fewer than 15% have a meaningful online presence. The gap between consumer behavior (57.4% of retail transactions are now digital) and business readiness is massive.',
-    'Prime Digital Solutions bridges this gap by offering affordable, branded digital storefronts that allow MSMEs to showcase products, accept orders, and reach customers beyond their immediate geography.',
-    'Each storefront is designed for mobile-first experiences, optimized for local search, and integrated with social media channels that MSMEs already use.'
+    'MSMEs make up 99.5% of all Philippine businesses and generate roughly 63% of national employment — the addressable base for web, app, and automation services is almost the entire business population, not a niche.',
+    '90.8% of business establishments already own computers and 81% have internet access, but adoption of actual digital tools, e-commerce, and AI remains far behind that baseline. The gap between basic connectivity and a real digital presence is exactly what Prime Digital Solutions sells.',
+    'As the ecosystem''s technology backbone, it builds and hosts the Tentmakers platform itself while offering discounted website, app, and automation packages to founders — including accelerator teams preparing for Demo Day.'
   ],
   updated_at = now()
 where slug = 'prime-digital-solutions';
 
 update public.ventures set
   full_description = array[
-    'Everyday prices keep rising, and households feel it on every purchase. Thrifty Tribe answers with a simple proposition: one membership, discounts everywhere you already shop.',
-    'Members subscribe once and unlock exclusive prices at a growing network of partner merchants — stores, eateries, and local services that gain loyal, repeat customers in return.',
-    'It is savings without the sacrifice: no coupons to clip, no points to chase. Show your membership, pay less, and keep more of what you earn.'
+    'Digital payments reached 57.4% of retail transaction volume nationally in 2024 — QR-based, cashless spending is now the norm, not the exception. Thrifty Tribe rides exactly that behavior with QR-code deals and cashback.',
+    'With 43% of adults holding e-money accounts and 58% having some formal financial account, a fast-growing pool of people is already comfortable transacting the way Thrifty Tribe requires.',
+    'Member businesses become partner-merchants, so every new member grows the discount network and every new merchant makes membership more valuable — while paid Thrifty Tribe upgrades taken up by members form part of the ecosystem''s revenue base.'
   ],
   updated_at = now()
 where slug = 'thrifty-tribe';
 
 update public.ventures set
   full_description = array[
-    'Panay Island recorded over 31,000 road accidents in 2024, yet insurance penetration remains under 2%. For gig workers, tricycle drivers, and delivery riders — the backbone of local mobility — an accident can be financially devastating.',
-    'ICKY provides affordable, micro-insurance products designed specifically for this population: driver protection, accident coverage, and vehicle insurance with flexible payment terms.',
-    'The product is distributed through the Tentmakers network, leveraging trust relationships rather than cold sales — making it the most accessible protection layer for Panay''s working drivers.'
+    'Overall Philippine insurance penetration was only about 1.79% in 2025 — below the Insurance Commission''s own 2% target — leaving most households and vehicle owners uninsured beyond the legal minimum.',
+    'Over 31,000 road accidents were recorded in 2024, resulting in 2,747 deaths, with roughly 87% attributed to reckless driving. That is exactly the risk ICKY''s road-safety education and 3D simulation training targets.',
+    'Through campus workshops, safety and literacy programming, 24/7 SOS response, and the Masa and Iskolar plans, ICKY protects riders and vehicles while giving members discounted cover for themselves and their riders.'
   ],
   updated_at = now()
 where slug = 'icky';
 
 update public.ventures set
   full_description = array[
-    'SMEs on Panay Island are growing — 41% increased headcount in 2024 — but hiring remains painful. Job boards are generic, recruiters focus on large employers, and SMEs need people who are ready to work.',
-    'Prime Axis solves this by maintaining a pipeline of vetted, trained candidates specifically matched to SME needs. From operations staff to sales roles, Prime Axis reduces time-to-hire from weeks to days.',
-    'The talent pipeline feeds directly from Tentmakers'' ecosystem — creating a virtuous cycle where trained members become employable talent, and employable talent becomes future venture operators.'
+    '41% of Philippine SMEs increased headcount in 2024, and 57% planned further hiring in 2025 — direct evidence of rising demand for the flexible skilled and general labor Prime Axis supplies.',
+    'As MSMEs formalize and grow, demand for reliable outside staffing and technical labor grows alongside them — and Prime Axis earns placement margin on that demand, including staffing for network events.',
+    'No Panay-specific marketplace sizing exists in public sources, so the case rests honestly on adjacent SME-hiring data — to be validated with Prime Axis''s own operating data as volume grows.'
   ],
   updated_at = now()
 where slug = 'prime-axis';
 
 update public.ventures set
   full_description = array[
-    'Every ecosystem needs connective tissue. Tentmakers Network is the training hub that transforms members from day-one participants into skilled operators, and transforms five standalone ventures into a unified ecosystem.',
-    'The 3-tier progression (Basic → Intermediate → Advanced) gives members increasing access to tools, training, and opportunities across all five ventures.',
-    'The strongest performers enter a franchise pipeline — becoming future regional operators who replicate the model across neighboring islands and provinces.'
+    'Tentmakers Network is launching across Panay Island — Iloilo, Capiz, Aklan, and Antique — targeting 300 members by Q4 2026: 150 at Iloilo HQ, 60 in Capiz, 50 in Aklan, and 40 in Antique.',
+    'A two-tier model keeps it open yet selective: a low-friction Network Member tier where the 300-member target lives, plus capacity-capped Accelerator Cohorts of 15–25 founders per 12-week cycle, ending in a founder-to-investor Demo Day.',
+    'Beyond customers of the four ventures, members are intended to become future franchise or regional-operator candidates — a stated long-term intent, not a running program: no franchise terms exist yet, so Batch 1 hears it as vision while the buildout happens in parallel.'
   ],
   updated_at = now()
 where slug = 'tentmakers-network';

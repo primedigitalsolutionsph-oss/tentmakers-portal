@@ -167,7 +167,7 @@ export default function EcosystemHero() {
           className="mt-12 grid grid-cols-2 gap-6 border-t border-white/10 pt-8 sm:grid-cols-4"
         >
           <Stat end={4.67} decimals={2} suffix="M" label="Market on Panay" />
-          <Stat end={57469} label="MSME establishments" />
+          <Stat end={57469} label="MSMEs, Western Visayas (DTI)" />
           <Stat end={5} label="Ventures, one hub" />
           <Stat end={3} label="Training tiers" />
         </motion.div>

@@ -35,14 +35,14 @@ const ventures: Venture[] = [
   {
     id: 'prime-digital-solutions',
     name: 'Prime Digital Solutions',
-    tagline: 'Digital storefronts for the underserved majority',
+    tagline: 'Websites, apps, and automation for MSMEs',
     gap: 'The storefront gap',
     offering:
-      'Website building, digital presence, and e-commerce tools tailored for MSMEs that have connectivity but no real digital footprint.',
+      'Website and app development plus business automation — the technology backbone discounting dev services for member founders.',
     marketSignal:
-      '57.4% of retail transaction volume is now digital — but the storefronts are not.',
+      '90.8% of establishments own computers, yet real digital-tool adoption lags far behind.',
     metric: '57,469',
-    metricLabel: 'MSMEs on Panay',
+    metricLabel: 'MSMEs in Western Visayas',
     stage: 'Active',
     icon: Globe,
     span: 'wide',
@@ -50,60 +50,60 @@ const ventures: Venture[] = [
   {
     id: 'thrifty-tribe',
     name: 'Thrifty Tribe',
-    tagline: 'Member discounts, everywhere you shop',
+    tagline: 'QR deals and cashback for members',
     gap: 'The discount gap',
     offering:
-      'A member subscription unlocking exclusive everyday discounts at partner merchants across Panay Island.',
+      'A smart savings membership — QR-code deals and cashback at partner merchants, and a day-one member perk.',
     marketSignal:
-      'Household budgets are squeezed by rising prices — members save from day one.',
+      '57.4% of retail volume is digital — QR spending members already understand.',
     metric: 'Members-only',
-    metricLabel: 'discounts at partner merchants',
-    stage: 'Scaling',
+    metricLabel: 'QR deals & cashback',
+    stage: 'Early',
     icon: PiggyBank,
     span: 'normal',
   },
   {
     id: 'icky',
     name: 'ICKY',
-    tagline: 'Protection where there was none',
+    tagline: 'Road safety, literacy, and 24/7 SOS',
     gap: 'The protection gap',
     offering:
-      'Driver protection and micro-insurance designed for the families and workers that the traditional insurance industry has ignored.',
+      'Insurance literacy, road-safety education, 3D driving simulation, and 24/7 SOS — with discounted plans for members and riders.',
     marketSignal:
-      'Insurance penetration sits at under 2%. Over 31,000 road accidents were recorded in 2024 alone.',
-    metric: '<2%',
-    metricLabel: 'insurance penetration',
-    stage: 'Scaling',
+      '31,000+ accidents in 2024, 2,747 deaths — 87% from reckless driving.',
+    metric: '~1.79%',
+    metricLabel: 'insurance penetration (2025)',
+    stage: 'Early',
     icon: ShieldCheck,
     span: 'normal',
   },
   {
     id: 'prime-axis',
     name: 'Prime Axis',
-    tagline: 'Staffing pipeline for growing SMEs',
+    tagline: 'Skilled and general labor marketplace',
     gap: 'The staffing gap',
     offering:
-      'Reliable staffing access connecting trained members with SMEs that need to hire — bypassing the expensive, slow sourcing process.',
+      'A labor marketplace staffing Tentmakers events today — and growing into the hiring resource for members’ businesses.',
     marketSignal:
-      '41% of Philippine SMEs increased headcount in 2024, with more planning to hire in 2025. Staffing is the bottleneck.',
+      '41% of SMEs grew headcount in 2024; 57% planned further hiring in 2025.',
     metric: '41%',
-    metricLabel: 'SMEs grew headcount in 2024',
-    stage: 'Active',
+    metricLabel: 'of SMEs grew headcount in 2024',
+    stage: 'Early',
     icon: Users2,
     span: 'normal',
   },
   {
     id: 'tentmakers-network',
     name: 'Tentmakers Network',
-    tagline: 'The connective tissue across the ecosystem',
+    tagline: 'Founder Circles, accelerator, Demo Day',
     gap: 'The trust gap',
     offering:
-      'The training hub and member community that feeds every other venture — mentorships, Mastermind Groups, events, and a progression path from basic to advanced.',
+      'A pre-launch founder community targeting 300 members by Q4 2026 — open membership plus selective 12-week accelerator cohorts.',
     marketSignal:
-      'A 4.67-million-person market on Panay Island with the 5th-highest MSME concentration in the country.',
-    metric: '3-tier',
-    metricLabel: 'training progression',
-    stage: 'Active',
+      '4 chapters: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40.',
+    metric: '300',
+    metricLabel: 'member target, Q4 2026',
+    stage: 'Early',
     icon: Network,
     span: 'wide',
     anchor: true,
@@ -168,7 +168,7 @@ export default function Ventures() {
           </p>
           {/* Filter */}
           <div className="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Filter ventures by stage">
-            {(['All', 'Active', 'Scaling'] as Filter[]).map((f) => (
+            {(['All', 'Active', 'Early'] as Filter[]).map((f) => (
               <button
                 key={f}
                 role="tab"

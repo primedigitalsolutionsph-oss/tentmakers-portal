@@ -43,7 +43,7 @@ const secondaryStats: StatItem[] = [
   {
     id: 'msme-count',
     value: 57469,
-    label: 'MSME establishments on Panay',
+    label: 'MSME establishments, Western Visayas (DTI)',
     caption: '5th-highest regional concentration in the Philippines.',
     venture: 'Prime Digital Solutions',
     icon: Building2,
@@ -319,7 +319,7 @@ export default function MarketOpportunity() {
             <span className="text-amber">yours to serve</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Panay Island is home to 4.67 million people and 57,469 MSME
+            Panay Island is home to 4.67 million people, and Western Visayas counts 57,469 MSME
             establishments — the fifth-highest regional concentration in the
             Philippines. Nationally, MSMEs make up 99.5% of all businesses and
             generate roughly 63% of employment, yet the gap between basic
