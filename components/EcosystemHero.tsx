@@ -5,6 +5,7 @@ import { ArrowRight, Network } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { useCountUp } from '@/hooks/use-count-up';
+import { useRegisterModal } from '@/hooks/use-register-modal';
 
 const ventures = [
   { name: 'Prime Digital Solutions', slug: 'prime-digital-solutions' },
@@ -30,6 +31,7 @@ function Stat({ end, decimals = 0, suffix = '', label }: { end: number; decimals
 export default function EcosystemHero() {
   const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+  const { onOpen } = useRegisterModal();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -120,13 +122,13 @@ export default function EcosystemHero() {
           transition={{ duration: 0.7, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
           className="mt-9 flex flex-wrap items-center gap-3"
         >
-          <Link
-            href="/register"
+          <button
+            onClick={onOpen}
             className="group inline-flex items-center gap-2 rounded-xl bg-amber px-6 py-3.5 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20"
           >
             Join the Network
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-          </Link>
+          </button>
           <Link
             href="/ventures"
             className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3.5 text-sm font-semibold text-white/80 transition-colors hover:border-amber/40 hover:text-white"

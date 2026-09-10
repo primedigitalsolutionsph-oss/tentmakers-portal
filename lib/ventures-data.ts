@@ -1,3 +1,8 @@
+// Canonical venture content for all marketing pages.
+// The public.ventures table (supabase/migrations/20260910000000_tentmakers_core.sql
+// + 20260911000001_ventures_content.sql) mirrors this file field-for-field for
+// future CMS use. Until pages read from the database, edit HERE — then mirror
+// the change into the seed migration to keep both sources consistent.
 export type VentureStage = 'Active' | 'Scaling' | 'Early';
 
 export interface Venture {

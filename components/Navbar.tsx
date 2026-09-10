@@ -8,6 +8,7 @@ import { Menu, X, Network, LayoutDashboard, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ThemeToggle from '@/components/ThemeToggle';
 import { useAuth } from '@/components/AuthProvider';
+import { useRegisterModal } from '@/hooks/use-register-modal';
 
 const navLinks = [
   { label: 'The Model', href: '/#the-model' },
@@ -30,6 +31,7 @@ export default function Navbar() {
   const prefersReducedMotion = useReducedMotion();
   const pathname = usePathname();
   const { user } = useAuth();
+  const { onOpen: openRegisterModal } = useRegisterModal();
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
@@ -184,12 +186,12 @@ export default function Navbar() {
                 >
                   Login
                 </Link>
-                <Link
-                  href="/register"
+                <button
+                  onClick={openRegisterModal}
                   className="rounded-lg bg-amber px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-amber-soft"
                 >
                   Join Now
-                </Link>
+                </button>
               </>
             )}
           </nav>
@@ -339,13 +341,15 @@ export default function Navbar() {
                     }}
                     className="w-full"
                   >
-                    <Link
-                      href="/register"
-                      onClick={() => setMobileOpen(false)}
+                    <button
+                      onClick={() => {
+                        setMobileOpen(false);
+                        openRegisterModal();
+                      }}
                       className="block w-full rounded-xl bg-amber py-4 text-center text-lg font-bold text-navy"
                     >
                       Join Now
-                    </Link>
+                    </button>
                   </motion.div>
                 </>
               )}
