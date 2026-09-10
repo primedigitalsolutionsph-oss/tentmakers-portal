@@ -50,14 +50,14 @@ const ventures: Venture[] = [
   {
     id: 'thrifty-tribe',
     name: 'Thrifty Tribe',
-    tagline: 'Structured savings, built into the community',
-    gap: 'The savings gap',
+    tagline: 'Member discounts, everywhere you shop',
+    gap: 'The discount gap',
     offering:
-      'Group-based savings tools and financial habit-building woven into the membership experience — not a separate app people forget to open.',
+      'A member subscription unlocking exclusive everyday discounts at partner merchants across Panay Island.',
     marketSignal:
-      'MSMEs make up 99.5% of businesses and generate 63% of employment — yet most lack basic savings infrastructure.',
-    metric: '<30%',
-    metricLabel: 'adults with formal savings',
+      'Household budgets are squeezed by rising prices — members save from day one.',
+    metric: 'Members-only',
+    metricLabel: 'discounts at partner merchants',
     stage: 'Scaling',
     icon: PiggyBank,
     span: 'normal',
@@ -65,6 +65,21 @@ const ventures: Venture[] = [
   {
     id: 'icky',
     name: 'ICKY',
+    tagline: 'Protection where there was none',
+    gap: 'The protection gap',
+    offering:
+      'Driver protection and micro-insurance designed for the families and workers that the traditional insurance industry has ignored.',
+    marketSignal:
+      'Insurance penetration sits at under 2%. Over 31,000 road accidents were recorded in 2024 alone.',
+    metric: '<2%',
+    metricLabel: 'insurance penetration',
+    stage: 'Scaling',
+    icon: ShieldCheck,
+    span: 'normal',
+  },
+  {
+    id: 'prime-axis',
+    name: 'Prime Axis',
     tagline: 'Staffing pipeline for growing SMEs',
     gap: 'The staffing gap',
     offering:
@@ -73,23 +88,8 @@ const ventures: Venture[] = [
       '41% of Philippine SMEs increased headcount in 2024, with more planning to hire in 2025. Staffing is the bottleneck.',
     metric: '41%',
     metricLabel: 'SMEs grew headcount in 2024',
-    stage: 'Scaling',
-    icon: Users2,
-    span: 'normal',
-  },
-  {
-    id: 'prime-axis',
-    name: 'Prime Axis',
-    tagline: 'Protection where there was none',
-    gap: 'The protection gap',
-    offering:
-      'Driver protection and insurance products designed for the families and workers that the traditional insurance industry has ignored.',
-    marketSignal:
-      'Insurance penetration sits at under 2%. Over 31,000 road accidents were recorded in 2024 alone.',
-    metric: '<2%',
-    metricLabel: 'insurance penetration',
     stage: 'Active',
-    icon: ShieldCheck,
+    icon: Users2,
     span: 'normal',
   },
   {

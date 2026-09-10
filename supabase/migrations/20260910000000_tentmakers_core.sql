@@ -181,55 +181,55 @@ values
     'thrifty-tribe',
     'Thrifty Tribe',
     'Scaling',
-    'The Savings Gap',
-    'Group-based savings tools that give communities a structured way to save, pool, and grow together.',
-    'Filipino communities have a deep culture of communal savings. Thrifty Tribe digitizes and structures this practice, making it safer, more transparent, and more effective.',
+    'The Discount Gap',
+    'A member subscription that unlocks everyday discounts at partner merchants across Panay Island.',
+    'Thrifty Tribe members pay one subscription and save every day — exclusive member-only discounts at partner stores, services, and eateries across Panay Island.',
     array[
-      'Under 30% of adults have formal savings',
-      'Strong rotating savings (paluwagan) culture',
-      'Growing mobile wallet adoption'
+      'Rising everyday prices squeeze household budgets',
+      'MSMEs want loyal, repeat customers',
+      'Members save from day one'
     ],
     array[
-      'Thrifty Tribe brings informal rotating savings into a structured digital framework so groups can track contributions, access pooled funds, and build financial discipline with transparency.'
+      'Thrifty Tribe is a discount subscription platform: one membership unlocks exclusive prices at partner merchants, saving members money on everyday purchases while driving loyal customers to local businesses.'
     ],
-    '<30%',
-    'adults with formal savings'
+    'Members-only',
+    'discounts at partner merchants'
   ),
   (
     'icky',
     'ICKY',
     'Scaling',
-    'The Staffing Gap',
-    'A staffing pipeline that connects growing SMEs with vetted, trained talent — fast.',
-    'Growing SMEs need talent but lack the hiring infrastructure of large corporations. ICKY provides a vetted, trained staffing pipeline built for speed.',
-    array[
-      '41% of SMEs increased headcount in 2024',
-      'High youth unemployment in Western Visayas',
-      'Limited structured hiring platforms for SMEs'
-    ],
-    array[
-      'ICKY maintains a pipeline of vetted, trained candidates matched to SME needs, reducing time-to-hire from weeks to days while creating employment pathways for trained members.'
-    ],
-    '41%',
-    'of SMEs increased headcount in 2024'
-  ),
-  (
-    'prime-axis',
-    'Prime Axis',
-    'Active',
     'The Protection Gap',
     'Driver protection and micro-insurance designed for the people who keep Panay Island moving.',
-    'With under 2% insurance penetration and over 31,000 road accidents in 2024, Panay Island''s drivers are dangerously unprotected. Prime Axis changes that.',
+    'With under 2% insurance penetration and over 31,000 road accidents in 2024, Panay Island''s drivers are dangerously unprotected. ICKY changes that.',
     array[
       'Under 2% insurance penetration',
       '31,000+ road accidents in 2024',
       'Growing ride-hailing and delivery sector'
     ],
     array[
-      'Prime Axis provides affordable, micro-insurance products for gig workers, tricycle drivers, and delivery riders, distributed through trusted Tentmakers network relationships.'
+      'ICKY provides affordable, micro-insurance products for gig workers, tricycle drivers, and delivery riders, distributed through trusted Tentmakers network relationships.'
     ],
     '<2%',
     'insurance penetration'
+  ),
+  (
+    'prime-axis',
+    'Prime Axis',
+    'Active',
+    'The Staffing Gap',
+    'A staffing pipeline that connects growing SMEs with vetted, trained talent — fast.',
+    'Growing SMEs need talent but lack the hiring infrastructure of large corporations. Prime Axis provides a vetted, trained staffing pipeline built for speed.',
+    array[
+      '41% of SMEs increased headcount in 2024',
+      'High youth unemployment in Western Visayas',
+      'Limited structured hiring platforms for SMEs'
+    ],
+    array[
+      'Prime Axis maintains a pipeline of vetted, trained candidates matched to SME needs, reducing time-to-hire from weeks to days while creating employment pathways for trained members.'
+    ],
+    '41%',
+    'of SMEs increased headcount in 2024'
   ),
   (
     'tentmakers-network',
