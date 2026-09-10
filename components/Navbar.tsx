@@ -119,11 +119,30 @@ export default function Navbar() {
               className="relative"
               onMouseEnter={() => setVenturesOpen(true)}
               onMouseLeave={() => setVenturesOpen(false)}
+              onFocus={() => setVenturesOpen(true)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                  setVenturesOpen(false);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setVenturesOpen(false);
+                  (e.currentTarget.querySelector('a') as HTMLElement | null)?.focus();
+                }
+                if (e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  setVenturesOpen(true);
+                  const first = e.currentTarget.querySelector<HTMLElement>('[role="menu"] a');
+                  first?.focus();
+                }
+              }}
             >
               <Link
                 href="/ventures"
                 aria-current={pathname?.startsWith('/ventures') ? 'page' : undefined}
                 aria-expanded={venturesOpen}
+                aria-haspopup="menu"
                 className={cn(
                   "flex items-center gap-1 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors",
                   pathname?.startsWith('/ventures') ? "text-white" : "text-white/60 hover:text-white"
@@ -141,12 +160,13 @@ export default function Navbar() {
                     transition={{ duration: 0.18 }}
                     className="absolute left-0 top-full w-64 pt-2"
                   >
-                    <div className="overflow-hidden rounded-xl border border-white/10 bg-navy-light shadow-xl shadow-black/30">
+                    <div role="menu" aria-label="Ventures" className="overflow-hidden rounded-xl border border-white/10 bg-navy-light shadow-xl shadow-black/30">
                       {ventureLinks.map((v) => (
                         <Link
                           key={v.href}
                           href={v.href}
-                          className="block px-4 py-2.5 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-amber"
+                          role="menuitem"
+                          className="block px-4 py-2.5 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-amber focus-visible:bg-white/5 focus-visible:text-amber focus-visible:outline-none"
                         >
                           {v.label}
                         </Link>

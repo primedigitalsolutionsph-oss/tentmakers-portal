@@ -4,6 +4,7 @@ import { Inter, Fraunces } from 'next/font/google';
 import AppShell from '@/components/AppShell';
 import ThemeProvider from '@/components/ThemeProvider';
 import AuthProvider from '@/components/AuthProvider';
+import RegisterModal from '@/components/RegisterModal';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,8 +40,9 @@ export const metadata: Metadata = {
       'Five ventures. One training hub. A 4.67-million-person market on Panay Island.',
   },
   icons: {
-    icon: '/icon.svg',
-    apple: '/icon.svg',
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+    shortcut: '/favicon.ico',
   },
 };
 
@@ -53,9 +55,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${display.variable}`}>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <AuthProvider>
-            <AppShell>{children}</AppShell>
-          </AuthProvider>
+           <AuthProvider>
+             <AppShell>{children}</AppShell>
+           </AuthProvider>
+        <RegisterModal />
         </ThemeProvider>
       </body>
     </html>

@@ -1,12 +1,10 @@
 'use client';
 
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { X } from 'lucide-react';
 import { useRegisterModal } from '@/hooks/use-register-modal';
 
 function StepPrerequisite() {
-  const prefersReducedMotion = useReducedMotion();
   const { data, updateData, goToStep } = useRegisterModal();
 
   const handleNext = () => {
@@ -18,9 +16,9 @@ function StepPrerequisite() {
   return (
     <motion.div
       key="prerequisite"
-      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-      animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className="space-y-6"
     >
@@ -61,27 +59,23 @@ function StepPrerequisite() {
 }
 
 function StepOptions() {
-  const prefersReducedMotion = useReducedMotion();
-  const { data, updateData, goToStep, onClose } = useRegisterModal();
+  const { updateData, goToStep, onClose } = useRegisterModal();
 
   const roles = [
     {
       id: 'smme-owner',
       label: 'SME Owner',
       description: 'I run an existing small or medium business',
-      color: 'navy',
     },
     {
       id: 'entrepreneur',
       label: 'Aspiring Entrepreneur',
       description: 'I want to start a venture or side hustle',
-      color: 'amber',
     },
     {
       id: 'skilled-worker',
       label: 'Skilled Worker',
       description: 'I have skills to offer and want to grow',
-      color: 'forest',
     },
   ];
 
@@ -93,9 +87,9 @@ function StepOptions() {
   return (
     <motion.div
       key="options"
-      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-      animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className="space-y-6"
     >
@@ -116,10 +110,7 @@ function StepOptions() {
             className="block w-full text-left rounded-xl border border-border bg-card p-4 transition-all hover:border-amber/40 hover:shadow-md"
           >
             <div className="flex items-start gap-3">
-              <span
-                className={`mt-0.5 h-5 w-5 shrink-0 rounded-full bg-${role.color}/20`}
-                aria-hidden="true"
-              />
+              <span className="mt-0.5 h-5 w-5 shrink-0 rounded-full bg-navy/20" />
               <div>
                 <p className="font-semibold text-foreground">{role.label}</p>
                 <p className="mt-0.5 text-sm text-muted-foreground">
@@ -150,19 +141,14 @@ function StepOptions() {
 }
 
 function StepDetails() {
-  const prefersReducedMotion = useReducedMotion();
-  const { data, updateData, goToStep, onClose } = useRegisterModal();
-
-  const handleSubmit = () => {
-    goToStep('success');
-  };
+  const { goToStep } = useRegisterModal();
 
   return (
     <motion.div
       key="details"
-      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-      animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className="space-y-6"
     >
@@ -208,8 +194,6 @@ function StepDetails() {
           </label>
           <select
             id="register-referral"
-            value={data.referral}
-            onChange={(e) => updateData({ referral: e.target.value })}
             className="mt-2 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground transition-colors focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
           >
             <option value="">Select an option</option>
@@ -222,7 +206,7 @@ function StepDetails() {
         </div>
 
         <button
-          onClick={handleSubmit}
+          onClick={() => goToStep('success')}
           className="mt-2 w-full rounded-xl bg-amber px-6 py-3 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20"
         >
           Complete Registration
@@ -242,15 +226,14 @@ function StepDetails() {
 }
 
 function StepSuccess() {
-  const prefersReducedMotion = useReducedMotion();
   const { reset } = useRegisterModal();
 
   return (
     <motion.div
       key="success"
-      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-      animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className="space-y-6 text-center"
     >
@@ -263,11 +246,7 @@ function StepSuccess() {
           strokeWidth={2}
           aria-hidden="true"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 12.75L11.25 15 15.75 9"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15.75 9" />
         </svg>
       </div>
 
@@ -291,7 +270,6 @@ function StepSuccess() {
 
 export default function RegisterModal() {
   const { isOpen, currentStep, onClose } = useRegisterModal();
-  const prefersReducedMotion = useReducedMotion();
 
   const renderStep = () => {
     switch (currentStep) {
@@ -309,26 +287,23 @@ export default function RegisterModal() {
   };
 
   const stepProgress = {
-    prerequisite: 0,
-    options: 1,
-    details: 2,
-    success: 3,
+    prerequisite: 1,
+    options: 2,
+    details: 3,
+    success: 4,
   };
-
-  const totalSteps = 3;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="border-none bg-transparent p-0 shadow-none sm:max-w-lg">
-        <div className="relative w-full rounded-2xl border border-border bg-card p-6 sm:p-8">
-          {/* Progress bar */}
+      <DialogContent className="border-none bg-transparent p-0 shadow-none data-[state=open]:fade-in-0">
+        <div className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-6 sm:p-8">
           {currentStep !== 'success' && (
             <div className="mb-6">
               <div className="h-1.5 w-full rounded-full bg-border">
                 <div
                   className="h-full rounded-full bg-amber transition-all duration-300"
                   style={{
-                    width: `${((stepProgress[currentStep] / totalSteps) * 100)}%`,
+                    width: `${((stepProgress[currentStep] - 1) / 3) * 100}%`,
                   }}
                   aria-hidden="true"
                 />
@@ -344,14 +319,6 @@ export default function RegisterModal() {
           <AnimatePresence mode="wait">
             {renderStep()}
           </AnimatePresence>
-
-          <button
-            onClick={onClose}
-            className="absolute right-4 top-4 rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground"
-            aria-label="Close"
-          >
-            <X className="h-4 w-4" aria-hidden="true" />
-          </button>
         </div>
       </DialogContent>
     </Dialog>
