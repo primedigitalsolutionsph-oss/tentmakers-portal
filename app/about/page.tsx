@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About — Tentmakers Network',
   description:
-    'Learn about the Tentmakers Network: a platform turning members into operators and ventures into a regional ecosystem on Panay Island.',
+    'Learn about the Tentmakers Network: a founder community launching across Panay Island, targeting 300 members by Q4 2026.',
 };
 
 const values = [
@@ -16,12 +16,12 @@ const values = [
   {
     icon: Users,
     title: 'Member-First',
-    description: 'Members get value from day one: digital storefronts, savings tools, protection, and staffing access.',
+    description: 'Members get value from day one: dev services, QR deals and cashback, driver protection, and staffing access.',
   },
   {
     icon: Lightbulb,
-    title: 'Operator Pipeline',
-    description: 'The strongest members become future franchise operators, creating a self-sustaining growth engine.',
+    title: 'Operator Pathway',
+    description: 'Our long-term vision: top members become regional operators. No franchise promises until the terms exist.',
   },
   {
     icon: MapPin,
@@ -94,11 +94,11 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-10">
               <div className="space-y-6">
                 {[
-                  { label: 'Population', value: '4.67 million' },
-                  { label: 'MSMEs', value: '57,469 establishments' },
-                  { label: 'Digital Transactions', value: '57.4% of retail' },
-                  { label: 'Insurance Penetration', value: 'Under 2%' },
-                  { label: 'Active Ventures', value: '5 verticals' },
+                  { label: 'Population', value: '4.67 million (2024 census)' },
+                  { label: 'MSMEs', value: '57,469, Western Visayas (DTI)' },
+                  { label: 'Digital Transactions', value: '57.4% of retail (BSP)' },
+                  { label: 'Insurance Penetration', value: '~1.79% (2025)' },
+                  { label: 'Member Target', value: '300 by Q4 2026' },
                 ].map((item) => (
                   <div
                     key={item.label}
@@ -178,16 +178,16 @@ export default function AboutPage() {
                   to capture.
                 </p>
                 <p>
-                  The gaps are real: under 2% insurance penetration, over 31,000
-                  road accidents in a single year, fewer than 15% of MSMEs with a
-                  meaningful online presence, and a deep cultural savings
-                  practice that has never been digitized.
+                  The gaps are real: insurance penetration of only ~1.79%,
+                  over 31,000 road accidents in a single year, businesses with
+                  computers and internet but little real digital presence, and
+                  QR-based spending that rewards whoever moves first.
                 </p>
                 <p>
                   Tentmakers was built to close these gaps — not with one product,
-                  but with five ventures, each designed to solve a specific
-                  problem, connected by a training hub that makes the whole
-                  ecosystem self-sustaining.
+                  but with four ventures at staggered readiness, connected by a
+                  founder community scaling toward 300 members across four
+                  island chapters.
                 </p>
               </div>
             </div>
@@ -196,9 +196,9 @@ export default function AboutPage() {
                 <div className="space-y-4">
                   {[
                     { stat: '5th', label: 'Highest MSME concentration in PH' },
-                    { stat: '31K+', label: 'Road accidents in 2024' },
-                    { stat: '57.4%', label: 'Retail transactions digital' },
-                    { stat: '<15%', label: 'MSMEs with online presence' },
+                    { stat: '31K+', label: 'Road accidents in 2024 (2,747 deaths)' },
+                    { stat: '57.4%', label: 'Retail transactions digital (BSP)' },
+                    { stat: '90.8%', label: 'Establishments own computers, yet tools lag' },
                   ].map((item) => (
                     <div
                       key={item.label}
@@ -219,6 +219,109 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Chapters */}
+      <section className="border-t border-border py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-8 bg-amber" aria-hidden="true" />
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
+                Chapters & Target
+              </span>
+            </div>
+            <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
+              300 members by Q4 2026,{' '}
+              <span className="text-amber">four chapters deep</span>
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Open Network Membership for breadth, plus selective 12-week
+              accelerator cohorts of 15–25 founders ending in a
+              founder-to-investor Demo Day.
+            </p>
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { chapter: 'Iloilo City (HQ)', target: '150', note: 'Founding team covers directly' },
+              { chapter: 'Capiz', target: '60', note: 'Local partner confirming' },
+              { chapter: 'Aklan', target: '50', note: 'Launching with workshops' },
+              { chapter: 'Antique', target: '40', note: 'Sponsor co-marketing' },
+            ].map((item) => (
+              <div
+                key={item.chapter}
+                className="rounded-2xl border border-border bg-card p-6 transition-colors hover:border-amber/30"
+              >
+                <p className="font-display text-4xl font-bold tabular-nums text-amber">
+                  {item.target}
+                </p>
+                <p className="mt-2 text-sm font-bold text-foreground">
+                  {item.chapter}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{item.note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Founder */}
+      <section className="border-t border-border py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
+            <div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-px w-8 bg-amber" aria-hidden="true" />
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
+                  The Founder
+                </span>
+              </div>
+              <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
+                Rogie Prado Fabuna
+              </h2>
+              <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p>
+                  A former Overseas Filipino Worker with over 15 years of global
+                  work experience, including professional roles at PwC and Oliver
+                  Wyman in Dubai — experience that shaped both world-class
+                  business acumen and a close understanding of the Filipino
+                  diaspora.
+                </p>
+                <p>
+                  His technical foundation in website and app development, with a
+                  focus on modern AI development, now powers the ventures and
+                  the training approach across the ecosystem.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amber">
+                Published works
+              </p>
+              <ul className="mt-4 space-y-3">
+                {[
+                  'Maslow’s Pyramid: A Roadmap for Filipino Innovators',
+                  'IGNITE: Innovative Generation, Nurturing Ideas, Talent & Entrepreneurship',
+                  'Live from the Inside Out',
+                  'ESBI Methodology for entrePREneurs',
+                ].map((book) => (
+                  <li
+                    key={book}
+                    className="flex items-start gap-3 text-sm text-foreground"
+                  >
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber" aria-hidden="true" />
+                    {book}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
+                Also the visionary behind the Tentmakers&rsquo; Way Book Series —
+                purpose-driven, faith-rooted leadership for OFWs,
+                entrepreneurs, educators, and public servants.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="border-t border-border py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8 text-center">
@@ -232,10 +335,10 @@ export default function AboutPage() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a
-              href="/register"
+              href="/contact"
               className="inline-flex items-center gap-2.5 rounded-xl bg-amber px-6 py-3 text-sm font-bold text-navy transition-colors hover:bg-amber-soft"
             >
-              Join Now
+              Request Access
             </a>
             <a
               href="/ventures"
