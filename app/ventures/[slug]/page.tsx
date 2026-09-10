@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Network, Mail, Store, QrCode, CarFront, HardHat } from 'lucide-react';
 import type { Metadata } from 'next';
 import { ventures, getVentureBySlug } from '@/lib/ventures-data';
+import { industryIcon } from '@/lib/industry-icons';
 
 const ventureIcons: Record<string, React.ElementType> = {
   'prime-digital-solutions': Store,
@@ -123,6 +124,27 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
                     {paragraph}
                   </p>
                 ))}
+              </div>
+
+              {/* Industries covered */}
+              <div className="mt-10">
+                <h2 className="text-lg font-bold text-foreground">
+                  Industries covered
+                </h2>
+                <ul className="mt-4 flex flex-wrap gap-2.5" aria-label={`Industries covered by ${venture.name}`}>
+                  {venture.industries.map((industry) => {
+                    const Icon = industryIcon(industry);
+                    return (
+                      <li
+                        key={industry}
+                        className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-amber/40"
+                      >
+                        <Icon className="h-4 w-4 text-amber" aria-hidden="true" />
+                        {industry}
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             </div>
 

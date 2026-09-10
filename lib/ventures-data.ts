@@ -22,6 +22,7 @@ export interface Venture {
   fullDescription: string[];
   metric: string;
   metricLabel: string;
+  industries: string[];
 }
 
 export const ventures: Venture[] = [
@@ -44,6 +45,7 @@ export const ventures: Venture[] = [
     ],
     metric: '57,469',
     metricLabel: 'MSMEs in Western Visayas (DTI)',
+    industries: ['Web', 'App', 'Automation', 'E-commerce'],
   },
   {
     slug: 'thrifty-tribe',
@@ -64,6 +66,7 @@ export const ventures: Venture[] = [
     ],
     metric: 'Members-only',
     metricLabel: 'QR deals & cashback at partner merchants',
+    industries: ['Payments', 'Savings', 'Cashback'],
   },
   {
     slug: 'icky',
@@ -84,6 +87,7 @@ export const ventures: Venture[] = [
     ],
     metric: '~1.79%',
     metricLabel: 'insurance penetration (2025)',
+    industries: ['Insurance', 'Road Safety', 'Education', '24/7 SOS'],
   },
   {
     slug: 'prime-axis',
@@ -104,6 +108,7 @@ export const ventures: Venture[] = [
     ],
     metric: '41%',
     metricLabel: 'of SMEs increased headcount in 2024',
+    industries: ['Staffing', 'Labor'],
   },
   {
     slug: 'tentmakers-network',
@@ -124,6 +129,7 @@ export const ventures: Venture[] = [
     ],
     metric: '300',
     metricLabel: 'member target by Q4 2026',
+    industries: ['Community', 'Accelerator', 'Training'],
   },
 ];
 

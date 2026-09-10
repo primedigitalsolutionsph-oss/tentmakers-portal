@@ -10,6 +10,19 @@ import {
   HardHat,
   Network,
   ArrowUpRight,
+  Globe,
+  Smartphone,
+  Settings,
+  ShoppingCart,
+  Wallet,
+  PiggyBank,
+  Gift,
+  Shield,
+  GraduationCap,
+  Bell,
+  Users,
+  Briefcase,
+  Rocket,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +42,7 @@ interface Venture {
   icon: React.ElementType;
   span: 'wide' | 'normal';
   anchor?: boolean;
+  industries: { icon: React.ElementType; label: string }[];
 }
 
 const ventures: Venture[] = [
@@ -46,6 +60,12 @@ const ventures: Venture[] = [
     stage: 'Active',
     icon: Store,
     span: 'wide',
+    industries: [
+      { icon: Globe, label: 'Web' },
+      { icon: Smartphone, label: 'App' },
+      { icon: Settings, label: 'Automation' },
+      { icon: ShoppingCart, label: 'E-commerce' },
+    ],
   },
   {
     id: 'thrifty-tribe',
@@ -61,6 +81,11 @@ const ventures: Venture[] = [
     stage: 'Early',
     icon: QrCode,
     span: 'normal',
+    industries: [
+      { icon: Wallet, label: 'Payments' },
+      { icon: PiggyBank, label: 'Savings' },
+      { icon: Gift, label: 'Cashback' },
+    ],
   },
   {
     id: 'icky',
@@ -76,6 +101,12 @@ const ventures: Venture[] = [
     stage: 'Early',
     icon: CarFront,
     span: 'normal',
+    industries: [
+      { icon: Shield, label: 'Insurance' },
+      { icon: CarFront, label: 'Road Safety' },
+      { icon: GraduationCap, label: 'Education' },
+      { icon: Bell, label: '24/7 SOS' },
+    ],
   },
   {
     id: 'prime-axis',
@@ -91,6 +122,10 @@ const ventures: Venture[] = [
     stage: 'Early',
     icon: HardHat,
     span: 'normal',
+    industries: [
+      { icon: Users, label: 'Staffing' },
+      { icon: Briefcase, label: 'Labor' },
+    ],
   },
   {
     id: 'tentmakers-network',
@@ -107,6 +142,11 @@ const ventures: Venture[] = [
     icon: Network,
     span: 'wide',
     anchor: true,
+    industries: [
+      { icon: Users, label: 'Community' },
+      { icon: Rocket, label: 'Accelerator' },
+      { icon: GraduationCap, label: 'Training' },
+    ],
   },
 ];
 
@@ -319,6 +359,27 @@ export default function Ventures() {
                       >
                         {venture.offering}
                       </p>
+
+                      {/* Industries */}
+                      <div className="mt-4 flex flex-wrap items-center gap-2">
+                        {venture.industries.map((industry) => {
+                          const IndustryIcon = industry.icon;
+                          return (
+                            <div
+                              key={industry.label}
+                              className={cn(
+                                'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium',
+                                isAnchor
+                                  ? 'border-white/10 bg-white/[0.03] text-white/70'
+                                  : 'border-border bg-secondary/60 text-muted-foreground'
+                              )}
+                            >
+                              <IndustryIcon className="h-3.5 w-3.5 text-amber" aria-hidden="true" />
+                              {industry.label}
+                            </div>
+                          );
+                        })}
+                      </div>
 
                       {/* Market signal */}
                       <div
