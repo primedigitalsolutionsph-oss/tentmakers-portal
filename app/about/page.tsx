@@ -1,4 +1,5 @@
 import { Network, Target, Users, Lightbulb, MapPin } from 'lucide-react';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -274,9 +275,24 @@ export default function AboutPage() {
                   The Founder
                 </span>
               </div>
-              <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
-                Rogie Prado Fabuna
-              </h2>
+              <div className="mt-6 flex items-center gap-5">
+                <Image
+                  src="/founder-rogie.jpg"
+                  alt="Rogie Prado Fabuna, founder of Tentmakers Network"
+                  width={112}
+                  height={112}
+                  className="h-28 w-28 shrink-0 rounded-2xl border border-border object-cover object-top"
+                  priority={false}
+                />
+                <div>
+                  <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
+                    Rogie Prado Fabuna
+                  </h2>
+                  <p className="mt-1 text-sm font-medium text-amber">
+                    Founder, Tentmakers Network
+                  </p>
+                </div>
+              </div>
               <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
                   A former Overseas Filipino Worker with over 15 years of global
