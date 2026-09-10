@@ -35,6 +35,7 @@ export default function Navbar() {
   const { onOpen: openRegisterModal } = useRegisterModal();
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
+  const headerY = useTransform(scrollYProgress, [0, 0.02], [-80, 0]);
 
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY > 40);
@@ -70,14 +71,12 @@ export default function Navbar() {
   return (
     <>
       <motion.header
-        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -20 }}
-        animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        style={{ y: prefersReducedMotion ? 0 : headerY }}
         className={cn(
-          'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+          'fixed inset-x-0 top-0 z-50 border-b transition-[border-color,background-color,box-shadow] duration-300',
           scrolled
-            ? 'border-b border-white/10 bg-navy/95 shadow-lg shadow-black/10 backdrop-blur-xl'
-            : 'border-b border-transparent bg-transparent'
+            ? 'border-white/10 bg-navy/95 shadow-lg shadow-black/10 backdrop-blur-xl'
+            : 'border-transparent bg-transparent'
         )}
       >
         {/* Scroll progress */}
