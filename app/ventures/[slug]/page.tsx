@@ -1,8 +1,16 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Network, Mail } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Network, Mail, Store, QrCode, CarFront, HardHat } from 'lucide-react';
 import type { Metadata } from 'next';
 import { ventures, getVentureBySlug } from '@/lib/ventures-data';
+
+const ventureIcons: Record<string, React.ElementType> = {
+  'prime-digital-solutions': Store,
+  'thrifty-tribe': QrCode,
+  icky: CarFront,
+  'prime-axis': HardHat,
+  'tentmakers-network': Network,
+};
 
 interface VenturePageProps {
   params: Promise<{ slug: string }>;
@@ -42,6 +50,7 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
   const nextVenture = ventures[(currentIndex + 1) % ventures.length];
   const prevVenture =
     ventures[(currentIndex - 1 + ventures.length) % ventures.length];
+  const VentureIcon = ventureIcons[slug] ?? Network;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -71,7 +80,7 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
 
           <div className="mt-8 flex items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber/15 text-amber">
-              <Network className="h-6 w-6" aria-hidden="true" />
+              <VentureIcon className="h-6 w-6" aria-hidden="true" />
             </span>
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold ${stageColors[venture.stage]}`}

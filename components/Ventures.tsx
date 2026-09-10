@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import {
-  Globe,
-  PiggyBank,
-  Users2,
-  ShieldCheck,
+  Store,
+  QrCode,
+  CarFront,
+  HardHat,
   Network,
   ArrowUpRight,
 } from 'lucide-react';
@@ -44,7 +44,7 @@ const ventures: Venture[] = [
     metric: '57,469',
     metricLabel: 'MSMEs in Western Visayas',
     stage: 'Active',
-    icon: Globe,
+    icon: Store,
     span: 'wide',
   },
   {
@@ -59,7 +59,7 @@ const ventures: Venture[] = [
     metric: 'Members-only',
     metricLabel: 'QR deals & cashback',
     stage: 'Early',
-    icon: PiggyBank,
+    icon: QrCode,
     span: 'normal',
   },
   {
@@ -74,7 +74,7 @@ const ventures: Venture[] = [
     metric: '~1.79%',
     metricLabel: 'insurance penetration (2025)',
     stage: 'Early',
-    icon: ShieldCheck,
+    icon: CarFront,
     span: 'normal',
   },
   {
@@ -89,7 +89,7 @@ const ventures: Venture[] = [
     metric: '41%',
     metricLabel: 'of SMEs grew headcount in 2024',
     stage: 'Early',
-    icon: Users2,
+    icon: HardHat,
     span: 'normal',
   },
   {
@@ -243,6 +243,15 @@ export default function Ventures() {
                       />
                     </>
                   )}
+
+                  {/* Illustrative industry watermark */}
+                  <Icon
+                    aria-hidden="true"
+                    className={cn(
+                      'pointer-events-none absolute -bottom-8 -right-8 h-44 w-44 rotate-[-8deg] transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110',
+                      isAnchor ? 'text-white/[0.05]' : 'text-foreground/[0.05]'
+                    )}
+                  />
 
                   <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
                     {/* Icon + gap label */}

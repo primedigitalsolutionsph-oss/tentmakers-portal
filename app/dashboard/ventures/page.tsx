@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Network, Globe, PiggyBank, Users2, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Network, Store, QrCode, CarFront, HardHat } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { ventures as defaultVentures } from '@/lib/ventures-data';
@@ -28,10 +28,10 @@ function isDashboardVenture(value: unknown): value is DashboardVenture {
 }
 
 const ventureIcons: Record<string, React.ElementType> = {
-  'prime-digital-solutions': Globe,
-  'thrifty-tribe': PiggyBank,
-  'icky': Users2,
-  'prime-axis': ShieldCheck,
+  'prime-digital-solutions': Store,
+  'thrifty-tribe': QrCode,
+  'icky': CarFront,
+  'prime-axis': HardHat,
   'tentmakers-network': Network,
 };
 
