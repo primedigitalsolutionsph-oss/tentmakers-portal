@@ -20,9 +20,17 @@ export async function proxy(request: NextRequest) {
   const isDashboard = pathname.startsWith('/dashboard');
   const isAuthPage = pathname === '/login' || pathname === '/register';
 
-  // Demo mode: no Supabase keys. Client-side layout handles demo access;
-  // never block here without a way to verify.
+  // Demo mode is opt-in and off by default. When Supabase is unconfigured
+  // and demo mode is disabled, protected routes fail closed to /login.
+  const demoAuthAllowed =
+    process.env.NEXT_PUBLIC_ALLOW_DEMO_AUTH === 'true';
   if (!isConfigured()) {
+    if (isDashboard && !demoAuthAllowed) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      url.searchParams.set('error', 'auth-unavailable');
+      return NextResponse.redirect(url);
+    }
     return NextResponse.next();
   }
 

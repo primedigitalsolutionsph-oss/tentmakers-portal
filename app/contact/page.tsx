@@ -1,6 +1,7 @@
 import { Mail, MapPin, Clock } from 'lucide-react';
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
+import { CONTACT_EMAIL } from '@/lib/contact';
 
 export const metadata: Metadata = {
   title: 'Contact — Tentmakers Network',
@@ -12,8 +13,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'support@tentmakers.ph',
-    href: 'mailto:support@tentmakers.ph',
+    value: CONTACT_EMAIL,
+    href: `mailto:${CONTACT_EMAIL}`,
   },
   {
     icon: MapPin,

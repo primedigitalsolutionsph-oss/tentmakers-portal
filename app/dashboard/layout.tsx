@@ -13,12 +13,16 @@ export default function DashboardLayout({
 }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  // Demo mode is opt-in via NEXT_PUBLIC_ALLOW_DEMO_AUTH=true and off by default.
+  const demoAuthAllowed =
+    process.env.NEXT_PUBLIC_ALLOW_DEMO_AUTH === 'true';
+  const canVerify = isSupabaseConfigured || !demoAuthAllowed;
 
   useEffect(() => {
-    if (!loading && !user && isSupabaseConfigured) {
+    if (!loading && !user && canVerify) {
       router.push('/login');
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, canVerify]);
 
   if (loading) {
     return (
@@ -46,7 +50,7 @@ export default function DashboardLayout({
     );
   }
 
-  if (!user && isSupabaseConfigured) {
+  if (!user && canVerify) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div

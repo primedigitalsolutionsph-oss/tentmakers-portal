@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { CONTACT_EMAIL } from '@/lib/contact';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -63,7 +64,7 @@ export default function ContactForm() {
         body: JSON.stringify(data),
       });
     } catch {
-      setApiError('Could not send your message. Please email us directly at support@tentmakers.ph.');
+      setApiError(`Could not send your message. Please email us directly at ${CONTACT_EMAIL}.`);
       return;
     }
 
@@ -98,10 +99,10 @@ export default function ContactForm() {
           Thanks for reaching out — we&apos;ll reply within 24 hours. If you
           need to follow up, write to{' '}
           <a
-            href="mailto:support@tentmakers.ph"
+            href={`mailto:${CONTACT_EMAIL}`}
             className="font-medium text-amber hover:underline"
           >
-            support@tentmakers.ph
+            {CONTACT_EMAIL}
           </a>
         </p>
         <Button

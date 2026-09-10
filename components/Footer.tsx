@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 import { ventures } from '@/lib/ventures-data';
+import { CONTACT_EMAIL } from '@/lib/contact';
 
 const ventureLinks = ventures.map((v) => ({
   name: v.name,
@@ -166,10 +167,10 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:primadigitalsolutions.ph@gmail.com"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   className="text-sm text-white/60 transition-colors hover:text-amber"
                 >
-                  primadigitalsolutions.ph@gmail.com
+                  {CONTACT_EMAIL}
                 </a>
               </li>
               <li>
