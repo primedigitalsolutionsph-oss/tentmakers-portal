@@ -21,6 +21,7 @@ const sections = [
 
 export default function Footer() {
   const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [subscribing, setSubscribing] = useState(false);
 
@@ -33,7 +34,7 @@ export default function Footer() {
       await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, company: '' }),
+        body: JSON.stringify({ email, company }),
       });
     } catch {
       /* offline: still confirm locally */
@@ -71,6 +72,20 @@ export default function Footer() {
                 placeholder="you@example.com"
                 className="h-11 flex-1 rounded-xl border border-white/15 bg-white/[0.05] px-4 text-sm text-white placeholder:text-white/40 focus:border-amber/60 focus:outline-none"
               />
+              {/* Honeypot: hidden from humans, filled by naive bots. */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="newsletter-company" className="sr-only">
+                  Company — leave blank
+                </label>
+                <input
+                  id="newsletter-company"
+                  type="text"
+                  autoComplete="off"
+                  tabIndex={-1}
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+              </div>
               <button
                 type="submit"
                 disabled={subscribing}
