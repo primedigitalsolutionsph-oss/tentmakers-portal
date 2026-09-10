@@ -1,7 +1,8 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, MapPin, Network } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
+import Image from 'next/image';
 
 export default function FinalCTA() {
   const prefersReducedMotion = useReducedMotion();
@@ -102,7 +103,7 @@ export default function FinalCTA() {
             <div className="relative z-10 space-y-6">
               <div className="flex items-center gap-3">
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber/15 text-amber">
-                  <Network className="h-5 w-5" aria-hidden="true" />
+                  <Image src="/logo.png" alt="Tentmakers Logo" width={44} height={44} />
                 </span>
                 <div>
                   <p className="text-sm font-bold text-white">

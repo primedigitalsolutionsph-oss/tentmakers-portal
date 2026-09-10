@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Menu, X, Network, LayoutDashboard, ChevronDown } from 'lucide-react';
@@ -91,9 +92,7 @@ export default function Navbar() {
         )}>
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber/15 transition-colors group-hover:bg-amber/25">
-              <Network className="h-4 w-4 text-amber" aria-hidden="true" />
-            </span>
+            <Image src="/logo.png" alt="Tentmakers Logo" width={36} height={36} />
             <span className="text-sm font-bold tracking-tight text-white">
               Tentmakers
             </span>

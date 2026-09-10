@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Network, Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2 } from 'lucide-react';
+import Image from 'next/image';
 import { ventures } from '@/lib/ventures-data';
 
 const ventureLinks = ventures.map((v) => ({
@@ -87,9 +88,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <a href="/" className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber/15">
-                <Network className="h-4 w-4 text-amber" aria-hidden="true" />
-              </span>
+              <Image src="/logo.png" alt="Tentmakers Logo" width={36} height={36} />
               <span className="text-sm font-bold tracking-tight text-white">
                 Tentmakers
               </span>

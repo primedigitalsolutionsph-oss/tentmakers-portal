@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Network } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRef } from 'react';
 import { useCountUp } from '@/hooks/use-count-up';
 import { useRegisterModal } from '@/hooks/use-register-modal';
@@ -84,7 +85,7 @@ export default function EcosystemHero() {
           className="flex items-center gap-2.5"
         >
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber/15">
-            <Network className="h-4 w-4 text-amber" aria-hidden="true" />
+            <Image src="/logo.png" alt="Tentmakers Logo" width={36} height={36} />
           </span>
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
             Tentmakers Ecosystem · Panay Island

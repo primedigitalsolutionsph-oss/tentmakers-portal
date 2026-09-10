@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import OAuthButtons from '@/components/OAuthButtons';
+import { useRegisterModal } from '@/hooks/use-register-modal';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -22,6 +23,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const router = useRouter();
+  const { onOpen: onRegisterOpen } = useRegisterModal();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -118,9 +120,13 @@ export default function LoginForm() {
 
       <p className="text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{' '}
-        <a href="/register" className="font-medium text-amber hover:underline">
+        <button
+          type="button"
+          onClick={onRegisterOpen}
+          className="font-medium text-amber hover:underline"
+        >
           Join now
-        </a>
+        </button>
       </p>
     </form>
   );
