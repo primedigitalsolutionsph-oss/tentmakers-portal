@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 36 96% 52%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 36 96% 52%;
+
+    /* Market Opportunity palette */
+    --navy: 222 47% 11%;
+    --navy-light: 222 40% 18%;
+    --navy-lighter: 222 33% 25%;
+    --amber: 36 96% 52%;
+    --amber-soft: 36 100% 62%;
+    --amber-dim: 33 80% 45%;
+    --forest: 152 56% 38%;
+
+    --chart-1: 222 47% 11%;
+    --chart-2: 36 96% 52%;
+    --chart-3: 152 56% 38%;
+    --chart-4: 197 37% 24%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 40% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 40% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 222 30% 18%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 222 30% 18%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 36 96% 52%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 222 30% 20%;
+    --input: 222 30% 20%;
+    --ring: 36 96% 52%;
+    --navy: 222 47% 11%;
+    --navy-light: 222 40% 18%;
+    --navy-lighter: 222 33% 25%;
+    --amber: 36 96% 52%;
+    --amber-soft: 36 100% 62%;
+    --amber-dim: 33 80% 45%;
+    --forest: 152 56% 38%;
+    --chart-1: 222 47% 11%;
+    --chart-2: 36 96% 52%;
+    --chart-3: 152 56% 38%;
+    --chart-4: 197 37% 24%;
+    --chart-5: 27 87% 67%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  ::selection {
+    background: hsl(var(--amber));
+    color: hsl(var(--navy));
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--amber));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display), Georgia, serif;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+}
+
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+  .noise-overlay {
+    position: relative;
+  }
+  .noise-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .spotlight-card {
+    position: relative;
+  }
+  .spotlight-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    background: radial-gradient(
+      480px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      hsl(var(--amber) / 0.09),
+      transparent 65%
+    );
+  }
+  .spotlight-card:hover::before {
+    opacity: 1;
+  }
+  .text-navy {
+    color: hsl(var(--navy));
+  }
+  .bg-navy {
+    background-color: hsl(var(--navy));
+  }
+  .bg-navy-light {
+    background-color: hsl(var(--navy-light));
+  }
+  .border-navy {
+    border-color: hsl(var(--navy));
+  }
+  .text-amber {
+    color: hsl(var(--amber));
+  }
+  .bg-amber {
+    background-color: hsl(var(--amber));
+  }
+  .text-forest {
+    color: hsl(var(--forest));
+  }
+  .bg-forest {
+    background-color: hsl(var(--forest));
+  }
+}
