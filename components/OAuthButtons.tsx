@@ -19,7 +19,10 @@ export default function OAuthButtons({ mode = 'signin' }: { mode?: 'signin' | 's
       options: { redirectTo: `${window.location.origin}/dashboard` },
     });
     if (error) {
-      toast.error(error.message);
+      const message = /unsupported provider|provider is not enabled/i.test(error.message)
+        ? 'Google sign-in is not enabled yet. An admin needs to enable the Google provider in Supabase Auth settings.'
+        : error.message;
+      toast.error(message);
       setLoading(false);
     }
   };
