@@ -6,10 +6,19 @@ import {
   isRateLimited,
   sanitizeLine,
 } from '@/lib/contact';
+import { extractCsrfToken } from '@/lib/csrf';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
+  // CSRF protection
+  const csrfToken = extractCsrfToken(request);
+  const cookieToken = request.headers.get('cookie')?.match(/csrf_token=([^;]+)/)?.[1];
+  
+  if (!csrfToken || !cookieToken || csrfToken !== cookieToken) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();

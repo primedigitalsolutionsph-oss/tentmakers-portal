@@ -54,10 +54,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${display.variable}`}>
       <body className={`${inter.className} antialiased`}>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 rounded-lg bg-amber px-4 py-2 text-sm font-bold text-navy"
+        >
+          Skip to main content
+        </a>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-           <AuthProvider>
-             <AppShell>{children}</AppShell>
-           </AuthProvider>
+          <AuthProvider>
+            <AppShell>{children}</AppShell>
+          </AuthProvider>
         <RegisterModal />
         </ThemeProvider>
       </body>

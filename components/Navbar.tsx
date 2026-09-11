@@ -90,7 +90,17 @@ export default function Navbar() {
           scrolled ? "py-3" : "py-4"
         )}>
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link
+            href="/"
+            onClick={() => {
+              setMobileOpen(false);
+              if (window.location.pathname === '/') {
+                window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+              }
+            }}
+            aria-label="Tentmakers Network — homepage"
+            className="flex items-center gap-2.5 group"
+          >
             <Image src="/logo.png" alt="Tentmakers Logo" width={36} height={36} />
             <span className="text-sm font-bold tracking-tight text-white">
               Tentmakers

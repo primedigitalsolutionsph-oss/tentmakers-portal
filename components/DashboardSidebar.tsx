@@ -33,12 +33,16 @@ export default function DashboardSidebar() {
   return (
     <aside className="flex h-full w-64 flex-col border-r border-border bg-card">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 border-b border-border px-6 py-5">
+      <Link
+        href="/dashboard"
+        className="flex items-center gap-2.5 border-b border-border px-6 py-5 transition-opacity hover:opacity-80"
+        aria-label="Tentmakers dashboard home"
+      >
         <Image src="/logo.png" alt="Tentmakers Logo" width={36} height={36} />
         <span className="text-sm font-bold tracking-tight text-foreground">
           Tentmakers
         </span>
-      </div>
+      </Link>
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4">

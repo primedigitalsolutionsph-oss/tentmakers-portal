@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { useCountUp } from '@/hooks/use-count-up';
-import VentureNetworkDiagram from '@/components/VentureNetworkDiagram';
 import { useRegisterModal } from '@/hooks/use-register-modal';
 
 const ventures = [
@@ -76,7 +75,7 @@ export default function EcosystemHero() {
 
       <motion.div
         style={prefersReducedMotion ? {} : { opacity }}
-        className="relative z-10 mx-auto grid min-h-[100vh] w-full max-w-6xl content-center items-center gap-12 px-5 pb-16 pt-28 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
+        className="relative z-10 mx-auto grid min-h-[100vh] w-full max-w-3xl content-center items-start gap-12 px-5 pb-16 pt-28 sm:px-6 lg:px-8"
       >
         <div>
         {/* Badge */}
@@ -160,24 +159,14 @@ export default function EcosystemHero() {
             </Link>
           ))}
         </motion.div>
-        </div>
-
-        {/* Network diagram */}
-        <motion.div
-          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.94 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto w-full max-w-[440px] lg:mx-0 lg:justify-self-end"
-        >
-          <VentureNetworkDiagram />
-        </motion.div>
-
+</div>
+ 
         {/* Proof stats */}
         <motion.div
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.58, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-2 gap-6 border-t border-white/10 pt-8 sm:grid-cols-4 lg:col-span-2 lg:mt-4"
+          className="grid grid-cols-2 gap-6 border-t border-white/10 pt-8 sm:grid-cols-4"
         >
           <Stat end={4.67} decimals={2} suffix="M" label="Market on Panay" />
           <Stat end={57469} label="MSMEs, Western Visayas (DTI)" />

@@ -1,30 +1,44 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { SessionProvider, useSession } from 'next-auth/react';
 import { supabase } from '@/lib/supabase';
-import type { Session, User } from '@supabase/supabase-js';
+import type { Session } from '@supabase/supabase-js';
 
 interface AuthContextType {
   session: Session | null;
-  user: User | null;
+  // Supabase User has user_metadata; MySQL/Auth.js user is {id,email}.
+  // any keeps existing dashboard pages compiling during the transition.
+  user: any;
   loading: boolean;
+  /** Active provider: Supabase (primary) or mysql/Auth.js (Hostinger). */
+  provider: 'supabase' | 'mysql' | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
   session: null,
   user: null,
   loading: true,
+  provider: null,
 });
 
 export function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function AuthProvider({
+function SupabaseAuth({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { data: mysqlSession, status: mysqlStatus } = useSession();
+  const mysqlUser =
+    mysqlStatus === 'authenticated' && mysqlSession?.user
+      ? {
+          id: (mysqlSession.user as { id?: string }).id ?? mysqlSession.user.email ?? 'mysql-user',
+          email: mysqlSession.user.email,
+        }
+      : null;
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -58,11 +72,31 @@ export default function AuthProvider({
     };
   }, []);
 
+  const user = session?.user ?? mysqlUser;
+  const isLoading = loading && mysqlStatus === 'loading';
+
   return (
     <AuthContext.Provider
-      value={{ session, user: session?.user ?? null, loading }}
+      value={{
+        session,
+        user,
+        loading: isLoading,
+        provider: session ? 'supabase' : mysqlUser ? 'mysql' : null,
+      }}
     >
       {children}
     </AuthContext.Provider>
+  );
+}
+
+export default function AuthProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <SessionProvider>
+      <SupabaseAuth>{children}</SupabaseAuth>
+    </SessionProvider>
   );
 }

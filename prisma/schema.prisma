@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Hostinger MySQL mirror of the Supabase schema.
+// Supabase sources: supabase/migrations/20260910000000_tentmakers_core.sql,
+// 20260911000001_ventures_content.sql, 20260911000002_training_progress.sql,
+// 20260911000003_venture_industries.sql, 0002_newsletter.sql.
+// MySQL notes: uuid -> CHAR(36), timestamptz -> TIMESTAMP, text[] -> JSON,
+// citext -> VARCHAR + utf8mb4_unicode_ci, RLS/trigger logic moves to API routes.
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique @db.VarChar(255)
+  emailVerified DateTime?
+  passwordHash  String?   @db.VarChar(255)
+  fullName      String?   @db.VarChar(100)
+  phone         String?   @db.VarChar(20)
+  image         String?   @db.VarChar(500)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  profile       Profile?
+  subscriptions Subscription[]
+  registrations Registration[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String  @db.VarChar(50)
+  provider          String  @db.VarChar(50)
+  providerAccountId String  @db.VarChar(255)
+  accessToken       String? @db.Text
+  refreshToken      String? @db.Text
+  expiresAt         Int?
+  idToken           String? @db.Text
+  scope             String? @db.VarChar(500)
+  tokenType         String? @db.VarChar(50)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  sessionToken String   @unique @db.VarChar(255)
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Profile {
+  id                  String   @id // = User.id (1:1, mirrors Supabase profiles.id FK auth.users)
+  fullName            String?  @db.VarChar(100)
+  phone               String?  @db.VarChar(20)
+  role                String   @default("member") @db.VarChar(20)
+  requestedRole       String?  @db.VarChar(20)
+  trainingTier        String   @default("basic") @db.VarChar(20)
+  completedActivities Json     @default("[]")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Venture {
+  slug            String   @id @db.VarChar(100)
+  name            String   @db.VarChar(255)
+  stage           String   @db.VarChar(20)
+  gap             String   @db.VarChar(255)
+  offering        String   @db.Text
+  description     String   @db.Text
+  marketSignals   Json     @default("[]")
+  fullDescription Json     @default("[]")
+  metric          String   @db.VarChar(100)
+  metricLabel     String   @db.VarChar(255)
+  industries      Json     @default("[]")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("ventures")
+}
+
+model NewsletterSubscription {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+
+  @@map("newsletter_subscriptions")
+}
+
+model Registration {
+  id          String   @id @default(cuid())
+  userId      String?
+  fullName    String   @db.VarChar(100)
+  email       String   @db.VarChar(255)
+  phone       String?  @db.VarChar(20)
+  inquiryType String   @default("member") @db.VarChar(20)
+  message     String?  @db.Text
+  status      String   @default("pending") @db.VarChar(20)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("registrations")
+}
+
+model Subscription {
+  id               String    @id @default(cuid())
+  userId           String
+  tier             String    @db.VarChar(50)
+  status           String    @default("pending") @db.VarChar(20)
+  provider         String?   @db.VarChar(50)
+  providerRef      String?   @db.VarChar(255)
+  currentPeriodEnd DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@map("subscriptions")
+}
+
+model VerificationToken {
+  identifier String   @db.VarChar(255)
+  token      String   @db.VarChar(255)
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}

@@ -10,13 +10,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const isDashboard = pathname?.startsWith('/dashboard');
 
   if (isDashboard) {
-    return <>{children}</>;
+    return <main id="main-content">{children}</main>;
   }
 
   return (
     <>
       <Navbar />
-      {children}
+      <main id="main-content">{children}</main>
       <Footer />
       <RegisterModal />
     </>

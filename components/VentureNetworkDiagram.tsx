@@ -6,12 +6,6 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { networkLayout, type NetworkNode } from '@/lib/ventures-data';
 
-type TooltipData = {
-  node: NetworkNode;
-  x: number;
-  y: number;
-};
-
 export default function VentureNetworkDiagram() {
   const prefersReducedMotion = useReducedMotion();
   const [hovered, setHovered] = useState<NetworkNode | null>(null);

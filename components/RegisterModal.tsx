@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -8,10 +8,21 @@ import { useRegisterModal } from '@/hooks/use-register-modal';
 
 function StepPrerequisite() {
   const { data, updateData, goToStep } = useRegisterModal();
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   const handleNext = () => {
     if (data.email) {
       goToStep('options');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && data.email) {
+      handleNext();
     }
   };
 
@@ -37,10 +48,12 @@ function StepPrerequisite() {
             Email address
           </label>
           <input
+            ref={emailRef}
             id="register-email"
             type="email"
             value={data.email}
             onChange={(e) => updateData({ email: e.target.value })}
+            onKeyDown={handleKeyDown}
             placeholder="you@example.com"
             className="mt-2 block w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 transition-colors focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
             autoComplete="email"
@@ -320,6 +333,66 @@ function StepSuccess() {
 
 export default function RegisterModal() {
   const { isOpen, currentStep, onClose } = useRegisterModal();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const previousActiveElement = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      previousActiveElement.current = document.activeElement as HTMLElement;
+      document.body.style.overflow = 'hidden';
+      // Focus the first focusable element in the modal
+      setTimeout(() => {
+        dialogRef.current?.focus();
+      }, 0);
+    } else {
+      document.body.style.overflow = '';
+      previousActiveElement.current?.focus();
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  // Focus trap
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      const focusableElements = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+
+      if (!focusableElements || focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleTab);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('keydown', handleTab);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -346,7 +419,11 @@ export default function RegisterModal() {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="border-none bg-transparent p-0 shadow-none data-[state=open]:fade-in-0">
-        <div className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-6 sm:p-8">
+        <div
+          ref={dialogRef}
+          tabIndex={-1}
+          className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-6 sm:p-8"
+        >
           {currentStep !== 'success' && (
             <div className="mb-6">
               <div className="h-1.5 w-full rounded-full bg-border">
