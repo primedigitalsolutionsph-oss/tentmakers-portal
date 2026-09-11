@@ -15,42 +15,19 @@ function isConfigured(): boolean {
   );
 }
 
-function isMysqlAuthConfigured(): boolean {
-  return Boolean(process.env.DATABASE_URL && process.env.AUTH_SECRET);
-}
-
-async function getMysqlUser(): Promise<{ id: string } | null> {
-  if (!isMysqlAuthConfigured()) return null;
-  try {
-    const { auth } = await import('@/lib/auth');
-    const session = await auth();
-    const id = (session?.user as { id?: string } | undefined)?.id;
-    return id ? { id } : null;
-  } catch {
-    return null;
-  }
-}
-
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const isDashboard = pathname.startsWith('/dashboard');
   const isAuthPage = pathname === '/login' || pathname === '/register';
 
-  // Demo mode is opt-in and off by default. When neither Supabase nor MySQL
-  // auth is configured and demo mode is disabled, protected routes fail
-  // closed to /login.
+  // Demo mode is opt-in and off by default. When Supabase is unconfigured
+  // and demo mode is disabled, protected routes fail closed to /login.
+  // NOTE: keep this file edge-safe (Supabase SSR only). Do NOT import
+  // Node-only modules (next-auth, mysql2, lib/auth, lib/db) here — Netlify
+  // bundles proxy.ts as an edge function and Node imports break the build.
   const demoAuthAllowed =
     process.env.NEXT_PUBLIC_ALLOW_DEMO_AUTH === 'true';
   if (!isConfigured()) {
-    const mysqlUser = await getMysqlUser();
-    if (mysqlUser) {
-      if (isAuthPage) {
-        const url = request.nextUrl.clone();
-        url.pathname = '/dashboard';
-        return NextResponse.redirect(url);
-      }
-      return NextResponse.next();
-    }
     if (isDashboard && !demoAuthAllowed) {
       const url = request.nextUrl.clone();
       url.pathname = '/login';
