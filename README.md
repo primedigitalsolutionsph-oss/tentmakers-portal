@@ -83,8 +83,10 @@ Without the Google provider enabled, Google sign-in fails with
 - **API routes** (`app/api/*/route.ts`): zod validation → honeypot
   (`company`) → per-IP rate limit → Resend primary → Supabase backup →
   graceful JSON error. New endpoints should follow the same shape.
-- **Auth**: cookie-based Supabase SSR. Route guard lives in `proxy.ts`
-  (Next 16 convention, Node.js runtime) with a client-side counterpart in
+- **Auth**: cookie-based Supabase SSR. Route guard lives in `middleware.ts`
+  (classic edge-middleware convention — `proxy.ts` is avoided because the
+  Netlify Next.js plugin's Node-middleware bundling is broken upstream;
+  revisit once fixed) with a client-side counterpart in
   `app/dashboard/layout.tsx`. Registration is currently closed
   (`/register` redirects home); access requests flow through the register
   modal → `POST /api/contact`.
