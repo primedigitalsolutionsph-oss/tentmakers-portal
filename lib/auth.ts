@@ -30,17 +30,22 @@ export const authOptions: NextAuthOptions = {
       async authorize(raw) {
         const parsed = credentialsSchema.safeParse(raw);
         if (!parsed.success) return null;
-        const pool = getPool();
-        if (!pool) return null;
-        const [rows] = await pool.query(
-          'SELECT id, email, passwordHash, fullName FROM users WHERE email = ? LIMIT 1',
-          [parsed.data.email.toLowerCase().trim()]
-        );
-        const user = (rows as UserRow[])[0];
-        if (!user?.passwordHash) return null;
-        const ok = await compare(parsed.data.password, user.passwordHash);
-        if (!ok) return null;
-        return { id: user.id, email: user.email, name: user.fullName ?? undefined };
+        try {
+          const pool = getPool();
+          if (!pool) return null;
+          const [rows] = await pool.query(
+            'SELECT id, email, passwordHash, fullName FROM users WHERE email = ? LIMIT 1',
+            [parsed.data.email.toLowerCase().trim()]
+          );
+          const user = (rows as UserRow[])[0];
+          if (!user?.passwordHash) return null;
+          const ok = await compare(parsed.data.password, user.passwordHash);
+          if (!ok) return null;
+          return { id: user.id, email: user.email, name: user.fullName ?? undefined };
+        } catch {
+          // DB unreachable etc. — fail closed as "invalid login", never 500.
+          return null;
+        }
       },
     }),
   ],

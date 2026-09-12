@@ -160,3 +160,15 @@ VALUES
     JSON_ARRAY('Tiers are readiness gates; completing all three is a successful outcome.'),
     '300','member target by Q4 2026',
     JSON_ARRAY('Community','Training','Mentorship'));
+
+-- Dummy member login (WIP access while Google OAuth is unconfigured).
+-- Email: primadigitalsolutions.ph@gmail.com / Password: prime_12345
+-- Bcrypt hash of the password; safe to re-run (INSERT IGNORE).
+-- Remove this block before opening public registration.
+INSERT IGNORE INTO users (id, email, fullName, passwordHash)
+VALUES ('54711862-baf3-4228-8452-7ff8261d273b',
+  'primadigitalsolutions.ph@gmail.com', 'Demo Member',
+  '$2a$10$02v3RGh5UQFjGuPqNGAlN.wZfFlwvcb5FeGFG5DsDIfT0.C.ZYedq');
+INSERT IGNORE INTO profiles (id, role, trainingTier, completedActivities)
+VALUES ('54711862-baf3-4228-8452-7ff8261d273b',
+  'member', 'basic', JSON_ARRAY());
