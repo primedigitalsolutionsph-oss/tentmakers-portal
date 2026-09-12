@@ -19,15 +19,7 @@ import {
   TIER_DISPLAY,
   type Tier,
 } from '@/app/dashboard/training/page';
-
-// Score bands from the program design (see app/about/page.tsx). The score
-// itself is a placeholder until GET /api/profile serves it.
-const BANDS = [
-  { name: 'Foundation', min: 0, max: 39 },
-  { name: 'Building', min: 40, max: 69 },
-  { name: 'Established', min: 70, max: 89 },
-  { name: 'Anchor', min: 90, max: 100 },
-];
+import { computeReadiness } from '@/lib/readiness';
 
 const TRACK: { key: Tier | 'anchor'; tier: string; name: string; goal: string }[] = [
   { key: 'basic', tier: 'Tier 1', name: 'Foundation', goal: 'Online presence live, savings habit started.' },
@@ -42,8 +34,6 @@ export default function DashboardPage() {
   const [completed, setCompleted] = useState<string[]>([]);
   const [missionsLoading, setMissionsLoading] = useState(true);
   const [missionsError, setMissionsError] = useState(false);
-
-  const readinessScore = 62;
 
   useEffect(() => {
     if (!user) return;
@@ -86,14 +76,15 @@ export default function DashboardPage() {
   }
 
   const fullName = user.name || 'Member';
-  const bandIndex = BANDS.findIndex((b) => readinessScore >= b.min && readinessScore <= b.max);
-  const band = BANDS[bandIndex] ?? BANDS[0];
-  const nextBand = BANDS[bandIndex + 1] ?? null;
+  const readiness = computeReadiness({
+    completedActivities: completed,
+    totalActivities: trainingActivities.length,
+  });
+  const { band, nextBand } = readiness;
   const bandProgress = Math.min(
     100,
-    Math.max(0, ((readinessScore - band.min) / Math.max(1, band.max - band.min)) * 100)
+    Math.max(0, ((readiness.total - band.min) / Math.max(1, band.max - band.min)) * 100)
   );
-  const pointsToNext = nextBand ? nextBand.min - readinessScore : 0;
 
   const tierIndex = tierOrder.indexOf(tier);
   const upNext = trainingActivities
@@ -117,41 +108,106 @@ export default function DashboardPage() {
 
       {/* Score hero */}
       <div className="relative overflow-hidden rounded-[20px] border border-amber/30 bg-amber/[0.04] p-6 sm:p-8">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-          <ReadinessRing
-            score={readinessScore}
-            band={`${band.name} band · ${nextBand ? `${nextBand.name} at ${nextBand.min}` : 'Top band reached'}`}
-            nextMilestone="Protection Enrollment"
-            nextPoints={Math.max(0, pointsToNext)}
-            size={132}
-          />
-          <div className="flex-1">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber">
-              Readiness Score
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              {nextBand
-                ? `${pointsToNext} points to the ${nextBand.name} band. Protection Enrollment is your highest-leverage mission.`
-                : 'Top band reached — Anchor mentor track is open.'}
-            </p>
-            <div
-              className="mt-4 h-2 w-full overflow-hidden rounded-full bg-border"
-              role="progressbar"
-              aria-valuenow={readinessScore}
-              aria-valuemin={band.min}
-              aria-valuemax={band.max}
-              aria-label={`Progress through the ${band.name} band`}
-            >
-              <div
-                className="h-full rounded-full bg-amber transition-all duration-500"
-                style={{ width: `${bandProgress}%` }}
-              />
-            </div>
-            <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-              <span>{band.name} · {band.min}</span>
-              <span>{nextBand ? `${nextBand.name} · ${nextBand.min}` : `${band.max} · max`}</span>
+        {missionsLoading ? (
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center" aria-label="Loading readiness score">
+            <div className="h-32 w-32 shrink-0 animate-pulse rounded-full bg-border/70" />
+            <div className="flex-1 space-y-3">
+              <div className="h-4 w-40 animate-pulse rounded bg-border/70" />
+              <div className="h-4 w-full animate-pulse rounded bg-border/50" />
+              <div className="h-2 w-full animate-pulse rounded-full bg-border/50" />
             </div>
           </div>
+        ) : (
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+            <ReadinessRing
+              score={readiness.total}
+              band={`${band.name} band · ${nextBand ? `${nextBand.name} at ${nextBand.min}` : 'Top band reached'}`}
+              nextMilestone={upNext[0]?.label ?? nextBand?.name ?? 'Anchor achieved'}
+              nextPoints={readiness.pointsToNextBand}
+              size={132}
+            />
+            <div className="flex-1">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber">
+                Readiness Score · {readiness.trackedCount} of {readiness.components.length} signals connected
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {nextBand
+                  ? `${readiness.pointsToNextBand} points to the ${nextBand.name} band. Only training is measured so far — savings, site, protection, and mentorship connect as you reach their companies.`
+                  : 'Top band reached — Anchor mentor track is open.'}
+              </p>
+              <div
+                className="mt-4 h-2 w-full overflow-hidden rounded-full bg-border"
+                role="progressbar"
+                aria-valuenow={readiness.total}
+                aria-valuemin={band.min}
+                aria-valuemax={band.max}
+                aria-label={`Progress through the ${band.name} band`}
+              >
+                <div
+                  className="h-full rounded-full bg-amber transition-all duration-500"
+                  style={{ width: `${bandProgress}%` }}
+                />
+              </div>
+              <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+                <span>{band.name} · {band.min}</span>
+                <span>{nextBand ? `${nextBand.name} · ${nextBand.min}` : `${band.max} · max`}</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Score breakdown */}
+      <div>
+        <h2 className="text-lg font-bold tracking-tight text-foreground">
+          Score breakdown
+        </h2>
+        <div className="mt-4 space-y-3">
+          {readiness.components.map((component) => (
+            <Link
+              key={component.key}
+              href={component.href}
+              className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-4 transition-all hover:border-amber/30 sm:px-5"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-sm font-bold text-foreground">{component.label}</p>
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                      component.status === 'tracked'
+                        ? 'bg-forest/10 text-forest'
+                        : 'bg-muted text-muted-foreground'
+                    }`}
+                  >
+                    {component.status === 'tracked' ? 'Live' : 'Soon'}
+                  </span>
+                </div>
+                <div
+                  className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-border"
+                  role="progressbar"
+                  aria-valuenow={component.points}
+                  aria-valuemin={0}
+                  aria-valuemax={component.max}
+                  aria-label={`${component.label}: ${component.points} of ${component.max} points`}
+                >
+                  <div
+                    className={`h-full rounded-full transition-all duration-500 ${component.status === 'tracked' ? 'bg-amber' : 'bg-border'}`}
+                    style={{ width: `${(component.points / component.max) * 100}%` }}
+                  />
+                </div>
+                <p className="mt-1.5 text-xs text-muted-foreground">
+                  {component.status === 'tracked'
+                    ? `${component.points} of ${component.max} points from training missions.`
+                    : `Not measured yet — connects via ${component.source}.`}
+                </p>
+              </div>
+              <span className="shrink-0 text-sm font-bold tabular-nums text-foreground">
+                {component.points}
+                <span className="font-medium text-muted-foreground">/{component.max}</span>
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-amber" aria-hidden="true" />
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -164,10 +220,10 @@ export default function DashboardPage() {
           {TRACK.map((node, i) => {
             const isAnchor = node.key === 'anchor';
             const nodeIndex = isAnchor ? tierOrder.length : tierOrder.indexOf(node.key as Tier);
-            const done = isAnchor ? readinessScore >= 90 : nodeIndex < tierIndex;
+            const done = isAnchor ? readiness.total >= 90 : nodeIndex < tierIndex;
             const current =
               (!isAnchor && nodeIndex === tierIndex) ||
-              (isAnchor && tierIndex === tierOrder.length - 1 && readinessScore < 90);
+              (isAnchor && tierIndex === tierOrder.length - 1 && readiness.total < 90);
             return (
               <li
                 key={node.key}
