@@ -16,7 +16,7 @@ export default function NotFound() {
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-white/60">
           This page doesn&apos;t exist in the Tentmakers ecosystem. The five
-          ventures, training hub, and community are one click away.
+          portfolio companies, training hub, and community are one click away.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
@@ -31,7 +31,7 @@ export default function NotFound() {
             className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3 text-sm font-semibold text-white/80 transition-colors hover:border-amber/40 hover:text-white"
           >
             <Network className="h-4 w-4" aria-hidden="true" />
-            Explore ventures
+            Explore portfolio
           </Link>
         </div>
       </div>

@@ -18,7 +18,7 @@ const navLinks = [
 ];
 
 const ventureLinks = [
-  { label: 'All Ventures', href: '/ventures' },
+  { label: 'All Companies', href: '/ventures' },
   { label: 'Prime Digital Solutions', href: '/ventures/prime-digital-solutions' },
   { label: 'Thrifty Tribe', href: '/ventures/thrifty-tribe' },
   { label: 'ICKY', href: '/ventures/icky' },
@@ -40,6 +40,15 @@ export default function Navbar() {
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY > 40);
   }, []);
+
+  // The header is transparent until scrolled, but every page opens with a
+  // navy hero (pt-32), so unscrolled links must be light in both themes.
+  // Once scrolled the navy/95 backdrop appears — also light.
+  const linkTone = (active: boolean) =>
+    cn(
+      'rounded-lg px-3.5 py-2 text-sm font-medium transition-colors',
+      active ? 'text-white' : 'text-white/60 hover:text-white'
+    );
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -114,15 +123,12 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 aria-current={pathname === link.href ? 'page' : undefined}
-                className={cn(
-                  "rounded-lg px-3.5 py-2 text-sm font-medium transition-colors",
-                  pathname === link.href ? "text-white" : "text-white/60 hover:text-white"
-                )}
+                className={linkTone(pathname === link.href)}
               >
                 {link.label}
               </Link>
             ))}
-            {/* Ventures dropdown */}
+            {/* Portfolio dropdown */}
             <div
               className="relative"
               onMouseEnter={() => setVenturesOpen(true)}
@@ -152,11 +158,13 @@ export default function Navbar() {
                 aria-expanded={venturesOpen}
                 aria-haspopup="menu"
                 className={cn(
-                  "flex items-center gap-1 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors",
-                  pathname?.startsWith('/ventures') ? "text-white" : "text-white/60 hover:text-white"
+                  'flex items-center gap-1 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors',
+                  pathname?.startsWith('/ventures')
+                    ? 'text-white'
+                    : 'text-white/60 hover:text-white'
                 )}
               >
-                Ventures
+                Portfolio
                 <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", venturesOpen && "rotate-180")} />
               </Link>
               <AnimatePresence>
@@ -168,7 +176,7 @@ export default function Navbar() {
                     transition={{ duration: 0.18 }}
                     className="absolute left-0 top-full w-64 pt-2"
                   >
-                    <div role="menu" aria-label="Ventures" className="overflow-hidden rounded-xl border border-white/10 bg-navy-light shadow-xl shadow-black/30">
+                    <div role="menu" aria-label="Portfolio companies" className="overflow-hidden rounded-xl border border-white/10 bg-navy-light shadow-xl shadow-black/30">
                       {ventureLinks.map((v) => (
                         <Link
                           key={v.href}
@@ -189,10 +197,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 aria-current={pathname === link.href ? 'page' : undefined}
-                className={cn(
-                  "rounded-lg px-3.5 py-2 text-sm font-medium transition-colors",
-                  pathname === link.href ? "text-white" : "text-white/60 hover:text-white"
-                )}
+                className={linkTone(pathname === link.href)}
               >
                 {link.label}
               </Link>
@@ -201,7 +206,7 @@ export default function Navbar() {
             {user ? (
               <Link
                 href="/dashboard"
-                className="ml-2 flex items-center gap-2 rounded-lg bg-amber px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-amber-soft"
+                className="btn-primary-sm ml-2"
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
@@ -216,7 +221,7 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={openRegisterModal}
-                  className="rounded-lg bg-amber px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-amber-soft"
+                  className="btn-primary-sm"
                 >
                   Join Now
                 </button>
@@ -263,7 +268,7 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="block w-full rounded-xl py-4 text-center text-lg font-medium text-white/70 transition-colors hover:bg-white/[0.05] hover:text-white"
                 >
-                  Ventures
+                  Portfolio
                 </Link>
               </motion.div>
               {navLinks.map((link, i) => (

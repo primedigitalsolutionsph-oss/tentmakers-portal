@@ -14,7 +14,7 @@ const ventureLinks = ventures.map((v) => ({
 
 const sections = [
   { name: 'The Model', href: '/#the-model' },
-  { name: 'Ventures', href: '/ventures' },
+  { name: 'Portfolio', href: '/ventures' },
   { name: 'Training Hub', href: '/#training-hub' },
   { name: 'Stories', href: '/#stories' },
   { name: 'About', href: '/about' },
@@ -53,7 +53,7 @@ export default function Footer() {
           <div>
             <p className="font-display text-xl font-bold text-white">Get ecosystem updates</p>
             <p className="mt-1 text-sm text-white/60">
-              Training cohorts, venture launches, and operator stories. Monthly, no spam.
+              Training cohorts, company launches, and operator stories. Monthly, no spam.
             </p>
           </div>
           {subscribed ? (
@@ -61,7 +61,7 @@ export default function Footer() {
               <CheckCircle2 className="h-4 w-4" /> You&apos;re on the list — see you soon.
             </p>
           ) : (
-            <form onSubmit={subscribe} className="flex w-full max-w-md gap-2">
+            <form onSubmit={subscribe} className="flex w-full max-w-md flex-col gap-2 sm:flex-row">
               <label htmlFor="newsletter-email" className="sr-only">
                 Email address
               </label>
@@ -111,16 +111,16 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-              A network that turns members into operators and ventures into a
-              regional ecosystem. Five ventures. One training hub. 4.67 million
-              people on Panay Island.
+              A network that turns members into operators and companies into a
+              regional ecosystem. Five portfolio companies. One training hub.
+              4.67 million people on Panay Island.
             </p>
           </div>
 
-          {/* Ventures column */}
-          <nav aria-label="Ventures">
+          {/* Portfolio column */}
+          <nav aria-label="Portfolio companies">
             <h4 className="text-xs font-bold uppercase tracking-[0.16em] text-white/40">
-              Ventures
+              Portfolio
             </h4>
             <ul className="mt-4 space-y-2.5">
               {ventureLinks.map((v) => (

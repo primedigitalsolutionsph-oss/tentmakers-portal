@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     template: '%s | Tentmakers Network',
   },
   description:
-    'Join the Tentmakers Network. Five ventures, one training hub, a 4.67-million-person market on Panay Island. Register to become a member and start your operator journey.',
+    'Join the Tentmakers Network. Five portfolio companies, one training hub, a 4.67-million-person market on Panay Island. Register to become a member and start your operator journey.',
   openGraph: {
     title: 'Tentmakers Network — Member Portal',
     description:
-      'Join the Tentmakers Network. Five ventures. One training hub. A 4.67-million-person market on Panay Island where your journey as an operator begins.',
+      'Join the Tentmakers Network. Five portfolio companies. One training hub. A 4.67-million-person market on Panay Island where your journey as an operator begins.',
     type: 'website',
     locale: 'en_US',
   },
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Tentmakers Network — Member Portal',
     description:
-      'Five ventures. One training hub. A 4.67-million-person market on Panay Island.',
+      'Five portfolio companies. One training hub. A 4.67-million-person market on Panay Island.',
   },
   icons: {
     icon: '/favicon.png',
@@ -60,7 +60,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider>
           <AuthProvider>
             <AppShell>{children}</AppShell>
           </AuthProvider>

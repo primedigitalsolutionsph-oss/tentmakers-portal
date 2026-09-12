@@ -32,13 +32,16 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  // Local mirror of the Select value. `watch()` from react-hook-form is
+  // intentionally avoided here: the React Compiler cannot memoize it
+  // (react-hooks/incompatible-library) and would skip this component.
+  const [inquiryType, setInquiryType] = useState('');
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
-    watch,
     reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -51,7 +54,10 @@ export default function ContactForm() {
     },
   });
 
-  const inquiryType = watch('inquiryType');
+  const handleInquiryTypeChange = (value: string) => {
+    setInquiryType(value);
+    setValue('inquiryType', value, { shouldValidate: true });
+  };
 
   const onSubmit = async (data: ContactFormData) => {
     setApiError(null);
@@ -86,6 +92,7 @@ export default function ContactForm() {
     toast.success('Message sent. We will get back to you within 24 hours.');
     setSubmitted(true);
     reset();
+    setInquiryType('');
   };
 
   if (submitted) {
@@ -158,7 +165,7 @@ export default function ContactForm() {
         <Label htmlFor="inquiryType" className="text-sm font-medium">Inquiry Type</Label>
         <Select
           value={inquiryType}
-          onValueChange={(value) => setValue('inquiryType', value, { shouldValidate: true })}
+          onValueChange={handleInquiryTypeChange}
         >
           <SelectTrigger
             id="inquiryType"
@@ -214,14 +221,14 @@ export default function ContactForm() {
         </p>
       ) : null}
 
-      <Button
+      <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-amber text-navy hover:bg-amber-soft sm:w-auto"
+        className="btn-primary w-full sm:w-auto"
       >
         <Send className="mr-2 h-4 w-4" />
         Send Message
-      </Button>
+      </button>
     </form>
   );
 }

@@ -3,306 +3,295 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
+  ArrowRight,
+  CheckCircle2,
+  Lock,
   GraduationCap,
   Briefcase,
   User,
-  ArrowRight,
-  Network,
-  Gauge,
-  BookOpen,
-  Calendar,
-  MessageSquare,
-  Globe,
 } from 'lucide-react';
-import { useAuth, getUserMetadata } from '@/components/AuthProvider';
+import { useAuth } from '@/components/AuthProvider';
 import OnboardingChecklist from '@/components/OnboardingChecklist';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import ReadinessRing from '@/components/ReadinessRing';
+import {
+  trainingActivities,
+  tierOrder,
+  TIER_DISPLAY,
+  type Tier,
+} from '@/app/dashboard/training/page';
 
-type Band = 'Foundation' | 'Building' | 'Established' | 'Anchor' | null;
+// Score bands from the program design (see app/about/page.tsx). The score
+// itself is a placeholder until GET /api/profile serves it.
+const BANDS = [
+  { name: 'Foundation', min: 0, max: 39 },
+  { name: 'Building', min: 40, max: 69 },
+  { name: 'Established', min: 70, max: 89 },
+  { name: 'Anchor', min: 90, max: 100 },
+];
+
+const TRACK: { key: Tier | 'anchor'; tier: string; name: string; goal: string }[] = [
+  { key: 'basic', tier: 'Tier 1', name: 'Foundation', goal: 'Online presence live, savings habit started.' },
+  { key: 'intermediate', tier: 'Tier 2', name: 'Building', goal: 'Protection enrolled, consistency proven.' },
+  { key: 'advanced', tier: 'Tier 3', name: 'Established', goal: 'Ready to hire and operate with less hand-holding.' },
+  { key: 'anchor', tier: 'Anchor', name: 'Mentor track', goal: 'Sustained excellence — eligible to mentor others.' },
+];
 
 export default function DashboardPage() {
-  const { user } = useAuth();
-  const [profile, setProfile] = useState<{
-    full_name?: string;
-    training_tier?: string;
-  } | null>(null);
-  const [profileError, setProfileError] = useState(false);
-
-  useEffect(() => {
-    if (!user || !isSupabaseConfigured) return;
-
-    const fetchProfile = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single();
-        if (error) {
-          setProfileError(true);
-          return;
-        }
-        setProfileError(false);
-        if (data) setProfile(data);
-      } catch {
-        setProfileError(true);
-      }
-    };
-
-    fetchProfile();
-  }, [user]);
-
-  const fullName =
-    profile?.full_name || getUserMetadata(user)?.full_name || 'Member';
-  const tier =
-    profile?.training_tier === 'intermediate' ||
-    profile?.training_tier === 'advanced'
-      ? profile.training_tier
-      : 'basic';
+  const { user, loading } = useAuth();
+  const [tier, setTier] = useState<Tier>('basic');
+  const [completed, setCompleted] = useState<string[]>([]);
+  const [missionsLoading, setMissionsLoading] = useState(true);
+  const [missionsError, setMissionsError] = useState(false);
 
   const readinessScore = 62;
-  const band: Band = readinessScore >= 90 ? 'Anchor' : readinessScore >= 70 ? 'Established' : readinessScore >= 40 ? 'Building' : 'Foundation';
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchProgress = async () => {
+      try {
+        const res = await fetch('/api/profile');
+        if (!res.ok) throw new Error('Failed to fetch progress');
+        const data = await res.json();
+        if (data?.training_tier === 'intermediate' || data?.training_tier === 'advanced') {
+          setTier(data.training_tier);
+        } else {
+          setTier('basic');
+        }
+        if (Array.isArray(data?.completed_activities)) {
+          setCompleted(data.completed_activities.filter((v: unknown): v is string => typeof v === 'string'));
+        }
+      } catch {
+        setMissionsError(true);
+      } finally {
+        setMissionsLoading(false);
+      }
+    };
+    fetchProgress();
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <p className="text-muted-foreground">Loading…</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <p className="text-muted-foreground">Please log in to view your dashboard.</p>
+      </div>
+    );
+  }
+
+  const fullName = user.name || 'Member';
+  const bandIndex = BANDS.findIndex((b) => readinessScore >= b.min && readinessScore <= b.max);
+  const band = BANDS[bandIndex] ?? BANDS[0];
+  const nextBand = BANDS[bandIndex + 1] ?? null;
+  const bandProgress = Math.min(
+    100,
+    Math.max(0, ((readinessScore - band.min) / Math.max(1, band.max - band.min)) * 100)
+  );
+  const pointsToNext = nextBand ? nextBand.min - readinessScore : 0;
+
+  const tierIndex = tierOrder.indexOf(tier);
+  const upNext = trainingActivities
+    .filter((a) => tierOrder.indexOf(a.tier) <= tierIndex && !completed.includes(a.id))
+    .slice(0, 3);
+  const doneCount = trainingActivities.filter((a) => completed.includes(a.id)).length;
 
   return (
     <div className="space-y-8">
-      <OnboardingChecklist profileComplete={Boolean(profile?.full_name || getUserMetadata(user)?.full_name)} />
+      <OnboardingChecklist profileComplete={Boolean(user.name)} />
+
       {/* Welcome */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Welcome back, {fullName.split(' ')[0]}
+          Your operator journey, {fullName.split(' ')[0]}
         </h1>
         <p className="mt-1 text-muted-foreground">
-          {band ? `You&apos;re in the ${band} band — here&apos;s what&apos;s next.` : "Here's your overview of the Tentmakers Network."}
+          {TIER_DISPLAY[tier]} · {band.name} band — here&apos;s what&apos;s next.
         </p>
-        {profileError ? (
-          <p role="alert" className="mt-3 rounded-xl border border-amber/30 bg-amber/10 p-3 text-sm text-foreground">
-            Profile data is unavailable, so this overview is using your sign-in record.
-          </p>
-        ) : null}
       </div>
 
-      {/* Readiness Score + Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-amber/30 bg-amber/[0.04] p-6 sm:col-span-1">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber/15 text-amber">
-              <Gauge className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Readiness Score
-              </p>
-              <p className="text-sm font-bold text-foreground">
-                {readinessScore} / 100
-              </p>
+      {/* Score hero */}
+      <div className="relative overflow-hidden rounded-[20px] border border-amber/30 bg-amber/[0.04] p-6 sm:p-8">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+          <ReadinessRing
+            score={readinessScore}
+            band={`${band.name} band · ${nextBand ? `${nextBand.name} at ${nextBand.min}` : 'Top band reached'}`}
+            nextMilestone="Protection Enrollment"
+            nextPoints={Math.max(0, pointsToNext)}
+            size={132}
+          />
+          <div className="flex-1">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber">
+              Readiness Score
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {nextBand
+                ? `${pointsToNext} points to the ${nextBand.name} band. Protection Enrollment is your highest-leverage mission.`
+                : 'Top band reached — Anchor mentor track is open.'}
+            </p>
+            <div
+              className="mt-4 h-2 w-full overflow-hidden rounded-full bg-border"
+              role="progressbar"
+              aria-valuenow={readinessScore}
+              aria-valuemin={band.min}
+              aria-valuemax={band.max}
+              aria-label={`Progress through the ${band.name} band`}
+            >
+              <div
+                className="h-full rounded-full bg-amber transition-all duration-500"
+                style={{ width: `${bandProgress}%` }}
+              />
             </div>
-          </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            <span className="font-semibold text-foreground">{band} band</span> · Tier 2 eligible
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Next milestone: Complete Protection Enrollment (+8 pts)
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber/10 text-amber">
-              <BookOpen className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Training
-              </p>
-              <p className="text-sm font-bold capitalize text-foreground">
-                {tier}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-forest/10 text-forest">
-              <Briefcase className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Ventures
-              </p>
-              <p className="text-sm font-bold text-foreground">5 Available</p>
+            <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+              <span>{band.name} · {band.min}</span>
+              <span>{nextBand ? `${nextBand.name} · ${nextBand.min}` : `${band.max} · max`}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Quick actions */}
+      {/* Tier track */}
       <div>
         <h2 className="text-lg font-bold tracking-tight text-foreground">
-          Quick Actions
+          Your path
         </h2>
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Link
-            href="/dashboard/training"
-            className="group flex items-center justify-between rounded-2xl border border-border bg-card p-6 transition-all hover:border-amber/30 hover:shadow-lg"
-          >
-            <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber/10 text-amber">
-                <GraduationCap className="h-6 w-6" />
-              </span>
-              <div>
-                <p className="font-bold text-foreground">
-                  Training
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Tier modules and assessments
-                </p>
-              </div>
-            </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
-          </Link>
+        <ol className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-4">
+          {TRACK.map((node, i) => {
+            const isAnchor = node.key === 'anchor';
+            const nodeIndex = isAnchor ? tierOrder.length : tierOrder.indexOf(node.key as Tier);
+            const done = isAnchor ? readinessScore >= 90 : nodeIndex < tierIndex;
+            const current =
+              (!isAnchor && nodeIndex === tierIndex) ||
+              (isAnchor && tierIndex === tierOrder.length - 1 && readinessScore < 90);
+            return (
+              <li
+                key={node.key}
+                aria-current={current ? 'step' : undefined}
+                className={`rounded-2xl border p-4 transition-colors ${
+                  current
+                    ? 'border-amber/50 bg-amber/[0.06]'
+                    : done
+                      ? 'border-forest/25 bg-forest/[0.04]'
+                      : 'border-border bg-card'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
+                      done
+                        ? 'bg-forest text-white'
+                        : current
+                          ? 'bg-amber text-navy'
+                          : 'bg-muted text-muted-foreground'
+                    }`}
+                    aria-hidden="true"
+                  >
+                    {done ? <CheckCircle2 className="h-4 w-4" /> : !current && !done ? <Lock className="h-3.5 w-3.5" /> : i + 1}
+                  </span>
+                  <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                    {node.tier}
+                  </p>
+                </div>
+                <p className="mt-3 text-sm font-bold text-foreground">{node.name}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{node.goal}</p>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
 
-          <Link
-            href="/dashboard/ventures"
-            className="group flex items-center justify-between rounded-2xl border border-border bg-card p-6 transition-all hover:border-amber/30 hover:shadow-lg"
-          >
-            <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-forest/10 text-forest">
-                <Network className="h-6 w-6" />
-              </span>
-              <div>
-                <p className="font-bold text-foreground">
-                  Ventures
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Explore the five ventures
-                </p>
-              </div>
+      {/* Up next missions */}
+      <div>
+        <div className="flex items-baseline justify-between gap-4">
+          <h2 className="text-lg font-bold tracking-tight text-foreground">
+            Up next
+          </h2>
+          <p className="text-xs font-medium tabular-nums text-muted-foreground">
+            {doneCount} of {trainingActivities.length} missions complete
+          </p>
+        </div>
+        <div className="mt-4 space-y-3">
+          {missionsLoading ? (
+            [0, 1, 2].map((i) => (
+              <div key={i} className="h-20 animate-pulse rounded-2xl border border-border bg-card" />
+            ))
+          ) : missionsError ? (
+            <div className="rounded-2xl border border-border bg-card p-6">
+              <p className="text-sm text-muted-foreground">
+                Couldn&apos;t load your missions. Continue on the training page instead.
+              </p>
+              <Link
+                href="/dashboard/training"
+                className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-amber hover:text-foreground"
+              >
+                Open training <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
-          </Link>
-
-          <Link
-            href="/dashboard/mentorship"
-            className="group flex items-center justify-between rounded-2xl border border-border bg-card p-6 transition-all hover:border-amber/30 hover:shadow-lg"
-          >
-            <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber/10 text-amber">
-                <MessageSquare className="h-6 w-6" />
-              </span>
-              <div>
-                <p className="font-bold text-foreground">
-                  Mentorship
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Your mentor and sessions
-                </p>
-              </div>
+          ) : upNext.length === 0 ? (
+            <div className="rounded-2xl border border-forest/25 bg-forest/[0.04] p-6">
+              <p className="flex items-center gap-2 text-sm font-bold text-foreground">
+                <CheckCircle2 className="h-4 w-4 text-forest" aria-hidden="true" />
+                All missions complete
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Hold your score above 90 to enter the Anchor mentor track — or explore the portfolio.
+              </p>
             </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
-          </Link>
-
-          <Link
-            href="/dashboard/events"
-            className="group flex items-center justify-between rounded-2xl border border-border bg-card p-6 transition-all hover:border-amber/30 hover:shadow-lg"
-          >
-            <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-forest/10 text-forest">
-                <Calendar className="h-6 w-6" />
-              </span>
-              <div>
-                <p className="font-bold text-foreground">
-                  Events
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Upcoming and past events
-                </p>
-              </div>
-            </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
-          </Link>
+          ) : (
+            upNext.map((mission) => {
+              const Icon = mission.icon;
+              return (
+                <Link
+                  key={mission.id}
+                  href="/dashboard/training"
+                  className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:border-amber/30 hover:shadow-lg"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber/10 text-amber">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-bold text-foreground">
+                      {mission.label}
+                    </span>
+                    <span className="mt-0.5 block truncate text-xs text-muted-foreground">
+                      {mission.description}
+                    </span>
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-amber" aria-hidden="true" />
+                </Link>
+              );
+            })
+          )}
         </div>
       </div>
 
-      {/* Site + Mentorship + Events panels */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-3">
+      {/* Quick links */}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {[
+          { href: '/dashboard/training', icon: GraduationCap, label: 'Training', hint: 'Tiers & missions' },
+          { href: '/dashboard/ventures', icon: Briefcase, label: 'Portfolio', hint: 'The 5 companies' },
+          { href: '/dashboard/profile', icon: User, label: 'Profile', hint: 'Details & mentor' },
+        ].map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="group flex items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 transition-all hover:border-amber/30 hover:shadow-lg"
+          >
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber/10 text-amber">
-              <Globe className="h-5 w-5" />
+              <link.icon className="h-5 w-5" aria-hidden="true" />
             </span>
-            <div>
-              <p className="text-sm font-bold text-foreground">Business Foundation Site</p>
-              <p className="text-xs text-muted-foreground">Last updated 14 days ago — sites updated monthly earn Site Engagement points.</p>
-            </div>
-          </div>
-          <div className="mt-4 flex gap-3">
-            <Link href="/dashboard/site" className="rounded-lg bg-amber px-3 py-1.5 text-xs font-bold text-navy">Edit My Site</Link>
-            <Link href="/dashboard/site" className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground">View Live Site</Link>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber/10 text-amber">
-              <User className="h-5 w-5" />
+            <span>
+              <span className="block text-sm font-bold text-foreground">{link.label}</span>
+              <span className="block text-xs text-muted-foreground">{link.hint}</span>
             </span>
-            <div>
-              <p className="text-sm font-bold text-foreground">Your mentor</p>
-              <p className="text-xs text-muted-foreground">Next session: [Date]</p>
-            </div>
-          </div>
-          <div className="mt-4 flex gap-3">
-            <Link href="/dashboard/mentorship" className="rounded-lg bg-amber px-3 py-1.5 text-xs font-bold text-navy">Book a Session</Link>
-            <Link href="/dashboard/mentorship" className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground">Message Mentor</Link>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber/10 text-amber">
-              <Calendar className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-sm font-bold text-foreground">Upcoming</p>
-              <p className="text-xs text-muted-foreground">Tier 2 Completion Workshop — Roxas City</p>
-            </div>
-          </div>
-          <div className="mt-4">
-            <Link href="/dashboard/events" className="rounded-lg bg-amber px-3 py-1.5 text-xs font-bold text-navy">RSVP</Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Ecosystem overview */}
-      <div className="rounded-2xl border border-navy/10 bg-navy p-6 text-white sm:p-8">
-        <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber/15 text-amber">
-            <Network className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="text-sm font-bold text-white">Your Ecosystem</p>
-            <p className="text-xs text-white/50">
-              5 ventures, 1 training hub, 4.67M people on Panay Island
-            </p>
-          </div>
-        </div>
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
-          {[
-            'Prime Digital Solutions',
-            'Thrifty Tribe',
-            'ICKY',
-            'Prime Axis',
-            'Tentmakers Network',
-          ].map((v) => (
-            <div
-              key={v}
-              className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-center text-xs font-medium text-white/70"
-            >
-              {v}
-            </div>
-          ))}
-        </div>
+            <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          </Link>
+        ))}
       </div>
     </div>
   );

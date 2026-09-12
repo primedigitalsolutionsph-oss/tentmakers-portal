@@ -26,7 +26,7 @@ const activities: Activity[] = [
   {
     icon: BookOpen,
     label: 'Orientation & Network Overview',
-    description: 'Live/recorded session — understand the network, ventures, and readiness.',
+    description: 'Live/recorded session — understand the network, portfolio companies, and readiness.',
     level: 'Foundation',
   },
   {
@@ -44,7 +44,7 @@ const activities: Activity[] = [
   {
     icon: ShieldCheck,
     label: 'Protection Enrollment',
-    description: 'Guided with Prime Axis advisor — active enrollment in protection.',
+    description: 'Guided with ICKY advisor — active enrollment in protection.',
     level: 'Building',
   },
   {
@@ -114,7 +114,7 @@ export default function TrainingHub() {
         >
           <div className="flex items-center gap-2.5">
             <span className="h-px w-8 bg-amber" aria-hidden="true" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
+            <span className="section-eyebrow">
               The Training Hub
             </span>
           </div>

@@ -26,7 +26,7 @@ export default function OgImage() {
           Members into operators.
         </div>
         <div style={{ fontSize: 28, opacity: 0.7, marginTop: 20 }}>
-          Five ventures · One training hub · 4.67M market on Panay Island
+          Five portfolio companies · One training hub · 4.67M market on Panay Island
         </div>
       </div>
     ),

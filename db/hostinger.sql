@@ -1,11 +1,9 @@
--- Tentmakers Network: Hostinger MySQL schema.
+-- Tentmakers Network: Hostinger MySQL schema (single database — no Supabase).
 -- Import via Hostinger hPanel -> Databases -> phpMyAdmin -> Import.
--- Mirrors Supabase: 20260910000000_tentmakers_core.sql,
--- 20260911000001_ventures_content.sql, 20260911000002_training_progress.sql,
--- 20260911000003_venture_industries.sql, 0002_newsletter.sql.
+-- Seed content is canonical in lib/ventures-data.ts; this file mirrors it.
 -- Auth tables (users/accounts/sessions/verification_tokens) follow the
--- Auth.js Prisma schema; RLS + handle_new_user() trigger logic lives in
--- the Next.js API routes instead (MySQL has no RLS).
+-- Auth.js Prisma schema; row ownership is enforced in the Next.js API
+-- routes instead (MySQL has no RLS).
 
 -- IMPORTANT: in phpMyAdmin, click your database name
 -- (e.g. u123456789_tentmakers) in the left sidebar FIRST, then use Import.
@@ -141,24 +139,24 @@ VALUES
     JSON_ARRAY('Thrifty Tribe rides the QR-payments wave.'),
     'Members-only','QR deals & cashback at partner merchants',
     JSON_ARRAY('Payments','Savings','Cashback')),
-   ('icky','ICKY','Early','The Staffing Gap',
-    'General and specialized labor marketplace.',
-    'Staffing for events today; hiring resource tomorrow.',
-    JSON_ARRAY('41% of SMEs increased headcount in 2024','MSMEs generate ~63% of employment'),
-    JSON_ARRAY('ICKY supplies flexible labor against SME hiring demand.'),
-    '41%','of SMEs increased headcount in 2024',
-    JSON_ARRAY('Staffing','Labor')),
-   ('prime-axis','Prime Axis','Early','The Protection Gap',
+   ('icky','ICKY','Early','The Protection Gap',
     'Driver protection and road-safety education.',
     'Insurance literacy, 3D simulation, 24/7 SOS.',
     JSON_ARRAY('Insurance penetration ~1.79% in 2025','31,000+ road accidents in 2024'),
-    JSON_ARRAY('Prime Axis targets the risk behind 31,000+ annual accidents.'),
+    JSON_ARRAY('ICKY targets the risk behind 31,000+ annual accidents.'),
     '~1.79%','insurance penetration (2025)',
     JSON_ARRAY('Insurance','Road Safety','Education','24/7 SOS')),
+   ('prime-axis','Prime Axis','Early','The Staffing Gap',
+    'General and specialized labor marketplace.',
+    'Staffing for events today; hiring resource tomorrow.',
+    JSON_ARRAY('41% of SMEs increased headcount in 2024','MSMEs generate ~63% of employment'),
+    JSON_ARRAY('Prime Axis supplies flexible labor against SME hiring demand.'),
+    '41%','of SMEs increased headcount in 2024',
+    JSON_ARRAY('Staffing','Labor')),
    ('tentmakers-network','Tentmakers Network','Early','The Trust Gap',
-    'Readiness Score, three tiers, real venture access.',
+    'Readiness Score, three tiers, real company access.',
     'Member network with readiness gates, not a franchise offer.',
-    JSON_ARRAY('300-member target: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40','Three readiness tiers: Foundation, Building, Established'),
+    JSON_ARRAY('300-member target: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40','Three training tiers: Tier 1 Foundation, Tier 2 Building, Tier 3 Established'),
     JSON_ARRAY('Tiers are readiness gates; completing all three is a successful outcome.'),
     '300','member target by Q4 2026',
     JSON_ARRAY('Community','Training','Mentorship'));

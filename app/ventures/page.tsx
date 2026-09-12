@@ -4,15 +4,15 @@ import type { Metadata } from 'next';
 import { ventures } from '@/lib/ventures-data';
 
 export const metadata: Metadata = {
-  title: 'Ventures — Tentmakers Network',
+  title: 'Portfolio — Tentmakers Network',
   description:
-    'Five ventures built to close specific market gaps on Panay Island. As a member, you gain access to these ventures and the skills to operate within them.',
+    'Five portfolio companies built to close specific market gaps on Panay Island. As a member, you gain access to these companies and the skills to operate within them.',
 };
 
 const stageColors: Record<string, string> = {
   Active: 'bg-forest/15 text-forest',
   Scaling: 'bg-amber/15 text-amber',
-  Early: 'bg-white/10 text-white/60',
+  Early: 'bg-muted text-muted-foreground',
 };
 
 export default function VenturesPage() {
@@ -37,21 +37,21 @@ export default function VenturesPage() {
           <div className="flex items-center gap-2.5">
             <span className="h-px w-8 bg-amber" aria-hidden="true" />
             <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
-              Our Ventures
+              Our Portfolio
             </span>
           </div>
           <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-            Five ventures.{' '}
+            Five portfolio companies.{' '}
             <span className="text-amber">Your impact starts here.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/55">
-            Each venture exists to close a specific, measurable market gap on
+            Each company exists to close a specific, measurable market gap on
             Panay Island. As a member, you&apos;ll gain access to operate within them.
           </p>
         </div>
       </section>
 
-      {/* Ventures Grid */}
+      {/* Portfolio Grid */}
       <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

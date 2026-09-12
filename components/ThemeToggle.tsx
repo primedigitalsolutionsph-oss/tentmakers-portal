@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/components/ThemeProvider';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -9,7 +9,7 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Hydration guard: next-themes only resolves `theme` on the client.
+  // Hydration guard: the theme only resolves on the client.
   // The synchronous setState here is intentional and runs once on mount.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

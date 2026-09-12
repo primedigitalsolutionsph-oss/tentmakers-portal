@@ -15,7 +15,7 @@ interface Step {
 const STEPS: Step[] = [
   { id: 'profile', label: 'Complete your profile', hint: 'Add your name and contact details', href: '/dashboard/profile' },
   { id: 'training', label: 'Start Tier 1 training', hint: 'Foundations + community access', href: '/dashboard/training' },
-  { id: 'venture', label: 'Explore one venture', hint: 'Pick where you want to operate', href: '/dashboard/ventures' },
+  { id: 'company', label: 'Explore one company', hint: 'Pick where you want to operate', href: '/dashboard/ventures' },
 ];
 
 const KEY = 'tm-onboarding';
@@ -50,7 +50,7 @@ export default function OnboardingChecklist({ profileComplete }: { profileComple
     setDone((prev) => (prev.includes(id) ? prev.filter((d) => d !== id) : [...prev, id]));
 
   return (
-    <div className="relative overflow-hidden rounded-[28px] border border-amber/25 bg-gradient-to-br from-amber/[0.08] to-transparent p-6 sm:p-7">
+    <div className="relative overflow-hidden rounded-[20px] border border-amber/25 bg-gradient-to-br from-amber/[0.08] to-transparent p-6 sm:p-7">
       <button
         onClick={() => setDismissed(true)}
         aria-label="Dismiss onboarding checklist"

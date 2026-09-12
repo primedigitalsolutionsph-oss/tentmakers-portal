@@ -33,7 +33,7 @@ const heroStat: StatItem = {
   suffix: 'M',
   label: 'Panay Island population',
   caption:
-    'A captive regional market larger than many national capitals — the foundation beneath every Tentmakers venture.',
+    'A captive regional market larger than many national capitals — the foundation beneath every Tentmakers company.',
   venture: 'Tentmakers Network',
   icon: Users,
   span: 'lg',
@@ -83,12 +83,13 @@ const secondaryStats: StatItem[] = [
   },
   {
     id: 'insurance-gap',
-    value: 2,
+    value: 1.79,
+    decimals: 2,
     suffix: '%',
-    label: 'insurance penetration nationally — under this threshold',
+    label: 'insurance penetration in 2025 — below the 2% national target',
     caption:
       'A protection gap that leaves families one emergency away from financial collapse.',
-    venture: 'Prime Axis',
+    venture: 'ICKY',
     icon: Shield,
     span: 'md',
     highlight: true,
@@ -99,7 +100,7 @@ const secondaryStats: StatItem[] = [
     suffix: '+',
     label: 'road accidents recorded in 2024',
     caption: 'Every figure is a claim, a family, an uncovered loss.',
-    venture: 'Prime Axis',
+    venture: 'ICKY',
     icon: Car,
     span: 'sm',
   },
@@ -109,7 +110,7 @@ const secondaryStats: StatItem[] = [
     suffix: '%',
     label: 'of Philippine SMEs increased headcount in 2024',
     caption: 'More are planning to hire in 2025. Staffing is the bottleneck.',
-    venture: 'ICKY',
+    venture: 'Prime Axis',
     icon: UserPlus,
     span: 'sm',
   },
@@ -275,7 +276,7 @@ function HeroStatBlock() {
       <div className="relative z-10 mt-8 flex items-center gap-2 border-t border-white/10 pt-5">
         <TrendingUp className="h-4 w-4 text-amber" aria-hidden="true" />
         <span className="text-xs font-medium text-white/50">
-          The demand side of the equation — every venture scales into this base.
+          The demand side of the equation — every company scales into this base.
         </span>
       </div>
     </motion.div>
@@ -307,7 +308,7 @@ export default function MarketOpportunity() {
         >
           <div className="flex items-center gap-2.5">
             <span className="h-px w-8 bg-amber" aria-hidden="true" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
+            <span className="section-eyebrow">
               Your Market
             </span>
           </div>
@@ -325,9 +326,9 @@ export default function MarketOpportunity() {
             generate roughly 63% of employment, yet the gap between basic
             connectivity and real digital presence, savings tools, insurance
             coverage, and reliable staffing remains wide. Each figure maps
-            directly onto the gap one of the five Tentmakers ventures is built
+            directly onto the gap one of the five Tentmakers companies is built
             to close — and the Readiness Score ensures members build real
-            capability before accessing each venture.
+            capability before accessing each company.
           </p>
         </motion.div>
 
@@ -346,26 +347,22 @@ export default function MarketOpportunity() {
           whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mt-6 overflow-hidden rounded-2xl border border-navy/10 bg-navy p-7 text-white sm:mt-8 sm:p-10 lg:p-12"
+          className="relative mt-6 overflow-hidden rounded-2xl border border-amber/25 bg-amber/[0.05] p-7 sm:mt-8 sm:p-10 lg:p-12"
         >
           <div
             className="absolute left-0 top-0 h-full w-1 bg-amber"
             aria-hidden="true"
           />
-          <div
-            className="pointer-events-none absolute -bottom-24 -right-12 h-56 w-56 rounded-full bg-amber/10 blur-3xl"
-            aria-hidden="true"
-          />
           <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <p className="max-w-2xl text-lg font-medium leading-relaxed text-white/90 sm:text-xl">
-              Each gap is a venture.{' '}
-              <span className="text-white/60">
+              <p className="max-w-2xl text-lg font-medium leading-relaxed text-foreground sm:text-xl">
+              Each gap is a company.{' '}
+              <span className="text-muted-foreground">
                 Prime Digital Solutions serves the storefront gap. Thrifty Tribe
-                serves the savings gap. ICKY serves the staffing gap. Prime Axis
+                serves the savings gap. Prime Axis serves the staffing gap. ICKY
                 serves the protection gap. Tentmakers Network ties them together.
               </span>
             </p>
-            <div className="flex shrink-0 items-center gap-3 lg:flex-col lg:items-end">
+            <div className="flex shrink-0 flex-wrap items-center gap-2 lg:max-w-[220px] lg:justify-end">
               {(
                 [
                   'Prime Digital Solutions',
@@ -378,8 +375,10 @@ export default function MarketOpportunity() {
                 <span
                   key={v}
                   className={cn(
-                    'whitespace-nowrap text-xs font-semibold tracking-wide',
-                    i === 4 ? 'text-amber' : 'text-white/40'
+                    'whitespace-nowrap rounded-full border px-3 py-1 text-xs font-semibold tracking-wide',
+                    i === 4
+                      ? 'border-amber/40 bg-amber/10 text-amber'
+                      : 'border-border bg-card text-muted-foreground'
                   )}
                 >
                   {v}

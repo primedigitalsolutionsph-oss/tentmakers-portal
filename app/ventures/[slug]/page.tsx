@@ -26,7 +26,7 @@ export async function generateMetadata({
 }: VenturePageProps): Promise<Metadata> {
   const { slug } = await params;
   const venture = getVentureBySlug(slug);
-  if (!venture) return { title: 'Venture Not Found' };
+  if (!venture) return { title: 'Company Not Found' };
   return {
     title: `${venture.name} — Tentmakers Ecosystem`,
     description: venture.description,
@@ -36,7 +36,7 @@ export async function generateMetadata({
 const stageColors: Record<string, string> = {
   Active: 'bg-forest/15 text-forest',
   Scaling: 'bg-amber/15 text-amber',
-  Early: 'bg-white/10 text-white/60',
+  Early: 'bg-muted text-muted-foreground',
 };
 
 export default async function VentureDetailPage({ params }: VenturePageProps) {
@@ -76,7 +76,7 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
             className="inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
-            All Ventures
+            All Companies
           </Link>
 
           <div className="mt-8 flex items-center gap-3">
@@ -187,7 +187,7 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
                   Interested in {venture.name}?
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Request access to this venture and more.
+                  Request access to this company and more.
                 </p>
                 <a
                   href="/contact"
@@ -217,7 +217,7 @@ export default async function VentureDetailPage({ params }: VenturePageProps) {
             href="/ventures"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            All Ventures
+            All Companies
           </Link>
           <Link
             href={`/ventures/${nextVenture.slug}`}

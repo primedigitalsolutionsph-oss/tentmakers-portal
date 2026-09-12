@@ -9,10 +9,33 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1.25rem',
+        sm: '1.5rem',
+        lg: '2rem',
+      },
+      screens: {
+        sm: '40rem',
+        md: '48rem',
+        lg: '64rem',
+        xl: '72rem',
+        '2xl': '80rem',
+      },
+    },
     extend: {
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         display: ['var(--font-display)', 'Georgia', 'serif'],
+      },
+      fontSize: {
+        display: ['clamp(2.75rem, 5vw + 1rem, 4.5rem)', { lineHeight: '1.0', letterSpacing: '-0.04em' }],
+      },
+      boxShadow: {
+        card: '0 1px 2px hsl(222 47% 11% / 0.06)',
+        lift: '0 12px 32px -12px hsl(222 47% 11% / 0.25)',
+        glow: '0 0 0 1px hsl(36 96% 52% / 0.3), 0 8px 32px -8px hsl(36 96% 52% / 0.4)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

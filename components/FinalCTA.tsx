@@ -48,7 +48,7 @@ export default function FinalCTA() {
           >
             <div className="flex items-center gap-2.5">
               <span className="h-px w-8 bg-amber" aria-hidden="true" />
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
+              <span className="section-eyebrow">
                 Join the Ecosystem
               </span>
             </div>
@@ -64,16 +64,16 @@ export default function FinalCTA() {
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2.5 rounded-xl bg-amber px-6 py-3 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20"
+                className="btn-primary group"
               >
                 Request Access
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </Link>
               <Link
                 href="/ventures"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-amber/40 hover:text-white"
+                className="btn-ghost"
               >
-                Explore Ventures
+                Explore Portfolio
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
@@ -119,8 +119,8 @@ export default function FinalCTA() {
               <div className="space-y-4">
                 {[
                   { label: 'Market', value: '4.67M people, Panay Island' },
-                  { label: 'Ventures', value: '5 verticals, venture-backed' },
-                  { label: 'Training Hub', value: '3 readiness tiers + Anchor band' },
+                  { label: 'Portfolio', value: '5 companies, member-operated' },
+                  { label: 'Training Hub', value: '3 training tiers + Anchor band' },
                   { label: 'MSMEs', value: '57,469 establishments' },
                   { label: 'Stage', value: 'Active & Scaling' },
                 ].map((item) => (

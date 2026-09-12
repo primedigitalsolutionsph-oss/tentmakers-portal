@@ -38,12 +38,12 @@ const memberBenefits: MemberBenefit[] = [
   {
     icon: ShieldCheck,
     title: 'Protection',
-    description: 'Insurance coverage through Prime Axis, not an afterthought.',
+    description: 'Insurance coverage through ICKY, not an afterthought.',
   },
   {
     icon: Briefcase,
     title: 'Staffing access',
-    description: 'Direct pipeline to ICKY for hiring, without the sourcing cost.',
+    description: 'Direct pipeline to Prime Axis for hiring, without the sourcing cost.',
   },
 ];
 
@@ -62,11 +62,11 @@ const ventureGains: VentureGain[] = [
     channel: 'Savers building financial habits',
   },
   {
-    venture: 'ICKY',
+    venture: 'Prime Axis',
     channel: 'SMEs scaling their headcount',
   },
   {
-    venture: 'Prime Axis',
+    venture: 'ICKY',
     channel: 'Drivers and families needing protection',
   },
   {
@@ -101,7 +101,7 @@ export default function TheModel() {
         >
           <div className="flex items-center gap-2.5">
             <span className="h-px w-8 bg-amber" aria-hidden="true" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
+            <span className="section-eyebrow">
               The Model
             </span>
           </div>
@@ -110,13 +110,13 @@ export default function TheModel() {
             className="mt-5 font-display text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]"
           >
             Members get value from day one.{' '}
-            <span className="text-amber">Ventures get a warm channel</span> into
+            <span className="text-amber">Companies get a warm channel</span> into
             exactly who they serve.
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             It is a two-sided flywheel. Registered members receive a Readiness
             Score, a website, savings, protection, and staffing access from the
-            start. Each affiliated venture, in turn, gains a high-trust channel
+            start. Each portfolio company, in turn, gains a high-trust channel
             into exactly the founders, students, and SMEs it is built to serve.
           </p>
         </motion.div>
@@ -129,7 +129,7 @@ export default function TheModel() {
             whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="group rounded-[28px] border border-border bg-card p-7 transition-shadow duration-300 hover:shadow-xl hover:shadow-navy/[0.04] sm:p-8"
+            className="group rounded-[20px] border border-border bg-card p-7 transition-shadow duration-300 hover:shadow-xl hover:shadow-navy/[0.04] sm:p-8"
           >
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber/15 text-amber">
@@ -184,13 +184,13 @@ export default function TheModel() {
             </div>
           </motion.div>
 
-          {/* Ventures side */}
+          {/* Companies side */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 28 }}
             whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="group relative overflow-hidden rounded-[28px] border border-navy/10 bg-navy p-7 text-white transition-shadow duration-300 hover:shadow-xl hover:shadow-black/10 sm:p-8"
+            className="group relative overflow-hidden rounded-[20px] border border-navy/10 bg-navy p-7 text-white transition-shadow duration-300 hover:shadow-xl hover:shadow-black/10 sm:p-8"
           >
             {/* Subtle grid overlay */}
             <div
@@ -208,7 +208,7 @@ export default function TheModel() {
                 <Briefcase className="h-5 w-5" aria-hidden="true" />
               </span>
               <h3 className="text-xl font-bold tracking-tight text-white">
-                What each venture gains
+                What each company gains
               </h3>
             </div>
             <p className="relative z-10 mt-3 text-sm leading-relaxed text-white/70">
@@ -284,7 +284,7 @@ export default function TheModel() {
             <p className="max-w-3xl text-base font-medium leading-relaxed text-foreground sm:text-lg">
             Tiers are strictly readiness gates, not a ladder toward a Tentmakers
             role. A member can complete all three tiers and never engage with
-            the ventures again — that is a successful outcome, not an attrition
+            the companies again — that is a successful outcome, not an attrition
             problem. The Anchor band and peer teaching build a natural mentor
             pipeline without labeling it a “career path,” keeping the network as
             an enabler rather than an employer-in-waiting.

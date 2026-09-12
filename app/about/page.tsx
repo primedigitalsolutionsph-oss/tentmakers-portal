@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 };
 
 const scoreComponents = [
-  { component: 'Training Completion', weight: '30%', source: 'LMS / training module' },
-  { component: 'Savings Consistency', weight: '20%', source: 'Thrifty Tribe' },
-  { component: 'Site Engagement', weight: '20%', source: 'Prime Digital Solutions' },
-  { component: 'Protection Enrollment & Upkeep', weight: '15%', source: 'Prime Axis' },
-  { component: 'Mentorship Participation', weight: '15%', source: 'Mentorship log' },
+  { component: 'Training Completion', weight: '30%', measure: 'Modules and assessments completed across the three tiers', source: 'LMS / training module' },
+  { component: 'Savings Consistency', weight: '20%', measure: 'Savings streak maintained cycle over cycle', source: 'Thrifty Tribe' },
+  { component: 'Site Engagement', weight: '20%', measure: 'Business Foundation Site live and updated monthly', source: 'Prime Digital Solutions' },
+  { component: 'Protection Enrollment & Upkeep', weight: '15%', measure: 'Active cover kept current, not just enrolled once', source: 'ICKY' },
+  { component: 'Mentorship Participation', weight: '15%', measure: 'Check-ins attended plus peer teaching sessions', source: 'Mentorship log' },
 ];
 
 const scoreBands = [
@@ -28,7 +28,7 @@ const tiers = [
     tier: 'Tier 1 — Foundation',
     goal: 'Every member leaves with a working online presence and a savings habit started.',
     modules: [
-      { name: 'Orientation & Network Overview', format: 'Live/recorded session', outcome: 'Understands the network, ventures, and what "readiness" means' },
+      { name: 'Orientation & Network Overview', format: 'Live/recorded session', outcome: 'Understands the network, portfolio companies, and what "readiness" means' },
       { name: 'Digital Basics', format: 'Self-paced', outcome: 'Understands what a Business Foundation Site is for and how to use it' },
       { name: 'Business Foundation Site Setup', format: 'Guided, with PDS support', outcome: 'Site live, member trained to edit basic content' },
       { name: 'Savings Habit Fundamentals', format: 'Self-paced + workbook', outcome: 'Enrolled in Thrifty Tribe, first savings cycle started' },
@@ -41,8 +41,8 @@ const tiers = [
     tier: 'Tier 2 — Building',
     goal: 'Members establish risk protection and demonstrate consistency, not just completion.',
     modules: [
-      { name: 'Risk & Protection Basics', format: 'Self-paced', outcome: 'Understands what Prime Axis protection covers and why it matters' },
-      { name: 'Protection Enrollment', format: 'Guided, with Prime Axis advisor', outcome: 'Active enrollment' },
+      { name: 'Risk & Protection Basics', format: 'Self-paced', outcome: 'Understands what ICKY protection covers and why it matters' },
+      { name: 'Protection Enrollment', format: 'Guided, with ICKY advisor', outcome: 'Active enrollment' },
       { name: 'Site Growth Workshop', format: 'Live workshop', outcome: 'Site updated with real content (products, services, contact info)' },
       { name: 'Financial Habit Deepening', format: 'Self-paced + check-in', outcome: 'Savings streak maintained across the tier period' },
       { name: 'Tier 2 Assessment', format: 'Case-study exercise', outcome: 'Unlocks Tier 3 eligibility once score threshold met' },
@@ -55,7 +55,7 @@ const tiers = [
     goal: 'Members with a growing business are ready to hire and operate with less hand-holding.',
     modules: [
       { name: 'Staffing Readiness', format: 'Self-paced + worksheet', outcome: 'Understands when and how to hire; drafts a basic job need' },
-      { name: 'ICKY Staffing Access', format: 'Guided', outcome: 'First staffing request submitted (if applicable)' },
+      { name: 'Prime Axis Staffing Access', format: 'Guided', outcome: 'First staffing request submitted (if applicable)' },
       { name: 'Sustainability Planning', format: 'Live workshop', outcome: 'Written 6–12 month plan for site, savings, and protection' },
       { name: 'Peer Teaching Session', format: 'Live, member-led', outcome: 'Member shares one lesson learned with a newer cohort' },
       { name: 'Tier 3 Assessment', format: 'Portfolio review', outcome: 'Anchor-band eligibility if score threshold met' },
@@ -134,7 +134,7 @@ export default function AboutPage() {
                   <tr key={row.component} className="hover:bg-secondary/40">
                     <td className="px-4 py-3 font-medium text-foreground">{row.component}</td>
                     <td className="px-4 py-3 text-muted-foreground">{row.weight}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{row.component}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{row.measure}</td>
                     <td className="px-4 py-3 text-muted-foreground">{row.source}</td>
                   </tr>
                 ))}
@@ -306,7 +306,7 @@ export default function AboutPage() {
               href="/ventures"
               className="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-amber/40 hover:text-foreground"
             >
-              View Ventures
+              View Portfolio
             </Link>
           </div>
         </div>

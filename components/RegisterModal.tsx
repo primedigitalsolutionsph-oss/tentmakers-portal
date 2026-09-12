@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import OAuthButtons from '@/components/OAuthButtons';
 import { useRegisterModal } from '@/hooks/use-register-modal';
 
 function StepPrerequisite() {
@@ -78,14 +79,14 @@ function StepOptions() {
 
   const roles = [
     {
-      id: 'smme-owner',
+      id: 'sme-owner',
       label: 'SME Owner',
       description: 'I run an existing small or medium business',
     },
     {
       id: 'entrepreneur',
       label: 'Aspiring Entrepreneur',
-      description: 'I want to start a venture or side hustle',
+      description: 'I want to start a company or side hustle',
     },
     {
       id: 'skilled-worker',
@@ -110,11 +111,19 @@ function StepOptions() {
     >
       <div>
         <h2 className="font-display text-2xl font-bold text-foreground">
-          Sign up with Google or email
+          Choose how to join
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          No fees to join. Pick the option that works best for you.
+          No fees to join. Continue with Google, or pick a path to register with email.
         </p>
+      </div>
+
+      <OAuthButtons mode="signup" />
+
+      <div className="flex items-center gap-3" aria-hidden="true">
+        <span className="h-px flex-1 bg-border" />
+        <span className="text-xs font-medium text-muted-foreground">or continue with email</span>
+        <span className="h-px flex-1 bg-border" />
       </div>
 
       <div className="space-y-3">
@@ -210,10 +219,10 @@ function StepDetails() {
     >
       <div>
         <h2 className="font-display text-2xl font-bold text-foreground">
-          You&apos;re in — your first step starts here
+          Request your invite
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Meet your mentor and start Tier 1. Track your Readiness Score as you go.
+          Tell us a little about yourself and we&apos;ll reply within 48 hours.
         </p>
       </div>
 
@@ -272,7 +281,7 @@ function StepDetails() {
           disabled={submitting}
           className="mt-2 w-full rounded-xl bg-amber px-6 py-3 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20 disabled:opacity-60"
         >
-          {submitting ? 'Sending…' : 'Complete Registration'}
+          {submitting ? 'Sending…' : 'Request Access'}
         </button>
       </div>
 
@@ -314,13 +323,26 @@ function StepSuccess() {
       </div>
 
       <h2 className="font-display text-2xl font-bold text-foreground">
-        Welcome to the Tentmakers Network
+        Request received
       </h2>
       <p className="text-sm text-muted-foreground">
-        Your first step: meet your mentor and start Tier 1. Your Readiness Score
-        will track your progress — it&apos;s not a test, it&apos;s a map of what
-        you&apos;ve built.
+        Thanks — we&apos;ll reply within 48 hours. Here&apos;s what happens
+        next:
       </p>
+      <ol className="space-y-2 text-left text-sm text-muted-foreground">
+        <li className="flex gap-2.5">
+          <span className="font-bold text-amber">1.</span>
+          We review your request and confirm your path.
+        </li>
+        <li className="flex gap-2.5">
+          <span className="font-bold text-amber">2.</span>
+          You meet your mentor and start Tier 1 — Foundation.
+        </li>
+        <li className="flex gap-2.5">
+          <span className="font-bold text-amber">3.</span>
+          Your Readiness Score tracks your progress from day one.
+        </li>
+      </ol>
 
       <button
         onClick={reset}
@@ -431,7 +453,7 @@ export default function RegisterModal() {
                 <div
                   className="h-full rounded-full bg-amber transition-all duration-300"
                   style={{
-                    width: `${((stepProgress[currentStep] - 1) / 3) * 100}%`,
+                    width: `${(stepProgress[currentStep] / 3) * 100}%`,
                   }}
                   aria-hidden="true"
                 />
@@ -439,7 +461,7 @@ export default function RegisterModal() {
               <div className="mt-1 flex justify-between text-xs text-muted-foreground">
                 <span>Join</span>
                 <span>Details</span>
-                <span>Start Tier 1</span>
+                <span>Request</span>
               </div>
             </div>
           )}

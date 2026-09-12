@@ -2,7 +2,8 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import { Quote, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import Image from 'next/image';
+import * as Accordion from '@radix-ui/react-accordion';
 import { cn } from '@/lib/utils';
 
 const quotes = [
@@ -11,33 +12,36 @@ const quotes = [
       'I joined for the training and stayed for the community. Within three months I was running my first storefront for a local MSME.',
     name: 'Maria S.',
     role: 'Member → Operator, Iloilo City',
+    initials: 'MS',
   },
   {
     quote:
       'The paluwagan system we already trusted, finally with structure. Our group has saved consistently for 8 months straight.',
     name: 'Jonathan R.',
     role: 'Thrifty Tribe Member, Roxas City',
+    initials: 'JR',
   },
   {
     quote:
-      'Hiring used to take us weeks. Through ICKY we found trained staff in days — people who were ready on day one.',
+      'Hiring used to take us weeks. Through Prime Axis we found trained staff in days — people who were ready on day one.',
     name: 'SME Owner',
-    role: 'ICKY Partner, Panay',
+    role: 'Prime Axis Partner, Panay',
+    initials: 'SO',
   },
 ];
 
 const faqs = [
   {
     q: 'How much does it cost to join?',
-    a: 'Registration is free. You get value from day one — training access, community, and venture exposure. Advanced tiers and operator tracks unlock as you progress.',
+      a: 'Registration is free. You get value from day one — training access, community, and company exposure. Higher tiers and operator tracks unlock as your Readiness Score grows.',
   },
   {
-    q: 'What is the 3-tier training progression?',
-    a: 'Basic gives you foundations and community access. Intermediate adds hands-on venture skills. Advanced prepares you to operate or franchise a venture within the ecosystem.',
+    q: 'What are the three training tiers?',
+      a: 'Tier 1 Foundation covers the basics and community access. Tier 2 Building adds hands-on company skills. Tier 3 Established prepares you to operate a company within the ecosystem — each unlocked by your Readiness Score, not course-clicking.',
   },
   {
     q: 'Do I need a business to join?',
-    a: 'No. Most members join as individuals. Operators run ventures, partners collaborate strategically — you choose your path at registration and can change later.',
+      a: 'No. Most members join as individuals. Operators run companies, partners collaborate strategically — you choose your path when you request access and can change later.',
   },
   {
     q: 'Where are you located?',
@@ -47,7 +51,6 @@ const faqs = [
 
 export default function SocialProof() {
   const prefersReducedMotion = useReducedMotion();
-  const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section id="stories" className="relative w-full bg-background py-24 sm:py-32" aria-labelledby="stories-heading">
@@ -65,7 +68,7 @@ export default function SocialProof() {
         >
           <div className="flex items-center gap-2.5">
             <span className="h-px w-8 bg-amber" aria-hidden="true" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
+            <span className="section-eyebrow">
               Member Stories
             </span>
           </div>
@@ -82,44 +85,94 @@ export default function SocialProof() {
               whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="spotlight-card flex h-full flex-col rounded-[28px] border border-border bg-card p-7"
+              className="spotlight-card flex h-full flex-col rounded-[20px] border border-border bg-card p-7"
             >
               <Quote className="h-6 w-6 text-amber" aria-hidden="true" />
               <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground">
                 “{t.quote}”
               </blockquote>
-              <figcaption className="mt-6 border-t border-border pt-4">
-                <p className="text-sm font-bold text-foreground">{t.name}</p>
-                <p className="text-xs text-muted-foreground">{t.role}</p>
+              <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                <span
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber/15 text-xs font-bold text-amber"
+                  aria-hidden="true"
+                >
+                  {t.initials}
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-foreground">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}</p>
+                </div>
               </figcaption>
             </motion.figure>
           ))}
         </div>
 
+        <motion.div
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
+          whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto mt-12 flex max-w-3xl flex-col items-center gap-5 rounded-[20px] border border-border bg-card p-7 text-center sm:flex-row sm:p-8 sm:text-left"
+        >
+          <Image
+            src="/founder-rogie.jpg"
+            alt="Rogie, founder of Tentmakers Network"
+            width={88}
+            height={88}
+            className="h-20 w-20 shrink-0 rounded-full object-cover ring-2 ring-amber/30"
+          />
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber">
+              From the founder
+            </p>
+            <blockquote className="mt-2 text-sm leading-relaxed text-foreground sm:text-base">
+              “We turn members into operators — a website, savings habit, and
+              protection from day one, then real company access as your
+              Readiness Score grows.”
+            </blockquote>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Rogie · Tentmakers Network, Panay Island
+            </p>
+          </div>
+        </motion.div>
+
         <div className="mx-auto mt-16 max-w-3xl">
           <h3 className="text-center font-display text-2xl font-bold text-foreground">
             Frequently asked questions
           </h3>
-          <div className="mt-8 space-y-3">
-            {faqs.map((f, i) => {
-              const isOpen = open === i;
-              return (
-                <div key={f.q} className="overflow-hidden rounded-2xl border border-border bg-card">
-                  <button
-                    onClick={() => setOpen(isOpen ? null : i)}
-                    aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left"
-                  >
-                    <span className="text-sm font-semibold text-foreground">{f.q}</span>
-                    <ChevronDown className={cn('h-4 w-4 shrink-0 text-muted-foreground transition-transform', isOpen && 'rotate-180')} />
-                  </button>
-                  {isOpen && (
-                    <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+          <Accordion.Root
+            type="single"
+            collapsible
+            defaultValue="item-0"
+            className="mt-8 space-y-3"
+          >
+            {faqs.map((f, i) => (
+              <Accordion.Item
+                key={f.q}
+                value={`item-${i}`}
+                className="overflow-hidden rounded-2xl border border-border bg-card transition-colors data-[state=open]:border-amber/30"
+              >
+                <Accordion.Header asChild>
+                  <h4>
+                    <Accordion.Trigger className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left [&[data-state=open]>svg]:rotate-180">
+                      <span className="text-sm font-semibold text-foreground">{f.q}</span>
+                      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" aria-hidden="true" />
+                    </Accordion.Trigger>
+                  </h4>
+                </Accordion.Header>
+                <Accordion.Content
+                  className={cn(
+                    'overflow-hidden text-sm leading-relaxed text-muted-foreground',
+                    prefersReducedMotion
+                      ? 'data-[state=open]:animate-none'
+                      : 'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down'
                   )}
-                </div>
-              );
-            })}
-          </div>
+                >
+                  <p className="px-6 pb-5">{f.a}</p>
+                </Accordion.Content>
+              </Accordion.Item>
+            ))}
+          </Accordion.Root>
         </div>
       </div>
     </section>

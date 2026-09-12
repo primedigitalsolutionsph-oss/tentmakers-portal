@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import {
@@ -8,7 +7,7 @@ import {
   QrCode,
   CarFront,
   Network,
-  ArrowUpRight,
+  ArrowRight,
   Globe,
   Smartphone,
   Settings,
@@ -26,7 +25,6 @@ import {
 import { cn } from '@/lib/utils';
 
 type Stage = 'Active' | 'Scaling' | 'Early';
-type Filter = 'All' | Stage;
 
 interface Venture {
   id: string;
@@ -87,8 +85,8 @@ const ventures: Venture[] = [
     ],
   },
   {
-    id: 'icky',
-    name: 'ICKY',
+    id: 'prime-axis',
+    name: 'Prime Axis',
     tagline: 'SMEs scaling their headcount',
     gap: 'The Staffing Gap',
     offering:
@@ -106,8 +104,8 @@ const ventures: Venture[] = [
     ],
   },
   {
-    id: 'prime-axis',
-    name: 'Prime Axis',
+    id: 'icky',
+    name: 'ICKY',
     tagline: 'Drivers and families needing protection',
     gap: 'The Protection Gap',
     offering:
@@ -129,10 +127,10 @@ const ventures: Venture[] = [
   {
     id: 'tentmakers-network',
     name: 'Tentmakers Network',
-    tagline: 'Readiness Score, three tiers, real venture access',
+    tagline: 'Readiness Score, three tiers, real company access',
     gap: 'The Trust Gap',
     offering:
-      'A member network with a Readiness Score gating three readiness tiers — Foundation, Building, Established — plus an Anchor band for mentor-track candidates.',
+      'A member network with a Readiness Score gating three training tiers — Tier 1 Foundation, Tier 2 Building, Tier 3 Established — plus an Anchor band for mentor-track candidates.',
     marketSignal:
       '300-member target: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40.',
     metric: '300',
@@ -157,8 +155,6 @@ const stageStyles: Record<Stage, string> = {
 
 export default function Ventures() {
   const prefersReducedMotion = useReducedMotion();
-  const [filter, setFilter] = useState<Filter>('All');
-  const filtered = filter === 'All' ? ventures : ventures.filter((v) => v.stage === filter);
 
   const onSpotlight = (e: React.MouseEvent<HTMLElement>) => {
     const el = e.currentTarget;
@@ -166,6 +162,86 @@ export default function Ventures() {
     el.style.setProperty('--spot-x', `${e.clientX - rect.left}px`);
     el.style.setProperty('--spot-y', `${e.clientY - rect.top}px`);
   };
+
+  // One half of the seamless loop. The duplicate half renders aria-hidden
+  // with untabbable links so each company is met once by AT and keyboard.
+  const renderCards = (interactive: boolean) => (
+    <>
+      {ventures.map((venture) => {
+        const Icon = venture.icon;
+        const isAnchor = venture.anchor;
+        return (
+          <Link
+            key={`${venture.id}-${interactive ? 'a' : 'b'}`}
+            href={`/ventures/${venture.id}`}
+            onMouseMove={onSpotlight}
+            tabIndex={interactive ? undefined : -1}
+            className={cn(
+              'spotlight-card group relative mr-5 flex w-[300px] shrink-0 flex-col overflow-hidden rounded-[20px] border p-6 transition-colors duration-300 hover:border-amber/40 sm:w-[360px]',
+              isAnchor
+                ? 'border-navy/10 bg-navy text-white'
+                : 'border-border bg-card'
+            )}
+          >
+            {isAnchor && (
+              <div
+                className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-amber/12 blur-3xl"
+                aria-hidden="true"
+              />
+            )}
+            <div className="relative z-10 flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber/10 text-amber">
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <span
+                className={cn(
+                  'ml-auto inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em]',
+                  isAnchor
+                    ? 'border-white/15 bg-white/[0.06] text-white/70'
+                    : stageStyles[venture.stage]
+                )}
+              >
+                {venture.stage}
+              </span>
+            </div>
+            <p className="relative z-10 mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-amber">
+              {venture.gap}
+            </p>
+            <h3
+              className={cn(
+                'relative z-10 mt-2 text-lg font-bold tracking-tight transition-colors group-hover:text-amber',
+                isAnchor ? 'text-white' : 'text-foreground'
+              )}
+            >
+              {venture.name}
+            </h3>
+            <p
+              className={cn(
+                'relative z-10 mt-1 text-[13px] font-medium leading-relaxed',
+                isAnchor ? 'text-white/70' : 'text-muted-foreground'
+              )}
+            >
+              {venture.tagline} ·{' '}
+              <span className="font-bold tabular-nums text-amber">{venture.metric}</span>{' '}
+              <span className="font-normal">{venture.metricLabel}</span>
+            </p>
+            <span
+              className={cn(
+                'relative z-10 mt-5 inline-flex items-center gap-1.5 border-t pt-4 text-[13px] font-semibold',
+                isAnchor ? 'border-white/10 text-white/70' : 'border-border text-muted-foreground'
+              )}
+            >
+              View company
+              <ArrowRight
+                className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-amber"
+                aria-hidden="true"
+              />
+            </span>
+          </Link>
+        );
+      })}
+    </>
+  );
 
   return (
     <section
@@ -189,224 +265,49 @@ export default function Ventures() {
         >
           <div className="flex items-center gap-2.5">
             <span className="h-px w-8 bg-amber" aria-hidden="true" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-amber">
-              The Five Ventures
+            <span className="section-eyebrow">
+              Our Portfolio
             </span>
           </div>
           <h2
             id="ventures-heading"
             className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]"
           >
-            Five ventures,{' '}
+            Five portfolio companies,{' '}
             <span className="text-amber">five ways to make an impact</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Each venture is built to close a specific gap in the regional market.
-            As a member, you&apos;ll gain access to these ventures and the skills
+            Each company is built to close a specific gap in the regional market.
+            As a member, you&apos;ll gain access to these companies and the skills
             to operate within them.
           </p>
-          {/* Filter */}
-          <div className="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Filter ventures by stage">
-            {(['All', 'Active', 'Early'] as Filter[]).map((f) => (
-              <button
-                key={f}
-                role="tab"
-                aria-selected={filter === f}
-                onClick={() => setFilter(f)}
-                className={cn(
-                  'rounded-full border px-4 py-1.5 text-sm font-medium transition-all',
-                  filter === f
-                    ? 'border-amber bg-amber text-navy'
-                    : 'border-border text-muted-foreground hover:border-amber/40 hover:text-foreground'
-                )}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
+          <Link
+            href="/ventures"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-amber transition-colors hover:text-foreground"
+          >
+            View all companies
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </motion.div>
-
-        {/* Venture cards */}
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:mt-12 lg:grid-cols-2 lg:gap-6">
-          {filtered.map((venture, index) => {
-            const Icon = venture.icon;
-            const isAnchor = venture.anchor;
-            const spanClass = venture.span === 'wide' ? 'lg:col-span-2' : '';
-
-            return (
-              <motion.div
-                key={venture.id}
-                initial={
-                  prefersReducedMotion
-                    ? { opacity: 1 }
-                    : { opacity: 0, y: 28 }
-                }
-                whileInView={
-                  prefersReducedMotion
-                    ? { opacity: 1 }
-                    : { opacity: 1, y: 0 }
-                }
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{
-                  duration: 0.7,
-                  delay: prefersReducedMotion ? 0 : index * 0.1,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className={spanClass}
-              >
-                <Link
-                  href={`/ventures/${venture.id}`}
-                  onMouseMove={onSpotlight}
-                  className={cn(
-                    'spotlight-card group relative flex h-full flex-col overflow-hidden rounded-[28px] border p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8',
-                    isAnchor
-                      ? 'border-navy/10 bg-navy text-white hover:border-amber/40 hover:shadow-navy/10'
-                      : 'border-border bg-card hover:border-amber/40 hover:shadow-navy/[0.04]'
-                  )}
-                >
-                  {/* Anchor card decorative */}
-                  {isAnchor && (
-                    <>
-                      <div
-                        className="pointer-events-none absolute inset-0 opacity-[0.04]"
-                        aria-hidden="true"
-                        style={{
-                          backgroundImage:
-                            'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
-                          backgroundSize: '52px 52px',
-                        }}
-                      />
-                      <div
-                        className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-amber/12 blur-3xl"
-                        aria-hidden="true"
-                      />
-                    </>
-                  )}
-
-                  {/* Illustrative industry watermark */}
-                  <Icon
-                    aria-hidden="true"
-                    className={cn(
-                      'pointer-events-none absolute -bottom-8 -right-8 h-44 w-44 rotate-[-8deg] transition-transform duration-500 group-hover:rotate-0 group-hover:scale-110',
-                      isAnchor ? 'text-white/[0.05]' : 'text-foreground/[0.05]'
-                    )}
-                  />
-
-                  <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
-                    {/* Icon + gap label */}
-                    <div className="flex shrink-0 flex-row items-center gap-4 sm:flex-col sm:items-start sm:gap-3">
-                      <span
-                        className={cn(
-                          'flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105',
-                          isAnchor
-                            ? 'bg-amber/15 text-amber'
-                            : 'bg-amber/10 text-amber'
-                        )}
-                      >
-                        <Icon className="h-6 w-6" aria-hidden="true" />
-                      </span>
-                      <span
-                        className={cn(
-                          'inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em]',
-                          isAnchor
-                            ? 'border-white/15 bg-white/[0.06] text-white/70'
-                            : stageStyles[venture.stage]
-                        )}
-                      >
-                        {venture.stage}
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold uppercase tracking-[0.14em] text-amber">
-                          {venture.gap}
-                        </span>
-                        <ArrowUpRight
-                          className={cn(
-                            'h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5',
-                            isAnchor ? 'text-white/40 group-hover:text-amber' : 'text-muted-foreground/40 group-hover:text-amber'
-                          )}
-                          aria-hidden="true"
-                        />
-                      </div>
-
-                      <h3
-                        className={cn(
-                          'mt-2 text-xl font-bold tracking-tight transition-colors sm:text-2xl',
-                          isAnchor ? 'text-white group-hover:text-amber' : 'text-foreground group-hover:text-amber'
-                        )}
-                      >
-                        {venture.name}
-                      </h3>
-                      <p
-                        className={cn(
-                          'mt-1 text-sm font-medium',
-                          isAnchor ? 'text-white/70' : 'text-muted-foreground'
-                        )}
-                      >
-                        {venture.tagline} · <span className="font-bold tabular-nums text-amber">{venture.metric}</span>{' '}
-                        <span className="font-normal">{venture.metricLabel}</span>
-                      </p>
-
-                      <p
-                        className={cn(
-                          'mt-4 text-sm leading-relaxed',
-                          isAnchor ? 'text-white/65' : 'text-muted-foreground'
-                        )}
-                      >
-                        {venture.offering}
-                      </p>
-
-                      {/* Industries */}
-                      <div className="mt-4 flex flex-wrap items-center gap-2">
-                        {venture.industries.map((industry) => {
-                          const IndustryIcon = industry.icon;
-                          return (
-                            <div
-                              key={industry.label}
-                              className={cn(
-                                'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium',
-                                isAnchor
-                                  ? 'border-white/10 bg-white/[0.03] text-white/70'
-                                  : 'border-border bg-secondary/60 text-muted-foreground'
-                              )}
-                            >
-                              <IndustryIcon className="h-3.5 w-3.5 text-amber" aria-hidden="true" />
-                              {industry.label}
-                            </div>
-                          );
-                        })}
-                      </div>
-
-                      {/* Market signal */}
-                      <div
-                        className={cn(
-                          'mt-5 flex items-start gap-2.5 rounded-lg p-3.5',
-                          isAnchor ? 'bg-white/[0.04]' : 'bg-secondary/60'
-                        )}
-                      >
-                        <span className="mt-0.5 text-xs font-bold uppercase tracking-wide text-amber">
-                          Why now
-                        </span>
-                        <span
-                          className={cn(
-                            'text-xs leading-relaxed',
-                            isAnchor ? 'text-white/55' : 'text-muted-foreground'
-                          )}
-                        >
-                          {venture.marketSignal}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
       </div>
+
+      {/* Company marquee — full-bleed seamless loop */}
+      <motion.div
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="mt-12"
+      >
+        <div className="marquee overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+          <div className="marquee-track flex w-max py-2">
+            {renderCards(true)}
+            <div className="contents" aria-hidden="true">
+              {renderCards(false)}
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 }

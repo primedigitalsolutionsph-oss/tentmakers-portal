@@ -102,6 +102,81 @@
   }
 }
 
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background-color: hsl(var(--amber));
+    color: hsl(var(--navy));
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background-color: hsl(var(--amber-soft));
+    box-shadow: 0 0 0 1px hsl(36 96% 52% / 0.3), 0 8px 32px -8px hsl(36 96% 52% / 0.4);
+  }
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .btn-primary-sm {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: hsl(var(--amber));
+    color: hsl(var(--navy));
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  .btn-primary-sm:hover {
+    background-color: hsl(var(--amber-soft));
+    box-shadow: 0 0 0 1px hsl(36 96% 52% / 0.3), 0 8px 32px -8px hsl(36 96% 52% / 0.4);
+  }
+  .btn-primary-sm:active {
+    transform: scale(0.98);
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.15);
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgb(255 255 255 / 0.85);
+    transition: all 0.3s ease;
+  }
+  .btn-ghost:hover {
+    border-color: hsl(36 96% 52% / 0.4);
+    color: #fff;
+  }
+  .btn-ghost:active {
+    transform: scale(0.98);
+  }
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    /* Darker amber in light mode for 4.5:1 on white; bright amber on dark. */
+    color: hsl(var(--amber-dim));
+  }
+  .dark .section-eyebrow {
+    color: hsl(var(--amber));
+  }
+}
+
 @layer utilities {
   .tabular-nums {
     font-variant-numeric: tabular-nums;
@@ -152,6 +227,29 @@
       animation: none;
     }
   }
+  /* Seamless portfolio marquee: the track holds two identical halves and
+     loops translateX(-50%). Pauses on hover/focus; static + scrollable
+     under reduced motion. */
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee-track {
+    animation: marquee 45s linear infinite;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+    }
+    .marquee-track {
+      animation: none;
+    }
+  }
   .text-navy {
     color: hsl(var(--navy));
   }
@@ -165,6 +263,23 @@
     border-color: hsl(var(--navy));
   }
   .text-amber {
+    /* Body/small text: darker in light mode for contrast; bright on dark. */
+    color: hsl(var(--amber-dim));
+  }
+  .dark .text-amber {
+    color: hsl(var(--amber));
+  }
+  /* Keep hover affordances readable in light mode too. */
+  .hover\:text-amber:hover {
+    color: hsl(var(--amber-dim));
+  }
+  .dark .hover\:text-amber:hover {
+    color: hsl(var(--amber));
+  }
+  .group:hover .group-hover\:text-amber {
+    color: hsl(var(--amber-dim));
+  }
+  .dark .group:hover .group-hover\:text-amber {
     color: hsl(var(--amber));
   }
   .bg-amber {
