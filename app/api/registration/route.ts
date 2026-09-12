@@ -17,7 +17,7 @@ const registrationSchema = z.object({
 
 // Public member registration -> MySQL registrations table (Hostinger).
 // Mirrors /api/contact conventions: zod -> honeypot -> per-IP rate limit.
-// 503 when DATABASE_URL unset (Supabase has no equivalent table yet).
+// 503 when DATABASE_URL is unset.
 export async function POST(request: Request) {
   let body: unknown;
   try {

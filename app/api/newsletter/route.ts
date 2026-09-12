@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { extractCsrfToken } from '@/lib/csrf';
+import { getPool } from '@/lib/db';
 
 export const runtime = 'nodejs';
 
@@ -35,31 +35,15 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-function isSupabaseConfigured() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  return Boolean(
-    url &&
-      key &&
-      !url.includes('placeholder') &&
-      !url.includes('your-project-url') &&
-      !key.includes('placeholder') &&
-      !key.includes('your-anon-key')
-  );
-}
-
-async function storeInSupabase(email: string): Promise<boolean> {
-  if (!isSupabaseConfigured()) return false;
+async function storeInMysql(email: string): Promise<boolean> {
+  const pool = getPool();
+  if (!pool) return false;
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-      { auth: { persistSession: false, autoRefreshToken: false } }
+    await pool.query(
+      'INSERT INTO newsletter_subscriptions (email) VALUES (?) ON DUPLICATE KEY UPDATE email = email',
+      [email]
     );
-    const { error } = await supabase
-      .from('newsletter_subscriptions')
-      .upsert({ email }, { onConflict: 'email' });
-    return !error;
+    return true;
   } catch {
     return false;
   }
@@ -125,16 +109,17 @@ export async function POST(request: Request) {
         }),
       });
       if (response.ok) {
-        await storeInSupabase(email);
+        await storeInMysql(email);
         return NextResponse.json({ ok: true });
       }
     } catch {
-      /* fall through to Supabase backup */
+      /* fall through to MySQL backup */
     }
   }
 
-  // Backup storage: Supabase table (supabase/migrations/0002_newsletter.sql).
-  if (await storeInSupabase(email)) {
+  // Backup storage: Hostinger MySQL table (db/hostinger.sql
+  // newsletter_subscriptions).
+  if (await storeInMysql(email)) {
     return NextResponse.json({ ok: true });
   }
 

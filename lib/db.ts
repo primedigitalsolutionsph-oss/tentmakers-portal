@@ -1,8 +1,8 @@
 import mysql from 'mysql2/promise';
 
 // Hostinger MySQL pool (mysql2 — no native engine binaries, Windows-safe).
-// Returns null when DATABASE_URL is unset so the app keeps running on
-// Supabase. DATABASE_URL: mysql://user:password@host:3306/tentmakers
+// Returns null when DATABASE_URL is unset so API routes can degrade
+// gracefully. DATABASE_URL: mysql://user:password@host:3306/tentmakers
 // Schema: db/hostinger.sql (import via hPanel -> phpMyAdmin).
 // prisma/schema.prisma is the typed reference for the same tables.
 

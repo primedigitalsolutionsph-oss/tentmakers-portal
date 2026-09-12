@@ -12,7 +12,7 @@ const createSchema = z.object({
   providerRef: z.string().max(255).optional(),
 });
 
-// Member subscriptions (new — no Supabase equivalent yet).
+// Member subscriptions (Hostinger MySQL).
 // GET lists the caller's own rows; POST creates a pending row that a
 // payment webhook (Xendit/Stripe) later marks active.
 export async function GET() {

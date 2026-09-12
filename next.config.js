@@ -28,7 +28,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' data: blob: https:",
-              "connect-src 'self' https://api.resend.com https://*.supabase.co wss://*.supabase.co",
+              "connect-src 'self' https://api.resend.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",

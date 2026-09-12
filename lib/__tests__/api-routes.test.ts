@@ -40,8 +40,6 @@ const ENV_KEYS = [
   'CONTACT_FROM_EMAIL',
   'CONTACT_TO_EMAIL',
   'DATABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
 ] as const;
 
 let savedEnv: Record<string, string | undefined>;
@@ -170,7 +168,7 @@ describe('POST /api/newsletter', () => {
     expect(await res.json()).toEqual({ ok: true });
   });
 
-  it('returns 503 when neither Resend nor Supabase is configured', async () => {
+  it('returns 503 when neither Resend nor MySQL is configured', async () => {
     const res = await newsletterPost(
       postRequest('/api/newsletter', { email: 'a@example.com' }, '10.0.1.4')
     );
@@ -191,7 +189,7 @@ describe('POST /api/newsletter', () => {
     expect(await res.json()).toEqual({ ok: true });
   });
 
-  it('falls through to 503 when Resend fails and Supabase is unconfigured', async () => {
+  it('falls through to 503 when Resend fails and MySQL is unconfigured', async () => {
     process.env.RESEND_API_KEY = 'test-key';
     process.env.CONTACT_FROM_EMAIL = 'noreply@test.example';
     vi.stubGlobal(

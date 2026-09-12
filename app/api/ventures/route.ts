@@ -4,8 +4,7 @@ import { ventures as fallbackVentures } from '@/lib/ventures-data';
 
 export const runtime = 'nodejs';
 
-// Public venture directory. MySQL first, static lib/ventures-data.ts fallback
-// (same fallback pattern as app/dashboard/ventures/page.tsx Supabase read).
+// Public venture directory. MySQL first, static lib/ventures-data.ts fallback.
 export async function GET() {
   const pool = getPool();
   if (!pool) return NextResponse.json({ ventures: fallbackVentures, source: 'static' });

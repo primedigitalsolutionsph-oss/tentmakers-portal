@@ -12,7 +12,7 @@ const trainingSchema = z.object({
 
 // MySQL-backed training progress. Monotonic promotion is enforced
 // client-side (see app/dashboard/training/page.tsx); the API only persists
-// the caller's own row. 503 when MySQL/Auth unconfigured -> Supabase fallback.
+// the caller's own row. 503 when MySQL/Auth is unconfigured.
 export async function GET() {
   const session = await auth();
   const userId = (session?.user as { id?: string } | undefined)?.id;

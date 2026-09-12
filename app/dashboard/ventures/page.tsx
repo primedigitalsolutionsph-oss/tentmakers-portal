@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Network, Store, QrCode, CarFront, HardHat } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { ventures as defaultVentures } from '@/lib/ventures-data';
 
 interface DashboardVenture {
@@ -47,18 +46,17 @@ export default function VenturesAccessPage() {
   const [venturesError, setVenturesError] = useState(false);
 
   useEffect(() => {
-    if (!user || !isSupabaseConfigured) return;
+    if (!user) return;
 
     const fetchVentures = async () => {
       try {
-        const { data, error } = await supabase
-          .from('ventures')
-          .select('*')
-          .order('name');
-        if (error) {
-          setVenturesError(true);
-          return;
-        }
+        const res = await fetch('/api/ventures');
+        if (!res.ok) throw new Error('Failed to fetch ventures');
+        const body: unknown = await res.json();
+        const data =
+          body && typeof body === 'object' && 'ventures' in body
+            ? (body as { ventures: unknown }).ventures
+            : [];
         setVenturesError(false);
         if (Array.isArray(data)) {
           const sanitized = data.filter(isDashboardVenture);
@@ -78,14 +76,14 @@ export default function VenturesAccessPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Ventures
+          Portfolio
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Explore the five ventures within the Tentmakers ecosystem.
+          Explore the five portfolio companies within the Tentmakers ecosystem.
         </p>
         {venturesError ? (
           <p role="alert" className="mt-3 rounded-xl border border-amber/30 bg-amber/10 p-3 text-sm text-foreground">
-            Live venture data is unavailable, so the built-in venture directory is shown.
+            Live company data is unavailable, so the built-in company directory is shown.
           </p>
         ) : null}
       </div>
