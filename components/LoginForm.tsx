@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
+import { signIn } from 'next-auth/react';
 import OAuthButtons from '@/components/OAuthButtons';
 import { useRegisterModal } from '@/hooks/use-register-modal';
 
@@ -36,18 +36,23 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
-    });
-
-    if (error) {
-      toast.error(error.message);
-      return;
+    try {
+      // next-auth v4's bundled .d.ts mis-types this overload as never;
+      // cast to the documented redirect:false response shape instead.
+      const res = (await signIn('credentials', {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      })) as unknown as { error?: string | null; ok?: boolean } | undefined;
+      if (!res || res.error) {
+        toast.error('Invalid email or password.');
+        return;
+      }
+      router.push('/dashboard');
+      router.refresh();
+    } catch {
+      toast.error('Something went wrong. Please try again.');
     }
-
-    toast.success('Welcome back!');
-    router.push('/dashboard');
   };
 
   return (

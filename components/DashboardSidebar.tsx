@@ -11,23 +11,20 @@ import {
   LogOut,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 const links = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/dashboard/profile', label: 'Profile', icon: User },
   { href: '/dashboard/training', label: 'Training', icon: GraduationCap },
-  { href: '/dashboard/ventures', label: 'Ventures', icon: Briefcase },
+  { href: '/dashboard/ventures', label: 'Portfolio', icon: Briefcase },
 ];
 
-export default function DashboardSidebar() {
+export default function DashboardSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
-  const router = useRouter();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/login');
+    await signOut({ callbackUrl: '/login' });
   };
 
   return (
@@ -35,6 +32,7 @@ export default function DashboardSidebar() {
       {/* Logo */}
       <Link
         href="/dashboard"
+        onClick={onNavigate}
         className="flex items-center gap-2.5 border-b border-border px-6 py-5 transition-opacity hover:opacity-80"
         aria-label="Tentmakers dashboard home"
       >
@@ -57,6 +55,8 @@ export default function DashboardSidebar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={onNavigate}
+              aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                 isActive

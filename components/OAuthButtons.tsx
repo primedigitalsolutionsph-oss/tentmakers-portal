@@ -1,28 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 export default function OAuthButtons({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const [loading, setLoading] = useState(false);
 
   const handleGoogle = async () => {
-    if (!isSupabaseConfigured) {
-      toast.error('Supabase is not configured yet. Add your keys to .env.local.');
-      return;
-    }
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: `${window.location.origin}/dashboard` },
-    });
-    if (error) {
-      const message = /unsupported provider|provider is not enabled/i.test(error.message)
-        ? 'Google sign-in is not enabled yet. An admin needs to enable the Google provider in Supabase Auth settings.'
-        : error.message;
-      toast.error(message);
+    try {
+      await signIn('google', { callbackUrl: '/dashboard' });
+    } catch {
+      toast.error('Google sign-in failed. Please try again.');
       setLoading(false);
     }
   };

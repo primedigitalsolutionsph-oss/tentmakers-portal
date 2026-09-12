@@ -9,8 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
-import { useAuth, getUserMetadata } from '@/components/AuthProvider';
+import { useAuth } from '@/components/AuthProvider';
 
 const profileSchema = z.object({
   fullName: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
@@ -27,7 +26,6 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 export default function ProfilePage() {
   const { user, loading } = useAuth();
   const [saved, setSaved] = useState(false);
-  const [loadError, setLoadError] = useState<string | null>(null);
 
   const {
     register,
@@ -41,54 +39,29 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!user || loading) return;
-
-    const fetchProfile = async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      if (error) {
-        setLoadError('Profile data is unavailable. Account details are shown from your sign-in record.');
-      } else {
-        setLoadError(null);
-      }
-
-      if (data) {
-        reset({
-          fullName: data.full_name || getUserMetadata(user)?.full_name || '',
-          phone: data.phone || getUserMetadata(user)?.phone || '',
-        });
-      } else {
-        reset({
-          fullName: getUserMetadata(user)?.full_name || '',
-          phone: getUserMetadata(user)?.phone || '',
-        });
-      }
-    };
-
-    fetchProfile();
+    reset({
+      fullName: user.name || '',
+      phone: '',
+    });
   }, [user, loading, reset]);
 
   const onSubmit = async (data: ProfileFormData) => {
-    if (!user) return;
-
-    const { error } = await supabase.from('profiles').upsert({
-      id: user.id,
-      full_name: data.fullName,
-      phone: data.phone,
-      updated_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      toast.error('Failed to update profile');
-      return;
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name: data.fullName, phone: data.phone }),
+      });
+      if (!res.ok) {
+        toast.error('Failed to update profile');
+        return;
+      }
+      toast.success('Profile updated!');
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch {
+      toast.error('Something went wrong. Please try again.');
     }
-
-    toast.success('Profile updated!');
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
   };
 
   if (loading) {
@@ -108,16 +81,10 @@ export default function ProfilePage() {
         <p className="mt-1 text-muted-foreground">
           Manage your account information.
         </p>
-        {loadError ? (
-          <p role="alert" className="mt-3 rounded-xl border border-amber/30 bg-amber/10 p-3 text-sm text-foreground">
-            {loadError}
-          </p>
-        ) : null}
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-6 sm:p-8">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email (read-only) */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Email</Label>
             <div className="relative">
@@ -133,7 +100,6 @@ export default function ProfilePage() {
             </p>
           </div>
 
-          {/* Full Name */}
           <div className="space-y-2">
             <Label htmlFor="fullName" className="text-sm font-medium">
               Full Name
@@ -148,13 +114,10 @@ export default function ProfilePage() {
               />
             </div>
             {errors.fullName && (
-              <p className="text-xs text-destructive">
-                {errors.fullName.message}
-              </p>
+              <p className="text-xs text-destructive">{errors.fullName.message}</p>
             )}
           </div>
 
-          {/* Phone */}
           <div className="space-y-2">
             <Label htmlFor="phone" className="text-sm font-medium">
               Phone Number
@@ -170,9 +133,7 @@ export default function ProfilePage() {
               />
             </div>
             {errors.phone && (
-              <p className="text-xs text-destructive">
-                {errors.phone.message}
-              </p>
+              <p className="text-xs text-destructive">{errors.phone.message}</p>
             )}
           </div>
 

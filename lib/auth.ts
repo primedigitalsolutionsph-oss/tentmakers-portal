@@ -14,8 +14,7 @@ const credentialsSchema = z.object({
 
 // Hostinger MySQL auth (next-auth v4 stable, mysql2 pool — no Prisma engine).
 // JWT strategy; MySQL rows are read/written in callbacks.
-// Inactive unless DATABASE_URL + AUTH_SECRET/NEXTAUTH_SECRET are set —
-// Supabase remains the primary until you cut over.
+// Inactive unless DATABASE_URL + AUTH_SECRET/NEXTAUTH_SECRET are set.
 // Schema: db/hostinger.sql.
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
