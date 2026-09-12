@@ -21,16 +21,19 @@ const STEPS: Step[] = [
 const KEY = 'tm-onboarding';
 
 export default function OnboardingChecklist({ profileComplete }: { profileComplete: boolean }) {
-  const [done, setDone] = useState<string[]>([]);
-  const [dismissed, setDismissed] = useState(false);
-
-  useEffect(() => {
+  // Read persisted state lazily instead of syncing it in an effect:
+  // SSR-safe (localStorage only exists in the browser) and avoids a
+  // cascading render. profileComplete is still honored at render time
+  // (see `completed` below), so a late profile load is reflected.
+  const [done, setDone] = useState<string[]>(() => {
     try {
+      if (typeof window === 'undefined') return [];
       const raw = localStorage.getItem(KEY);
-      if (raw) setDone(JSON.parse(raw));
-      else if (profileComplete) setDone(['profile']);
-    } catch { /* ignore */ }
-  }, [profileComplete]);
+      if (raw) return JSON.parse(raw) as string[];
+    } catch { /* ignore corrupt storage */ }
+    return [];
+  });
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     try {

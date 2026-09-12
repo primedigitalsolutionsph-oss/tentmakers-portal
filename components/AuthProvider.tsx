@@ -3,13 +3,17 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { SessionProvider, useSession } from 'next-auth/react';
 import { supabase } from '@/lib/supabase';
-import type { Session } from '@supabase/supabase-js';
+import type { Session, User, UserMetadata } from '@supabase/supabase-js';
+
+interface MysqlUser {
+  id: string;
+  email?: string | null;
+}
 
 interface AuthContextType {
   session: Session | null;
   // Supabase User has user_metadata; MySQL/Auth.js user is {id,email}.
-  // any keeps existing dashboard pages compiling during the transition.
-  user: any;
+  user: User | MysqlUser | null;
   loading: boolean;
   /** Active provider: Supabase (primary) or mysql/Auth.js (Hostinger). */
   provider: 'supabase' | 'mysql' | null;
@@ -24,6 +28,18 @@ const AuthContext = createContext<AuthContextType>({
 
 export function useAuth() {
   return useContext(AuthContext);
+}
+
+/**
+ * Supabase users carry `user_metadata`; MySQL/Auth.js users do not.
+ * Use this instead of touching `user.user_metadata` directly so the
+ * dual-provider union stays type-safe during the transition.
+ */
+export function getUserMetadata(
+  user: User | MysqlUser | null | undefined
+): UserMetadata | undefined {
+  if (user && 'user_metadata' in user) return user.user_metadata;
+  return undefined;
 }
 
 function SupabaseAuth({

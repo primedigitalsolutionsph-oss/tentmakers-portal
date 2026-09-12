@@ -18,16 +18,16 @@ update public.ventures set
 where slug = 'thrifty-tribe';
 
 update public.ventures set
-  industries = array['Insurance', 'Road Safety', 'Education', '24/7 SOS'],
+  industries = array['Staffing', 'Labor'],
   updated_at = now()
 where slug = 'icky';
 
 update public.ventures set
-  industries = array['Staffing', 'Labor'],
+  industries = array['Insurance', 'Road Safety', 'Education', '24/7 SOS'],
   updated_at = now()
 where slug = 'prime-axis';
 
 update public.ventures set
-  industries = array['Community', 'Accelerator', 'Training'],
+  industries = array['Community', 'Training', 'Mentorship'],
   updated_at = now()
 where slug = 'tentmakers-network';

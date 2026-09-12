@@ -119,9 +119,7 @@ export default function VentureNetworkDiagram() {
         {/* Satellite nodes */}
         {satellites.map((node, i) => {
           const isActive = hovered?.slug === node.slug;
-          const scale = isActive ? 1.2 : 1;
           const fillColor = colors[node.slug] || '#9ca3af';
-          const nodeCount = satellites.length + 1;
 
           return (
             <motion.g

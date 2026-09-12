@@ -9,6 +9,7 @@ import {
   Briefcase,
   GraduationCap,
   ArrowRight,
+  Activity,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,18 +21,23 @@ interface MemberBenefit {
 
 const memberBenefits: MemberBenefit[] = [
   {
+    icon: Activity,
+    title: 'Readiness Score',
+    description: 'A single number blending training, savings, site engagement, protection, and mentorship — gating tier advancement.',
+  },
+  {
     icon: Globe,
     title: 'A website',
-    description: 'Digital presence from day one — no build cost, no waiting.',
+    description: 'Business Foundation Site live from Tier 1 — no build cost, no waiting.',
   },
   {
     icon: PiggyBank,
     title: 'Savings tools',
-    description: 'Structured savings through Thrifty Tribe, built into membership.',
+    description: 'Structured savings through Thrifty Tribe, built into membership from day one.',
   },
   {
     icon: ShieldCheck,
-    title: 'Driver protection',
+    title: 'Protection',
     description: 'Insurance coverage through Prime Axis, not an afterthought.',
   },
   {
@@ -108,10 +114,10 @@ export default function TheModel() {
             exactly who they serve.
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            It is a two-sided flywheel. Registered members receive a website,
-            savings, driver protection, and staffing access from the start. Each
-            affiliated venture, in turn, gains a high-trust channel into exactly
-            the founders, students, and SMEs it is built to serve.
+            It is a two-sided flywheel. Registered members receive a Readiness
+            Score, a website, savings, protection, and staffing access from the
+            start. Each affiliated venture, in turn, gains a high-trust channel
+            into exactly the founders, students, and SMEs it is built to serve.
           </p>
         </motion.div>
 
@@ -276,14 +282,13 @@ export default function TheModel() {
               </span>
             </div>
             <p className="max-w-3xl text-base font-medium leading-relaxed text-foreground sm:text-lg">
-              Over time, our strongest members become the future franchise and
-              regional-operator candidates for these ventures in their own
-              chapters —{' '}
-              <span className="text-muted-foreground">
-                turning the accelerator into a talent pipeline for regional
-                expansion, not just a training program.
-              </span>
-            </p>
+            Tiers are strictly readiness gates, not a ladder toward a Tentmakers
+            role. A member can complete all three tiers and never engage with
+            the ventures again — that is a successful outcome, not an attrition
+            problem. The Anchor band and peer teaching build a natural mentor
+            pipeline without labeling it a “career path,” keeping the network as
+            an enabler rather than an employer-in-waiting.
+          </p>
           </div>
         </motion.div>
       </div>

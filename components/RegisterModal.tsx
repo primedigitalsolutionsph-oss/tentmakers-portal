@@ -36,10 +36,10 @@ function StepPrerequisite() {
       className="space-y-6"
     >
       <h2 className="font-display text-2xl font-bold text-foreground">
-        Join the Tentmakers Network
+        Join Tentmakers Network
       </h2>
       <p className="text-sm text-muted-foreground">
-        Enter your email to get started. No fees to begin.
+        Training, mentorship, and real tools to help you build something that lasts. No fees to join.
       </p>
 
       <div className="space-y-4">
@@ -110,10 +110,10 @@ function StepOptions() {
     >
       <div>
         <h2 className="font-display text-2xl font-bold text-foreground">
-          What describes you best?
+          Sign up with Google or email
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          This helps us guide you to the right training path.
+          No fees to join. Pick the option that works best for you.
         </p>
       </div>
 
@@ -210,10 +210,10 @@ function StepDetails() {
     >
       <div>
         <h2 className="font-display text-2xl font-bold text-foreground">
-          Almost done
+          You&apos;re in — your first step starts here
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Tell us a bit more (optional, but helps us serve you better).
+          Meet your mentor and start Tier 1. Track your Readiness Score as you go.
         </p>
       </div>
 
@@ -314,11 +314,12 @@ function StepSuccess() {
       </div>
 
       <h2 className="font-display text-2xl font-bold text-foreground">
-        Welcome to the Tentmakers Network!
+        Welcome to the Tentmakers Network
       </h2>
       <p className="text-sm text-muted-foreground">
-        Your request has been received. We&apos;ll reach out within 24 hours
-        with next steps to access training and ventures.
+        Your first step: meet your mentor and start Tier 1. Your Readiness Score
+        will track your progress — it&apos;s not a test, it&apos;s a map of what
+        you&apos;ve built.
       </p>
 
       <button
@@ -436,9 +437,9 @@ export default function RegisterModal() {
                 />
               </div>
               <div className="mt-1 flex justify-between text-xs text-muted-foreground">
-                <span>Start</span>
+                <span>Join</span>
                 <span>Details</span>
-                <span>Complete</span>
+                <span>Start Tier 1</span>
               </div>
             </div>
           )}

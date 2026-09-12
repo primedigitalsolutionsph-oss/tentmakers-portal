@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import { Store, QrCode, CarFront, HardHat, Network } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface Satellite {
   name: string;

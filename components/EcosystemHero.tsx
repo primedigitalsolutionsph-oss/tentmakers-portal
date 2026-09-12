@@ -93,72 +93,72 @@ export default function EcosystemHero() {
           </span>
         </motion.div>
 
-        {/* Headline */}
-        <motion.h1
-          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 32 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 max-w-4xl font-display text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl xl:text-[4.25rem]"
-        >
-          Join the network that{' '}
-          <span className="text-amber">turns members into operators</span> — and
-          builds ventures that matter.
-        </motion.h1>
-
-        {/* Subheadline */}
-        <motion.p
-          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-7 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl"
-        >
-          Five ventures. One training hub. A 4.67-million-person market on Panay
-          Island. Register as a member, progress through our training tiers, and
-          build the skills to operate within the ecosystem.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-9 flex flex-wrap items-center gap-3"
-        >
-          <button
-            onClick={onOpen}
-            className="group inline-flex items-center gap-2 rounded-xl bg-amber px-6 py-3.5 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20"
+          {/* Headline */}
+          <motion.h1
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 32 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 max-w-4xl font-display text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl xl:text-[4.25rem]"
           >
-            Join the Network
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-          </button>
-          <Link
-            href="/ventures"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3.5 text-sm font-semibold text-white/80 transition-colors hover:border-amber/40 hover:text-white"
-          >
-            Explore Ventures
-          </Link>
-          <span className="w-full text-xs text-white/50 sm:w-auto sm:ml-2">
-            No fees to start · 3-tier training · Value from day one
-          </span>
-        </motion.div>
+            Tentmakers Network —{' '}
+            <span className="text-amber">Program Design</span>
+          </motion.h1>
 
-        {/* Venture pills */}
-        <motion.div
-          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex flex-wrap items-center gap-2.5"
-        >
-          {ventures.map((v) => (
-            <Link
-              key={v.slug}
-              href={`/ventures/${v.slug}`}
-              className="rounded-full border border-white/15 bg-white/[0.05] px-4 py-1.5 text-sm font-medium text-white/70 transition-all duration-300 hover:border-amber/40 hover:bg-amber/[0.06] hover:text-amber"
+          {/* Subheadline */}
+          <motion.p
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-7 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl"
+          >
+            A Readiness Score that blends training, savings, site engagement,
+            protection, and mentorship — gating three tiers of real progress,
+            not course-clicking. Five ventures, one network, a 4.67-million-person
+            market on Panay Island.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-9 flex flex-wrap items-center gap-3"
+          >
+            <button
+              onClick={onOpen}
+              className="group inline-flex items-center gap-2 rounded-xl bg-amber px-6 py-3.5 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20"
             >
-              {v.name}
+              Join the Network
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </button>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3.5 text-sm font-semibold text-white/80 transition-colors hover:border-amber/40 hover:text-white"
+            >
+              Explore the Program
             </Link>
-          ))}
-        </motion.div>
+            <span className="w-full text-xs text-white/50 sm:w-auto sm:ml-2">
+              No fees to start · 3-tier training · Readiness Score from day one
+            </span>
+          </motion.div>
+
+          {/* Venture pills */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10 flex flex-wrap items-center gap-2.5"
+          >
+            {ventures.map((v) => (
+              <Link
+                key={v.slug}
+                href={`/ventures/${v.slug}`}
+                className="rounded-full border border-white/15 bg-white/[0.05] px-4 py-1.5 text-sm font-medium text-white/70 transition-all duration-300 hover:border-amber/40 hover:bg-amber/[0.06] hover:text-amber"
+              >
+                {v.name}
+              </Link>
+            ))}
+          </motion.div>
 </div>
  
         {/* Proof stats */}
@@ -171,7 +171,7 @@ export default function EcosystemHero() {
           <Stat end={4.67} decimals={2} suffix="M" label="Market on Panay" />
           <Stat end={57469} label="MSMEs, Western Visayas (DTI)" />
           <Stat end={5} label="Ventures, one hub" />
-          <Stat end={3} label="Training tiers" />
+          <Stat end={3} suffix="" label="Readiness tiers + Anchor band" />
         </motion.div>
       </motion.div>
     </section>

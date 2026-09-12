@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function FinalCTA() {
   const prefersReducedMotion = useReducedMotion();
@@ -52,31 +53,29 @@ export default function FinalCTA() {
               </span>
             </div>
             <h2 className="mt-5 font-display text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Ready to{' '}
-              <span className="text-amber">join the network</span>? Your
-              journey as an operator starts here.
+              Join Tentmakers Network —{' '}
+              <span className="text-amber">training, mentorship, and real tools</span> to help you build something that lasts.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">
-              Request access to the training hub, connect with
-              ventures, and build the skills to operate within the Tentmakers
-              ecosystem on Panay Island.
+              Sign up with Google or email. No fees to join. Track your Readiness
+              Score as you go — it&apos;s not a test, it&apos;s a map of what you&apos;ve built.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
+              <Link
                 href="/contact"
                 className="inline-flex items-center gap-2.5 rounded-xl bg-amber px-6 py-3 text-sm font-bold text-navy transition-all hover:bg-amber-soft hover:shadow-lg hover:shadow-amber/20"
               >
                 Request Access
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/ventures"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3 text-sm font-medium text-white/80 transition-colors hover:border-amber/40 hover:text-white"
               >
                 Explore Ventures
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </Link>
             </div>
           </motion.div>
 
@@ -120,8 +119,8 @@ export default function FinalCTA() {
               <div className="space-y-4">
                 {[
                   { label: 'Market', value: '4.67M people, Panay Island' },
-                  { label: 'Ventures', value: '5 verticals, all venture-backed' },
-                  { label: 'Training Hub', value: '3-tier progression pipeline' },
+                  { label: 'Ventures', value: '5 verticals, venture-backed' },
+                  { label: 'Training Hub', value: '3 readiness tiers + Anchor band' },
                   { label: 'MSMEs', value: '57,469 establishments' },
                   { label: 'Stage', value: 'Active & Scaling' },
                 ].map((item) => (

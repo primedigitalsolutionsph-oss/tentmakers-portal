@@ -181,9 +181,9 @@ values
     'thrifty-tribe',
     'Thrifty Tribe',
     'Early',
-    'The Discount Gap',
-    'A smart savings membership — QR-code deals and cashback at partner merchants, and a day-one perk of Tentmakers membership.',
-    'Thrifty Tribe is a smart savings membership built on QR-code deals and cashback: members save on everyday spending while member businesses become partner-merchants.',
+    'The Savings Gap',
+    'A smart savings membership — structured savings, QR-code deals, and cashback at partner merchants, built into Tentmakers membership from day one.',
+    'Thrifty Tribe is a smart savings membership: members save on everyday spending while member businesses become partner-merchants.',
     array[
       'Digital payments reached 57.4% of retail volume in 2024 — QR spending is the norm',
       '43% of adults hold e-money accounts; 58% have a formal financial account',
@@ -199,52 +199,52 @@ values
     'icky',
     'ICKY',
     'Early',
-    'The Protection Gap',
-    'Driver protection and road-safety education — insurance literacy, 3D driving simulation, and 24/7 SOS for the people who keep Panay Island moving.',
-    'ICKY combines insurance literacy, road-safety education, 3D driving simulation, and 24/7 SOS — with discounted plans for members and their riders.',
-    array[
-      'Insurance penetration only ~1.79% in 2025, below the 2% national target',
-      '31,000+ road accidents in 2024, 2,747 deaths — 87% from reckless driving',
-      'Masa and Iskolar plans plus discounted cover for members and their riders'
-    ],
-    array[
-      'ICKY targets the exact risk behind 31,000+ annual accidents with literacy, simulation training, SOS response, and the Masa and Iskolar plans.'
-    ],
-    '~1.79%',
-    'insurance penetration (2025)'
-  ),
-  (
-    'prime-axis',
-    'Prime Axis',
-    'Early',
     'The Staffing Gap',
     'A general and specialized labor marketplace — staffing for Tentmakers events today, and a hiring resource for members’ growing businesses.',
-    'Prime Axis is a labor marketplace for skilled and general talent — staffing network events now, and growing into the hiring resource for members’ businesses.',
+    'ICKY is a labor marketplace for skilled and general talent — staffing network events now, and growing into the hiring resource for members’ businesses.',
     array[
       '41% of SMEs increased headcount in 2024; 57% planned further hiring in 2025',
       'MSMEs generate ~63% of national employment and keep formalizing',
       'No Panay-specific labor-market sizing exists — demand is validated via SME hiring data'
     ],
     array[
-      'Prime Axis supplies flexible skilled and general labor against proven SME hiring demand, earning placement margin including network event staffing.'
+      'ICKY supplies flexible skilled and general labor against proven SME hiring demand, earning placement margin including network event staffing.'
     ],
     '41%',
     'of SMEs increased headcount in 2024'
+  ),
+  (
+    'prime-axis',
+    'Prime Axis',
+    'Early',
+    'The Protection Gap',
+    'Driver protection and road-safety education — insurance literacy, 3D driving simulation, and 24/7 SOS for the people who keep Panay Island moving.',
+    'Prime Axis combines insurance literacy, road-safety education, 3D driving simulation, and 24/7 SOS — with discounted plans for members and their riders.',
+    array[
+      'Insurance penetration only ~1.79% in 2025, below the 2% national target',
+      '31,000+ road accidents in 2024, 2,747 deaths — 87% from reckless driving',
+      'Masa and Iskolar plans plus discounted cover for members and their riders'
+    ],
+    array[
+      'Prime Axis targets the exact risk behind 31,000+ annual accidents with literacy, simulation training, SOS response, and the Masa and Iskolar plans.'
+    ],
+    '~1.79%',
+    'insurance penetration (2025)'
   ),
   (
     'tentmakers-network',
     'Tentmakers Network',
     'Early',
     'The Trust Gap',
-    'A founder community launching across Panay Island — Founder Circles, a 12-week accelerator, and Demo Day, targeting 300 members by Q4 2026.',
-    'Tentmakers Network is a pre-launch founder community — the front door to four working ventures, starting with Founder Circles and a 12-week accelerator ending in Demo Day.',
+    'A member network with a Readiness Score gating three readiness tiers — Foundation, Building, Established — plus an Anchor band for mentor-track candidates.',
+    'Tentmakers Network is a member network with a Readiness Score, three training tiers, and real venture access — the connective tissue across all ventures.',
     array[
       '300-member target: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40',
-      'Two tiers: open Network Membership + selective 15–25 founder accelerator cohorts',
-      'Franchise operator pathway as long-term vision, not a Batch 1 promise'
+      'Three readiness tiers: Foundation, Building, Established — plus Anchor band for mentor-track candidates',
+      'Readiness Score blends training, savings, site engagement, protection, and mentorship'
     ],
     array[
-      'A two-tier model: open Network Membership plus capacity-capped 12-week accelerator cohorts ending in a founder-to-investor Demo Day.'
+      'Tentmakers Network is launching across Panay Island with a Readiness Score that blends training completion, savings consistency, site engagement, protection enrollment, and mentorship participation.'
     ],
     '300',
     'member target by Q4 2026'

@@ -46,18 +46,24 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    // next-auth's own .d.ts surface is unreliable in the installed build
+    // (root re-exports members with no backing declarations), so these
+    // callbacks stay explicitly `any`-typed instead of pretending otherwise.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async jwt({ token, user }: any) {
       if (user?.id) token.sub = user.id;
       return token;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, token }: any) {
       if (token.sub && session.user) {
-        (session.user as { id?: string }).id = token.sub as string;
+        (session.user as { id?: string }).id = token.sub;
       }
       return session;
     },
     // Mirror Supabase handle_new_user(): ensure users + profiles rows exist
     // for OAuth sign-ins (MySQL has no Postgres trigger).
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async signIn({ user, account }: any) {
       try {
         const pool = getPool();

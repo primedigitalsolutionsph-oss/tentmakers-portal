@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ventures } from '@/lib/ventures-data';
 import { CONTACT_EMAIL } from '@/lib/contact';
 
@@ -103,12 +104,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <a href="/" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-2.5">
               <Image src="/logo.png" alt="Tentmakers Logo" width={36} height={36} />
               <span className="text-sm font-bold tracking-tight text-white">
                 Tentmakers
               </span>
-            </a>
+            </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
               A network that turns members into operators and ventures into a
               regional ecosystem. Five ventures. One training hub. 4.67 million
@@ -174,17 +175,17 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-sm text-white/60 transition-colors hover:text-amber">
+                <Link href="/contact" className="text-sm text-white/60 transition-colors hover:text-amber">
                   Contact form
-                </a>
+                </Link>
               </li>
             </ul>
-            <a
+            <Link
               href="/contact"
               className="mt-6 inline-flex rounded-lg bg-amber px-5 py-2.5 text-sm font-bold text-navy transition-colors hover:bg-amber-soft"
             >
               Request Access
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -111,6 +111,9 @@ const Carousel = React.forwardRef<
         return;
       }
 
+      // Vendored shadcn/ui pattern: sync initial selection state, then
+      // subscribe. The synchronous call is required for correct first paint.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onSelect(api);
       api.on('reInit', onSelect);
       api.on('select', onSelect);

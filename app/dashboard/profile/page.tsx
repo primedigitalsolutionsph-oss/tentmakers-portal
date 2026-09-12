@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/components/AuthProvider';
+import { useAuth, getUserMetadata } from '@/components/AuthProvider';
 
 const profileSchema = z.object({
   fullName: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
@@ -57,13 +57,13 @@ export default function ProfilePage() {
 
       if (data) {
         reset({
-          fullName: data.full_name || user.user_metadata?.full_name || '',
-          phone: data.phone || user.user_metadata?.phone || '',
+          fullName: data.full_name || getUserMetadata(user)?.full_name || '',
+          phone: data.phone || getUserMetadata(user)?.phone || '',
         });
       } else {
         reset({
-          fullName: user.user_metadata?.full_name || '',
-          phone: user.user_metadata?.phone || '',
+          fullName: getUserMetadata(user)?.full_name || '',
+          phone: getUserMetadata(user)?.phone || '',
         });
       }
     };

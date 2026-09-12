@@ -9,7 +9,10 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  // Hydration guard: next-themes only resolves `theme` on the client.
+  // The synchronous setState here is intentional and runs once on mount.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

@@ -80,6 +80,17 @@ Without the Google provider enabled, Google sign-in fails with
   `Documents/Business Plan/Tentmakers_Ecosystem_Business_Plan.docx`. The
   `public.ventures` table mirrors it for future CMS use — edit the TS file
   first, then mirror into the seed migrations.
+- **Schema parity** is guarded by `lib/__tests__/schema-parity.test.ts`
+  (Prisma models ↔ `db/hostinger.sql` tables, Supabase tables ↔ MySQL,
+  venture slugs/stages/industries in both seeds). Known gaps it does NOT
+  cover, by decision: `db/hostinger.sql` venture long-form copy
+  (offering/description/signals) is abbreviated vs the TS canonical copy, so
+  MySQL-first reads (`GET /api/ventures`) serve shorter copy — re-seed from
+  the TS file before the Hostinger cutover. `registrations`/`subscriptions`
+  are MySQL-only by design (503 without `DATABASE_URL`; no Supabase
+  equivalent yet). `20260911000001_ventures_content.sql` contains mangled
+  em-dash bytes (`�?`) — fix via a new follow-up migration, never by editing
+  the applied file.
 - **API routes** (`app/api/*/route.ts`): zod validation → honeypot
   (`company`) → per-IP rate limit → Resend primary → Supabase backup →
   graceful JSON error. New endpoints should follow the same shape.
@@ -90,9 +101,13 @@ Without the Google provider enabled, Google sign-in fails with
   `app/dashboard/layout.tsx`. Registration is currently closed
   (`/register` redirects home); access requests flow through the register
   modal → `POST /api/contact`.
-- **ESLint** runs on a minimal flat config (`eslint.config.mjs`) because
-  `eslint-config-next`'s bundled plugins crash ESLint 10. Restore the Next
-  config once it supports ESLint 10.
+- **ESLint** (v10, flat `eslint.config.mjs`): Next `core-web-vitals` +
+  `react-hooks` flat recommended + `typescript-eslint` recommended, wired
+  directly — no `npm install` needed. The `react` / `jsx-a11y` / `import`
+  rules from `eslint-config-next` are still excluded: that package ships no
+  flat entry point and its plugins peer-cap at ESLint 9 (verified up to
+  `16.4.0-canary`; `@eslint/eslintrc` isn't installed). Either downgrade to
+  ESLint 9 or restore the wrapper once upstream ships a flat ESLint-10 config.
 
 ## Troubleshooting
 

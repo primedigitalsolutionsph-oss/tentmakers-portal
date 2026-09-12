@@ -326,7 +326,8 @@ export default function MarketOpportunity() {
             connectivity and real digital presence, savings tools, insurance
             coverage, and reliable staffing remains wide. Each figure maps
             directly onto the gap one of the five Tentmakers ventures is built
-            to close.
+            to close — and the Readiness Score ensures members build real
+            capability before accessing each venture.
           </p>
         </motion.div>
 

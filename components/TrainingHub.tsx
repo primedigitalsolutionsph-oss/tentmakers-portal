@@ -5,15 +5,15 @@ import {
   BookOpen,
   Users2,
   ClipboardList,
-  Lightbulb,
-  CalendarDays,
   TrendingUp,
   Mic,
   ChevronRight,
+  Globe,
+  ShieldCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type Level = 'Basic' | 'Intermediate' | 'Advanced';
+type Level = 'Foundation' | 'Building' | 'Established';
 
 interface Activity {
   icon: React.ElementType;
@@ -25,46 +25,46 @@ interface Activity {
 const activities: Activity[] = [
   {
     icon: BookOpen,
-    label: 'Mentorships',
-    description: 'One-on-one guidance from experienced operators',
-    level: 'Basic',
+    label: 'Orientation & Network Overview',
+    description: 'Live/recorded session — understand the network, ventures, and readiness.',
+    level: 'Foundation',
+  },
+  {
+    icon: Globe,
+    label: 'Business Foundation Site Setup',
+    description: 'Guided setup with PDS support — site live, member trained to edit basic content.',
+    level: 'Foundation',
   },
   {
     icon: ClipboardList,
-    label: 'Business plan training',
-    description: 'Structured curriculum for turning ideas into ventures',
-    level: 'Basic',
+    label: 'Savings Habit Fundamentals',
+    description: 'Self-paced + workbook — enrolled in Thrifty Tribe, first savings cycle started.',
+    level: 'Foundation',
   },
   {
-    icon: Users2,
-    label: 'Mastermind Groups',
-    description: 'Peer advisory circles for accountability and growth',
-    level: 'Intermediate',
-  },
-  {
-    icon: Lightbulb,
-    label: 'Group events',
-    description: 'Workshops, pitch nights, and collaborative sessions',
-    level: 'Intermediate',
-  },
-  {
-    icon: CalendarDays,
-    label: 'Speaking engagements',
-    description: 'Platform to build authority and public presence',
-    level: 'Advanced',
+    icon: ShieldCheck,
+    label: 'Protection Enrollment',
+    description: 'Guided with Prime Axis advisor — active enrollment in protection.',
+    level: 'Building',
   },
   {
     icon: TrendingUp,
-    label: 'Advanced venture tracks',
-    description: 'Deep-dive programs for operating within the ecosystem',
-    level: 'Advanced',
+    label: 'Site Growth Workshop',
+    description: 'Live workshop — site updated with real products, services, and contact info.',
+    level: 'Building',
+  },
+  {
+    icon: Users2,
+    label: 'Peer Teaching Session',
+    description: 'Live, member-led — share one lesson learned with a newer cohort.',
+    level: 'Established',
   },
 ];
 
 const levels: { name: Level; color: 'navy' | 'forest' | 'amber'; number: string }[] = [
-  { name: 'Basic', color: 'navy', number: '01' },
-  { name: 'Intermediate', color: 'forest', number: '02' },
-  { name: 'Advanced', color: 'amber', number: '03' },
+  { name: 'Foundation', color: 'navy', number: '01' },
+  { name: 'Building', color: 'forest', number: '02' },
+  { name: 'Established', color: 'amber', number: '03' },
 ];
 
 const levelColorMap = {
@@ -122,15 +122,13 @@ export default function TrainingHub() {
             id="training-hub-heading"
             className="mt-5 font-display text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]"
           >
-            Members do not just join.{' '}
-            <span className="text-amber">They grow — level by level.</span>
+            Progress through three tiers.{' '}
+            <span className="text-amber">Your Readiness Score guides the way.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            At its core, Tentmakers is a training hub. Registered members progress
-            from basic to advanced through mentorships, business plan training,
-            Mastermind Groups, group events, speaking engagements, and more —
-            building the skills and network to eventually operate within the
-            ecosystem itself.
+            Each tier has a clear goal, guided modules, and an assessment that
+            unlocks the next tier once your Readiness Score threshold is met.
+            No course-clicking — real behavior, real progress.
           </p>
         </motion.div>
 
@@ -331,13 +329,11 @@ export default function TrainingHub() {
               <Mic className="h-5 w-5" aria-hidden="true" />
             </span>
             <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              This is where the founder community becomes a genuine pipeline.
-              Members do not just attend — they progress, level by level, until
-              they have the skills and network to{' '}
-              <span className="font-semibold text-foreground">
-                eventually operate within the ecosystem itself.
-              </span>
-            </p>
+            Tiers are strictly readiness gates, not a ladder toward a Tentmakers
+            role. Completing all three tiers is a successful outcome on its own —
+            the Readiness Score and Anchor band build a natural mentor pipeline
+            without labeling it a “career path.”
+          </p>
           </div>
         </motion.div>
       </div>

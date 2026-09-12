@@ -18,15 +18,14 @@ export function useCountUp({
   startOnView = true,
 }: UseCountUpOptions) {
   const [value, setValue] = useState(start);
-  const [hasStarted, setHasStarted] = useState(false);
+  // When nothing gates the start, begin immediately instead of flipping
+  // the flag in an effect (avoids a cascading render).
+  const [hasStarted, setHasStarted] = useState(!startOnView);
   const ref = useRef<HTMLSpanElement>(null);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!startOnView) {
-      setHasStarted(true);
-      return;
-    }
+    if (!startOnView) return;
 
     const element = ref.current;
     if (!element) return;
@@ -57,8 +56,12 @@ export function useCountUp({
     ).matches;
 
     if (prefersReducedMotion) {
-      setValue(end);
-      return;
+      // Schedule outside the effect body: same visual result (static end
+      // value before paint), no synchronous setState in the effect.
+      rafRef.current = requestAnimationFrame(() => setValue(end));
+      return () => {
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      };
     }
 
     const startTime = performance.now();

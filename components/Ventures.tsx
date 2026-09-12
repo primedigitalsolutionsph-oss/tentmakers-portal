@@ -7,7 +7,6 @@ import {
   Store,
   QrCode,
   CarFront,
-  HardHat,
   Network,
   ArrowUpRight,
   Globe,
@@ -50,7 +49,7 @@ const ventures: Venture[] = [
     id: 'prime-digital-solutions',
     name: 'Prime Digital Solutions',
     tagline: 'Websites, apps, and automation for MSMEs',
-    gap: 'The storefront gap',
+    gap: 'The Storefront Gap',
     offering:
       'Website and app development plus business automation — the technology backbone discounting dev services for member founders.',
     marketSignal:
@@ -70,10 +69,10 @@ const ventures: Venture[] = [
   {
     id: 'thrifty-tribe',
     name: 'Thrifty Tribe',
-    tagline: 'QR deals and cashback for members',
-    gap: 'The discount gap',
+    tagline: 'Structured savings, QR deals, and cashback',
+    gap: 'The Savings Gap',
     offering:
-      'A smart savings membership — QR-code deals and cashback at partner merchants, and a day-one member perk.',
+      'A smart savings membership — structured savings, QR-code deals, and cashback at partner merchants, built into Tentmakers membership from day one.',
     marketSignal:
       '57.4% of retail volume is digital — QR spending members already understand.',
     metric: 'Members-only',
@@ -90,12 +89,31 @@ const ventures: Venture[] = [
   {
     id: 'icky',
     name: 'ICKY',
-    tagline: 'Road safety, literacy, and 24/7 SOS',
-    gap: 'The protection gap',
+    tagline: 'SMEs scaling their headcount',
+    gap: 'The Staffing Gap',
+    offering:
+      'A general and specialized labor marketplace — staffing for Tentmakers events today, and a hiring resource for members’ growing businesses.',
+    marketSignal:
+      '41% of SMEs grew headcount in 2024; 57% planned further hiring in 2025.',
+    metric: '41%',
+    metricLabel: 'of SMEs grew headcount in 2024',
+    stage: 'Early',
+    icon: Briefcase,
+    span: 'normal',
+    industries: [
+      { icon: Users, label: 'Staffing' },
+      { icon: Briefcase, label: 'Labor' },
+    ],
+  },
+  {
+    id: 'prime-axis',
+    name: 'Prime Axis',
+    tagline: 'Drivers and families needing protection',
+    gap: 'The Protection Gap',
     offering:
       'Insurance literacy, road-safety education, 3D driving simulation, and 24/7 SOS — with discounted plans for members and riders.',
     marketSignal:
-      '31,000+ accidents in 2024, 2,747 deaths — 87% from reckless driving.',
+      'Insurance penetration only ~1.79% in 2025, below the 2% national target.',
     metric: '~1.79%',
     metricLabel: 'insurance penetration (2025)',
     stage: 'Early',
@@ -109,33 +127,14 @@ const ventures: Venture[] = [
     ],
   },
   {
-    id: 'prime-axis',
-    name: 'Prime Axis',
-    tagline: 'Skilled and general labor marketplace',
-    gap: 'The staffing gap',
-    offering:
-      'A labor marketplace staffing Tentmakers events today — and growing into the hiring resource for members’ businesses.',
-    marketSignal:
-      '41% of SMEs grew headcount in 2024; 57% planned further hiring in 2025.',
-    metric: '41%',
-    metricLabel: 'of SMEs grew headcount in 2024',
-    stage: 'Early',
-    icon: HardHat,
-    span: 'normal',
-    industries: [
-      { icon: Users, label: 'Staffing' },
-      { icon: Briefcase, label: 'Labor' },
-    ],
-  },
-  {
     id: 'tentmakers-network',
     name: 'Tentmakers Network',
-    tagline: 'Founder Circles, accelerator, Demo Day',
-    gap: 'The trust gap',
+    tagline: 'Readiness Score, three tiers, real venture access',
+    gap: 'The Trust Gap',
     offering:
-      'A pre-launch founder community targeting 300 members by Q4 2026 — open membership plus selective 12-week accelerator cohorts.',
+      'A member network with a Readiness Score gating three readiness tiers — Foundation, Building, Established — plus an Anchor band for mentor-track candidates.',
     marketSignal:
-      '4 chapters: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40.',
+      '300-member target: Iloilo HQ 150, Capiz 60, Aklan 50, Antique 40.',
     metric: '300',
     metricLabel: 'member target, Q4 2026',
     stage: 'Early',
@@ -144,8 +143,8 @@ const ventures: Venture[] = [
     anchor: true,
     industries: [
       { icon: Users, label: 'Community' },
-      { icon: Rocket, label: 'Accelerator' },
-      { icon: GraduationCap, label: 'Training' },
+      { icon: Rocket, label: 'Training' },
+      { icon: GraduationCap, label: 'Mentorship' },
     ],
   },
 ];
