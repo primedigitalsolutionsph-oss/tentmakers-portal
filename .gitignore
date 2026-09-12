@@ -30,7 +30,7 @@ dev.err.log
 # local env files
 .env
 .env*.local
-deploy/vps.env
+deploy/hostinger.env
 
 # vercel
 .vercel

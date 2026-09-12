@@ -4,12 +4,15 @@ Marketing site + member dashboard for the Tentmakers Ecosystem (Panay Island):
 five ventures, one training hub, 300-member Q4 2026 target.
 
 Stack: Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind CSS ·
-shadcn/ui + Radix · Supabase (auth + Postgres) · Resend (email delivery).
+shadcn/ui + Radix · Hostinger MySQL (auth + data) · Resend (email delivery).
+
+Deploy target is **Hostinger only** (Node.js app + MySQL). No Netlify, no VPS,
+no Supabase.
 
 ## Prerequisites
 
 - Node.js 22 LTS (`node --version`)
-- A Supabase project (URL + anon key)
+- A Hostinger MySQL database (hPanel → Databases)
 - (Optional) Resend API key for contact/newsletter delivery
 - (Optional) Google Cloud OAuth client for Google sign-in
 
@@ -23,84 +26,75 @@ npm run dev                       # http://localhost:3000 (Turbopack)
 
 | Variable | Required | Purpose |
 |---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Supabase anon key |
 | `NEXT_PUBLIC_SITE_URL` | Yes (prod) | Canonical URL for metadata/OG |
+| `DATABASE_URL` | Yes | Hostinger MySQL connection string (`mysql://user:password@host:3306/tentmakers`) |
+| `AUTH_SECRET` | Yes | NextAuth secret (`openssl rand -base64 32`) |
+| `NEXTAUTH_URL` | Yes (prod) | Canonical auth URL so callbacks resolve to the domain, not localhost |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | For Google sign-in | Google Cloud OAuth client |
 | `RESEND_API_KEY` | For email delivery | Contact + newsletter via Resend |
 | `CONTACT_FROM_EMAIL` | With Resend | Verified sender address |
 | `CONTACT_TO_EMAIL` | No (defaults to support@tentmakers.ph) | Inquiry inbox |
 
-Without Supabase keys the app runs in demo mode (marketing pages work,
-dashboard shows demo state). Without Resend keys, contact/newsletter degrade
-gracefully instead of failing silently.
+Without `DATABASE_URL` the app runs in degraded mode (marketing pages work,
+API routes return the static venture fallback or a clear 503). Without Resend
+keys, contact/newsletter degrade gracefully instead of failing silently.
 
 ## Scripts
 
 | Command | What |
 |---|---|
 | `npm run dev` | Dev server (Turbopack) |
-| `npm run build` | Production build (also the Netlify/CI gate) |
-| `npm run start` | Serve a production build |
+| `npm run build` | Production build (also the pre-deploy gate) |
+| `npm run start` | Serve a production build (`next start`, respects `PORT`) |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint (flat config; see note below) |
 | `npm test` | Vitest unit tests (`lib/__tests__/`) |
 
-CI (`.github/workflows/ci.yml`) runs install → typecheck → lint → test → build on
-push to `main` and on PRs.
+## Database setup (run once)
 
-## Supabase setup (run once, in this order)
+Import `db/hostinger.sql` via hPanel → Databases → phpMyAdmin → Import
+(click the database name in the left sidebar first; do NOT run
+CREATE DATABASE). Tables: `users`, `accounts`, `sessions`,
+`verification_tokens` (NextAuth), `profiles`, `ventures`,
+`newsletter_subscriptions`, `registrations`, `subscriptions`.
 
-Supabase Dashboard → SQL Editor, run each file in `supabase/migrations/`:
+For Google sign-in, add this Authorized redirect URI in the Google Cloud
+Console (Credentials → OAuth client):
 
-1. `20260910000000_tentmakers_core.sql` — `profiles` + `ventures` tables, RLS,
-   new-user trigger
-2. `20260911000001_ventures_content.sql` — venture long-form content
-3. `20260911000002_training_progress.sql` — `completed_activities` column
-4. `0002_newsletter.sql` — `newsletter_subscriptions` table
+`https://<domain>/api/auth/callback/google`
 
-Then **Authentication → Providers → Google → Enable** (paste the Google Cloud
-Client ID + Secret; callback URL is `https://<project-ref>.supabase.co/auth/v1/callback`),
-and **Authentication → URL Configuration**: Site URL = production URL, plus
-Redirect URLs for `http://localhost:3000/**` and `https://<domain>/**`
-(the app sends `redirectTo: <origin>/dashboard`).
+## Deploy (Hostinger)
 
-Without the Google provider enabled, Google sign-in fails with
-`Unsupported provider: provider is not enabled` — the button explains this.
+Full runbook: `deploy/HOSTINGER.md`. Short version:
 
-## Deploy (Netlify)
-
-- Build command: `npx next build`, publish `.next`, plugin
-  `@netlify/plugin-nextjs` (already in `netlify.toml`).
-- Set the env vars above in Site settings → Environment variables.
-- `NODE_VERSION` is pinned to `22` in `netlify.toml`.
+1. Import `db/hostinger.sql` (see above).
+2. hPanel → Node.js app (v22), upload project, copy `deploy/hostinger.env`
+   to `.env.local` and fill in values.
+3. `npm install --omit=dev`, then `npm run build`, then start via `npm start`.
+4. Enable SSL and verify: `/`, `/login` → `/dashboard`, training progress
+   persists, contact/newsletter deliver.
 
 ## Conventions (read before editing)
 
 - **Venture copy is canonical in `lib/ventures-data.ts`**, grounded in
   `Documents/Business Plan/Tentmakers_Ecosystem_Business_Plan.docx`. The
-  `public.ventures` table mirrors it for future CMS use — edit the TS file
-  first, then mirror into the seed migrations.
+  MySQL `ventures` table mirrors it for future CMS use — edit the TS file
+  first, then mirror into `db/hostinger.sql`.
 - **Schema parity** is guarded by `lib/__tests__/schema-parity.test.ts`
-  (Prisma models ↔ `db/hostinger.sql` tables, Supabase tables ↔ MySQL,
-  venture slugs/stages/industries in both seeds). Known gaps it does NOT
-  cover, by decision: `db/hostinger.sql` venture long-form copy
-  (offering/description/signals) is abbreviated vs the TS canonical copy, so
-  MySQL-first reads (`GET /api/ventures`) serve shorter copy — re-seed from
-  the TS file before the Hostinger cutover. `registrations`/`subscriptions`
-  are MySQL-only by design (503 without `DATABASE_URL`; no Supabase
-  equivalent yet). `20260911000001_ventures_content.sql` contains mangled
-  em-dash bytes (`�?`) — fix via a new follow-up migration, never by editing
-  the applied file.
+  (Prisma models ↔ `db/hostinger.sql` tables, venture slugs/stages/industries
+  in the seed). Known gaps it does NOT cover, by decision:
+  `db/hostinger.sql` venture long-form copy (offering/description/signals) is
+  abbreviated vs the TS canonical copy, so MySQL-first reads
+  (`GET /api/ventures`) serve shorter copy. `registrations`/`subscriptions`
+  are MySQL-only by design (503 without `DATABASE_URL`).
 - **API routes** (`app/api/*/route.ts`): zod validation → honeypot
-  (`company`) → per-IP rate limit → Resend primary → Supabase backup →
+  (`company`) → per-IP rate limit → Resend primary → MySQL backup →
   graceful JSON error. New endpoints should follow the same shape.
-- **Auth**: cookie-based Supabase SSR. Route guard lives in `middleware.ts`
-  (classic edge-middleware convention — `proxy.ts` is avoided because the
-  Netlify Next.js plugin's Node-middleware bundling is broken upstream;
-  revisit once fixed) with a client-side counterpart in
-  `app/dashboard/layout.tsx`. Registration is currently closed
-  (`/register` redirects home); access requests flow through the register
-  modal → `POST /api/contact`.
+- **Auth**: NextAuth v4 (JWT strategy, MySQL adapter tables) + Google +
+  credentials. Route guard lives in `middleware.ts` (next-auth/jwt) with a
+  client-side counterpart in `app/dashboard/layout.tsx`. Registration is
+  currently closed (`/register` redirects home); access requests flow through
+  the register modal → `POST /api/contact`.
 - **ESLint** (v10, flat `eslint.config.mjs`): Next `core-web-vitals` +
   `react-hooks` flat recommended + `typescript-eslint` recommended, wired
   directly — no `npm install` needed. The `react` / `jsx-a11y` / `import`
@@ -113,8 +107,8 @@ Without the Google provider enabled, Google sign-in fails with
 
 | Symptom | Cause / fix |
 |---|---|
-| `Unsupported provider` on Google sign-in | Enable Google provider + save in Supabase dashboard |
-| Contact/newsletter 503 | Resend keys missing (or tables unapplied) — by design |
-| Dashboard bounces to `/login` in a loop | Proxy can't read session: check Supabase URL/anon key |
+| Google sign-in error | Check Client ID/Secret + redirect URI `https://<domain>/api/auth/callback/google` |
+| Contact/newsletter 503 | Resend keys or `DATABASE_URL` missing (newsletter falls back to MySQL when Resend is unset) |
+| Dashboard bounces to `/login` in a loop | `DATABASE_URL`/`AUTH_SECRET` missing or wrong; check env |
 | `tsc` error in `.next/types/validator.ts` | Stale Next typegen cache: restart dev or delete `.next/types` |
 | `npm install` EPERM/EBUSY on Windows | Stop the dev server first (it locks native binaries) |
